@@ -1,0 +1,832 @@
+import React, { useEffect, useRef, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
+import {
+  Sparkles, Upload, PenLine, Zap, Star, Shield,
+  ArrowRight, Code2, Palette, Globe, ChevronRight, Play
+} from 'lucide-react'
+import Sidebar from '../components/Sidebar'
+import ParticleBackground from '../components/ParticleBackground'
+import FloatingIconsBackground from '../components/FloatingIconsBackground'
+
+/* ── 3D Tilt Card ── */
+function TiltCard({ children, className = '', style = {}, onClick }) {
+  const ref = useRef()
+  const handleMove = (e) => {
+    const rect = ref.current.getBoundingClientRect()
+    const x = e.clientX - rect.left
+    const y = e.clientY - rect.top
+    const cx = rect.width / 2
+    const cy = rect.height / 2
+    const rotX = ((y - cy) / cy) * -12
+    const rotY = ((x - cx) / cx) * 12
+    ref.current.style.transform = `perspective(800px) rotateX(${rotX}deg) rotateY(${rotY}deg) scale(1.03)`
+  }
+  const handleLeave = () => {
+    ref.current.style.transform = 'perspective(800px) rotateX(0deg) rotateY(0deg) scale(1)'
+  }
+  return (
+    <div
+      ref={ref}
+      className={className}
+      style={{ transition: 'transform 0.15s ease', transformStyle: 'preserve-3d', ...style }}
+      onMouseMove={handleMove}
+      onMouseLeave={handleLeave}
+      onClick={onClick}
+    >
+      {children}
+    </div>
+  )
+}
+
+/* ── Feature Card ── */
+function FeatureCard({ icon: Icon, title, desc, gradient, glow, bgImage }) {
+  return (
+    <TiltCard
+      className="rounded-2xl p-6 cursor-default relative overflow-hidden group transition-all duration-300"
+      style={{
+        background: 'rgba(255,255,255,0.03)',
+        border: '1px solid rgba(34,211,238,0.12)',
+        backdropFilter: 'blur(16px)'
+      }}
+    >
+      {/* Background Image Layer */}
+      {bgImage && (
+        <div 
+          className="absolute inset-0 z-0 opacity-100 transition-all duration-700 ease-out group-hover:scale-110 group-hover:rotate-1"
+          style={{
+            backgroundImage: `url(${bgImage})`,
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+            filter: 'brightness(0.8) contrast(1.1)'
+          }}
+        />
+      )}
+      
+      <div className="relative z-10 w-12 h-12 rounded-xl flex items-center justify-center mb-4 transition-all duration-500 ease-out group-hover:scale-110 group-hover:-translate-y-1"
+        style={{ background: gradient, boxShadow: `0 0 20px ${glow}` }}>
+        <Icon size={22} className="text-white transition-transform duration-500 group-hover:rotate-6" />
+      </div>
+      <h3 className="relative z-10 text-white font-bold text-lg mb-2 transition-transform duration-500 ease-out group-hover:translate-x-1" style={{ textShadow: '0 2px 10px rgba(0,0,0,0.95), 0 0 5px rgba(0,0,0,0.9)' }}>{title}</h3>
+      <p className="relative z-10 text-gray-200 text-sm leading-relaxed transition-transform duration-500 ease-out group-hover:translate-x-1" style={{ textShadow: '0 2px 10px rgba(0,0,0,1), 0 0 5px rgba(0,0,0,0.9)' }}>{desc}</p>
+    </TiltCard>
+  )
+}
+
+/* ── Step Card ── */
+function StepCard({ num, title, desc, active }) {
+  return (
+    <div className="flex gap-4 group">
+      <div className="flex flex-col items-center">
+        <div
+          className="w-10 h-10 rounded-full flex items-center justify-center text-sm font-bold flex-shrink-0 transition-all duration-300"
+          style={{
+            background: active ? 'linear-gradient(135deg,#22d3ee,#0ea5e9)' : 'rgba(34,211,238,0.1)',
+            border: active ? 'none' : '1px solid rgba(34,211,238,0.25)',
+            color: active ? 'white' : '#22d3ee',
+            boxShadow: active ? '0 0 20px rgba(34,211,238,0.4)' : 'none'
+          }}
+        >
+          {num}
+        </div>
+        {num < 3 && <div className="w-px flex-1 mt-2" style={{ background: 'linear-gradient(to bottom, rgba(34,211,238,0.3), transparent)' }} />}
+      </div>
+      <div className="pb-8">
+        <h4 className="text-white font-semibold mb-1">{title}</h4>
+        <p className="text-gray-400 text-sm leading-relaxed">{desc}</p>
+      </div>
+    </div>
+  )
+}
+
+/* ── Template Card ── */
+function TemplateCard({ name, tag, colors, accent = '#22d3ee', onClick }) {
+  return (
+    <TiltCard onClick={onClick} className="rounded-2xl overflow-hidden cursor-pointer group" style={{ border: `1px solid ${accent}28`, transition: 'box-shadow 0.3s' }}>
+      <div className="h-44 relative overflow-hidden" style={{ background: colors[0] }}>
+        <div className="absolute inset-0" style={{ background: colors[1] }} />
+        {/* Mini portfolio preview */}
+        <div className="absolute top-4 left-4 right-4">
+          <div className="flex items-center gap-2 mb-3">
+            <div style={{ width: 28, height: 28, borderRadius: '50%', background: accent, opacity: 0.9, flexShrink: 0 }} />
+            <div>
+              <div style={{ height: 6, width: 70, borderRadius: 3, background: accent, opacity: 0.8, marginBottom: 3 }} />
+              <div style={{ height: 4, width: 45, borderRadius: 3, background: accent, opacity: 0.4 }} />
+            </div>
+          </div>
+          {[80, 60, 90].map((w, i) => (
+            <div key={i} style={{ height: 4, background: 'rgba(255,255,255,0.1)', borderRadius: 2, marginBottom: 4 }}>
+              <div style={{ height: '100%', width: `${w}%`, borderRadius: 2, background: `linear-gradient(90deg,${accent},${accent}66)` }} />
+            </div>
+          ))}
+        </div>
+        {/* Accent bar at bottom */}
+        <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, height: 3, background: `linear-gradient(90deg,${accent},${accent}44)` }} />
+        {/* Hover overlay */}
+        <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-all duration-300 flex items-center justify-center" style={{ background: 'rgba(0,0,0,0.55)' }}>
+          <span className="text-white font-semibold text-sm px-4 py-2 rounded-xl" style={{ background: `${accent}40`, border: `1px solid ${accent}80` }}>
+            Use Template →
+          </span>
+        </div>
+      </div>
+      <div className="p-4" style={{ background: 'rgba(13,21,38,0.95)' }}>
+        <div className="flex items-center justify-between">
+          <span className="text-white font-medium text-sm">{name}</span>
+          <span className="text-xs px-2 py-0.5 rounded-full" style={{ background: `${accent}18`, color: accent, border: `1px solid ${accent}30` }}>{tag}</span>
+        </div>
+        {/* Color swatches */}
+        <div className="flex gap-1.5 mt-2">
+          <div style={{ width: 14, height: 14, borderRadius: '50%', background: accent }} />
+          <div style={{ width: 14, height: 14, borderRadius: '50%', background: `${accent}66` }} />
+          <div style={{ width: 14, height: 14, borderRadius: '50%', background: `${accent}33` }} />
+        </div>
+      </div>
+    </TiltCard>
+  )
+}
+
+/* ══════════════════════════════════════════
+   HERO COMPONENTS
+   ══════════════════════════════════════════ */
+
+/* ── Mouse-Reactive Left-Side Orbs ── */
+function MouseOrbs() {
+  const [mouse, setMouse] = useState({ x: 0.5, y: 0.5 })
+
+  useEffect(() => {
+    const handle = (e) => setMouse({
+      x: e.clientX / window.innerWidth,
+      y: e.clientY / window.innerHeight,
+    })
+    window.addEventListener('mousemove', handle)
+    return () => window.removeEventListener('mousemove', handle)
+  }, [])
+
+  const glows = [
+    { bx: 22, by: 32, sz: 130, color: '#22d3ee', op: 0.10, fx: 28, fy: 22 },
+    { bx: 58, by: 60, sz: 100, color: '#6366f1', op: 0.11, fx: -20, fy: 25 },
+    { bx: 12, by: 68, sz: 110, color: '#8b5cf6', op: 0.09, fx: 24, fy: -18 },
+    { bx: 72, by: 22, sz: 80,  color: '#14b8a6', op: 0.10, fx: -18, fy: 20 },
+    { bx: 42, by: 82, sz: 90,  color: '#ec4899', op: 0.07, fx: 30, fy: -14 },
+  ]
+
+  const shapes = [
+    { bx: 18, by: 22, sz: 24, color: '#22d3ee', fx: 20, fy: 16, delay: '0s',   dur: '3.6s', round: '50%' },
+    { bx: 68, by: 52, sz: 16, color: '#6366f1', fx: -16, fy: 20, delay: '0.9s', dur: '4.3s', round: 4 },
+    { bx: 28, by: 73, sz: 20, color: '#8b5cf6', fx: 22, fy: -14, delay: '1.7s', dur: '3.9s', round: 0 },
+    { bx: 76, by: 18, sz: 13, color: '#14b8a6', fx: -18, fy: 18, delay: '2.5s', dur: '4.6s', round: '50%' },
+    { bx: 52, by: 42, sz: 11, color: '#ec4899', fx: 24, fy: 12, delay: '0.5s',  dur: '3.3s', round: 3 },
+    { bx: 14, by: 50, sz: 15, color: '#22d3ee', fx: -12, fy: -20, delay: '1.3s', dur: '4.1s', round: 0 },
+    { bx: 85, by: 65, sz: 18, color: '#f59e0b', fx: 14, fy: -16, delay: '2.0s', dur: '3.7s', round: '50%' },
+  ]
+
+  const nodes = [
+    { bx: 18, by: 22, fx: 20, fy: 16 },
+    { bx: 68, by: 52, fx: -16, fy: 20 },
+    { bx: 28, by: 73, fx: 22, fy: -14 },
+  ]
+
+  return (
+    <div style={{
+      position: 'absolute', left: 0, top: 0, bottom: 0,
+      width: '32%', pointerEvents: 'none', overflow: 'hidden', zIndex: 2,
+    }}>
+      {/* Glow blobs */}
+      {glows.map((g, i) => (
+        <div key={i} style={{
+          position: 'absolute',
+          left: `${g.bx + (mouse.x - 0.5) * g.fx}%`,
+          top: `${g.by + (mouse.y - 0.5) * g.fy}%`,
+          width: g.sz, height: g.sz, borderRadius: '50%',
+          background: g.color, opacity: g.op, filter: 'blur(45px)',
+          transition: 'left 0.6s ease, top 0.6s ease',
+          transform: 'translate(-50%,-50%)',
+        }} />
+      ))}
+
+      {/* Geometric shapes */}
+      {shapes.map((s, i) => (
+        <div key={i} style={{
+          position: 'absolute',
+          left: `${s.bx + (mouse.x - 0.5) * s.fx}%`,
+          top: `${s.by + (mouse.y - 0.5) * s.fy}%`,
+          width: s.sz, height: s.sz,
+          border: `1.5px solid ${s.color}`,
+          borderRadius: s.round, opacity: 0.5,
+          transition: 'left 0.45s ease, top 0.45s ease',
+          animation: `orbsShapeFloat ${s.dur} ease-in-out ${s.delay} infinite`,
+          transform: `translate(-50%,-50%) rotate(${i * 28}deg)`,
+        }} />
+      ))}
+
+      {/* Connecting lines SVG */}
+      <svg style={{ position:'absolute', inset:0, width:'100%', height:'100%' }}>
+        <defs>
+          <linearGradient id="lg1" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stopColor="#22d3ee" stopOpacity="0.35"/>
+            <stop offset="100%" stopColor="#6366f1" stopOpacity="0.35"/>
+          </linearGradient>
+        </defs>
+        {nodes.map((n, i) => {
+          const next = nodes[(i + 1) % nodes.length]
+          return (
+            <line key={i}
+              x1={`${n.bx + (mouse.x - 0.5) * n.fx}%`}
+              y1={`${n.by + (mouse.y - 0.5) * n.fy}%`}
+              x2={`${next.bx + (mouse.x - 0.5) * next.fx}%`}
+              y2={`${next.by + (mouse.y - 0.5) * next.fy}%`}
+              stroke="url(#lg1)" strokeWidth="1"
+            />
+          )
+        })}
+      </svg>
+
+      {/* Small sparkling dots */}
+      {[
+        { bx: 35, by: 15, fx: 10, fy: 8, color: '#22d3ee', delay: '0s' },
+        { bx: 80, by: 38, fx: -8, fy: 12, color: '#6366f1', delay: '1s' },
+        { bx: 20, by: 58, fx: 14, fy: -10, color: '#8b5cf6', delay: '0.6s' },
+        { bx: 60, by: 80, fx: -12, fy: 8, color: '#14b8a6', delay: '1.4s' },
+        { bx: 48, by: 30, fx: 8, fy: 14, color: '#ec4899', delay: '0.3s' },
+      ].map((d, i) => (
+        <div key={i} style={{
+          position: 'absolute',
+          left: `${d.bx + (mouse.x - 0.5) * d.fx}%`,
+          top: `${d.by + (mouse.y - 0.5) * d.fy}%`,
+          width: 5, height: 5, borderRadius: '50%',
+          background: d.color,
+          boxShadow: `0 0 8px ${d.color}`,
+          opacity: 0.7,
+          transition: 'left 0.35s ease, top 0.35s ease',
+          animation: `orbsShapeFloat 2.5s ease-in-out ${d.delay} infinite`,
+          transform: 'translate(-50%,-50%)',
+        }} />
+      ))}
+    </div>
+  )
+}
+
+/* ── Hero Phone Showcase (right side) ── */
+function HeroPhoneShowcase() {
+  const [mouse, setMouse] = useState({ x: 0.5, y: 0.5, lx: 0, ly: 0 })
+  const [entered, setEntered] = useState(false)
+  const [screenGlow, setScreenGlow] = useState(false)
+  const [hoveringPhone, setHoveringPhone] = useState(false)
+  const [hoveredCardIdx, setHoveredCardIdx] = useState(null)
+  const containerRef = useRef(null)
+
+  useEffect(() => {
+    const handle = (e) => {
+      if (!containerRef.current) return
+      const rect = containerRef.current.getBoundingClientRect()
+      setMouse({
+        x: e.clientX / window.innerWidth,
+        y: e.clientY / window.innerHeight,
+        lx: e.clientX - (rect.left + rect.width / 2),
+        ly: e.clientY - (rect.top + rect.height / 2)
+      })
+    }
+    window.addEventListener('mousemove', handle)
+    return () => window.removeEventListener('mousemove', handle)
+  }, [])
+
+  useEffect(() => {
+    const t1 = setTimeout(() => setScreenGlow(true), 200)
+    const t2 = setTimeout(() => setEntered(true), 400)
+    const t3 = setTimeout(() => setScreenGlow(false), 950)
+    return () => { clearTimeout(t1); clearTimeout(t2); clearTimeout(t3) }
+  }, [])
+
+  const cards = [
+    { name: 'Easy Create',  accent: '#22d3ee', bg: 'linear-gradient(145deg,#050e1f,#0a1930)', glow: 'radial-gradient(circle at 70% 30%,rgba(34,211,238,0.4),transparent 60%)',  bx: -162, by: -80,  rot: -22, fx: -30, fy: -18, swayDur: '5.5s', swayDelay: '0s'   },
+    { name: 'Modern Dark',  accent: '#6366f1', bg: 'linear-gradient(145deg,#0c0f20,#111827)', glow: 'radial-gradient(circle at 30% 70%,rgba(99,102,241,0.4),transparent 60%)',   bx: -95,  by: -172, rot: -11, fx: -18, fy: 20,  swayDur: '6.2s', swayDelay: '0.7s' },
+    { name: 'Creative Pro', accent: '#8b5cf6', bg: 'linear-gradient(145deg,#0c0a1a,#14102a)', glow: 'radial-gradient(circle at 60% 40%,rgba(139,92,246,0.4),transparent 60%)',   bx: 6,    by: -202, rot: 0,   fx: 10,  fy: -22, swayDur: '4.8s', swayDelay: '1.3s' },
+    { name: 'Minimal Pro',  accent: '#14b8a6', bg: 'linear-gradient(145deg,#061414,#0a1818)', glow: 'radial-gradient(circle at 55% 55%,rgba(20,184,166,0.4),transparent 60%)',   bx: 108,  by: -166, rot: 11,  fx: 22,  fy: 18,  swayDur: '7.1s', swayDelay: '0.4s' },
+    { name: 'Bold Black',   accent: '#f59e0b', bg: 'linear-gradient(145deg,#1a0d00,#140a00)', glow: 'radial-gradient(circle at 40% 60%,rgba(245,158,11,0.34),transparent 60%)',   bx: 168,  by: -74,  rot: 22,  fx: 28,  fy: -16, swayDur: '5.8s', swayDelay: '1.0s' },
+  ]
+
+  return (
+    <div ref={containerRef} style={{ position: 'relative', width: 460, height: 560, flexShrink: 0 }}>
+
+      {/* Ambient glow */}
+      <div style={{
+        position: 'absolute', bottom: 60, left: '50%', transform: 'translateX(-50%)',
+        width: 260, height: 260, borderRadius: '50%',
+        background: 'radial-gradient(circle,rgba(34,211,238,0.12),transparent)',
+        filter: 'blur(55px)', pointerEvents: 'none', zIndex: 0,
+      }} />
+
+      {/* Cards render BEFORE phone so phone stays on top */}
+      {cards.map((card, i) => {
+        const enterDelay = `${i * 0.13}s`
+        
+        let tx = card.bx
+        let ty = card.by
+        let rot = card.rot
+        let scale = 1
+        let zIndex = i === 2 ? 8 : (i === 1 || i === 3) ? 6 : 4
+
+        // If hovering phone, cards stack nicely on top of the phone screen
+        let opacity = entered ? 1 : 0
+        if (hoveringPhone) {
+          tx = 0
+          ty = (i - 2) * 15 + 20 // Stacked vertically in the screen area
+          rot = 0
+          scale = 0.45
+          opacity = 1
+          zIndex = 40 // High z-index to stay on top of phone (which is 10)
+        } 
+        // If hovering this specific card, push it away
+        else if (hoveredCardIdx === i) {
+          tx += tx > 0 ? 40 : -40
+          ty -= 40
+          scale = 1.15
+          rot *= 1.5
+          zIndex = 50
+        }
+
+        const mx = (hoveringPhone || hoveredCardIdx === i) ? 0 : (mouse.x - 0.5) * card.fx
+        const my = (hoveringPhone || hoveredCardIdx === i) ? 0 : (mouse.y - 0.5) * card.fy
+
+        return (
+          <div 
+            key={i} 
+            onMouseEnter={() => setHoveredCardIdx(i)}
+            onMouseLeave={() => setHoveredCardIdx(null)}
+            style={{
+              position: 'absolute', bottom: 160, left: '50%',
+              transform: entered
+                ? `translateX(calc(-50% + ${tx}px)) translateY(${ty}px) rotate(${rot}deg) scale(${scale})`
+                : `translateX(-50%) translateY(0px) rotate(0deg) scale(0.05)`,
+              opacity: opacity,
+              transition: entered
+                ? `transform ${hoveringPhone ? '0.6s' : '0.8s'} cubic-bezier(0.34, 1.56, 0.64, 1), opacity ${hoveringPhone ? '0.4s' : '0.25s'} ease`
+                : 'none',
+              zIndex: zIndex,
+              cursor: 'pointer'
+            }}
+          >
+            <div style={{ transform: `translate(${mx}px,${my}px)`, transition: 'transform 0.5s ease' }}>
+              <div style={{
+                width: 128, borderRadius: 12, overflow: 'hidden',
+                border: `1.5px solid ${card.accent}${hoveredCardIdx === i ? '' : '44'}`,
+                boxShadow: hoveredCardIdx === i 
+                  ? `0 25px 60px rgba(0,0,0,0.8), 0 0 30px ${card.accent}44`
+                  : `0 14px 38px rgba(0,0,0,0.65), 0 0 20px ${card.accent}1e`,
+                animation: `sway${i} ${card.swayDur} ease-in-out ${card.swayDelay} infinite`,
+                transition: 'border 0.3s, box-shadow 0.3s'
+              }}>
+                <div style={{ height:80, position:'relative', overflow:'hidden', background:card.bg }}>
+                  <div style={{ position:'absolute', inset:0, background:card.glow }} />
+                  <div style={{ padding:'7px 9px' }}>
+                    <div style={{ display:'flex', alignItems:'center', gap:4, marginBottom:5 }}>
+                      <div style={{ width:13, height:13, borderRadius:'50%', background:`linear-gradient(135deg,${card.accent},${card.accent}88)`, flexShrink:0 }} />
+                      <div style={{ height:2.5, width:28, borderRadius:2, background:'rgba(255,255,255,0.45)' }} />
+                    </div>
+                    <div style={{ height:2.5, borderRadius:2, background:'rgba(255,255,255,0.18)', marginBottom:2.5 }} />
+                    <div style={{ height:2.5, width:'65%', borderRadius:2, background:'rgba(255,255,255,0.1)', marginBottom:5 }} />
+                    <div style={{ display:'flex', gap:2.5 }}>
+                      {[1,2,3].map(j => (
+                        <div key={j} style={{ height:15, flex:1, borderRadius:4, background:`${card.accent}${j===1?'25':'12'}`, border:`1px solid ${card.accent}2a` }} />
+                      ))}
+                    </div>
+                  </div>
+                  <div style={{ position:'absolute', bottom:0, left:0, right:0, height:2.5, background:`linear-gradient(90deg,${card.accent},${card.accent}44)` }} />
+                  <div style={{ position:'absolute', inset:0, background:'linear-gradient(105deg,transparent 40%,rgba(255,255,255,0.05) 50%,transparent 60%)', animation:'shimmer 4s ease-in-out infinite' }} />
+                </div>
+                <div style={{
+                  padding:'5px 9px', background:'rgba(4,8,18,0.97)',
+                  borderTop:`1px solid ${card.accent}20`,
+                  display:'flex', alignItems:'center', justifyContent:'space-between',
+                }}>
+                  <span style={{ color:'rgba(255,255,255,0.92)', fontSize:9, fontWeight:700, letterSpacing:'0.02em' }}>{card.name}</span>
+                  <div style={{ width:7, height:7, borderRadius:'50%', background:card.accent, boxShadow:`0 0 5px ${card.accent}` }} />
+                </div>
+              </div>
+            </div>
+          </div>
+        )
+      })}
+
+      {/* Decorative dots */}
+      {[
+        { bx: -190, by: -30,  color: '#22d3ee', s: 5, delay: '0s',   enterDelay: '0.85s' },
+        { bx: -60,  by: -220, color: '#6366f1', s: 4, delay: '0.8s', enterDelay: '1.05s' },
+        { bx: 190,  by: -20,  color: '#f59e0b', s: 5, delay: '1.4s', enterDelay: '1.25s' },
+        { bx: 60,   by: -230, color: '#8b5cf6', s: 3, delay: '0.4s', enterDelay: '1.15s' },
+      ].map((d, i) => (
+        <div key={i} style={{
+          position: 'absolute', bottom: 160, left: '50%',
+          transform: `translate(calc(-50% + ${entered ? d.bx + (mouse.x - 0.5) * 14 : 0}px), ${entered ? d.by + (mouse.y - 0.5) * 10 : 0}px)`,
+          opacity: entered ? 0.8 : 0,
+          transition: `transform 0.5s ease ${d.enterDelay}, opacity 0.4s ease ${d.enterDelay}`,
+          width: d.s, height: d.s, borderRadius: '50%',
+          background: d.color, boxShadow: `0 0 8px ${d.color}`,
+          animation: `orbPulse 3s ease-in-out ${d.delay} infinite`,
+          zIndex: 3,
+        }} />
+      ))}
+
+      {/* Phone body sits on top */}
+      <div 
+        onMouseEnter={() => setHoveringPhone(true)}
+        onMouseLeave={() => setHoveringPhone(false)}
+        style={{
+          position: 'absolute', bottom: 28, left: '50%',
+          transform: `translateX(-50%) translateY(${(mouse.y - 0.5) * -10}px)`,
+          transition: 'transform 0.7s ease',
+          zIndex: 10, width: 150,
+        }}
+      >
+        <div style={{
+          width: 150, height: 295,
+          borderRadius: 28,
+          background: 'linear-gradient(155deg,#1b2840,#0d1526)',
+          border: '2px solid rgba(34,211,238,0.38)',
+          boxShadow: '0 0 55px rgba(34,211,238,0.22),0 30px 80px rgba(0,0,0,0.85),inset 0 1px 0 rgba(255,255,255,0.1)',
+          position: 'relative', overflow: 'hidden',
+          cursor: 'pointer'
+        }}>
+          <div style={{
+            position: 'absolute', top: 10, left: '50%', transform: 'translateX(-50%)',
+            width: 46, height: 12, borderRadius: 6,
+            background: '#030810', zIndex: 3,
+          }} />
+          <div style={{ padding: '32px 10px 10px', height: '100%' }}>
+            <div style={{
+              background: 'linear-gradient(145deg,#060d1c,#030910)',
+              borderRadius: 16, height: '100%', padding: 8, overflow: 'hidden',
+              border: '1px solid rgba(34,211,238,0.08)',
+              position: 'relative',
+            }}>
+              <div style={{
+                position: 'absolute', inset: 0, borderRadius: 16, zIndex: 20, pointerEvents: 'none',
+                background: 'radial-gradient(circle, rgba(34,211,238,0.95), rgba(200,240,255,0.8))',
+                opacity: (screenGlow || hoveringPhone) ? 1 : 0,
+                transition: (screenGlow || hoveringPhone) ? 'opacity 0.25s ease' : 'opacity 0.55s ease',
+              }} />
+              <div style={{ display:'flex', alignItems:'center', gap:5, marginBottom:6 }}>
+                <div style={{ width:17, height:17, borderRadius:'50%', background:'linear-gradient(135deg,#22d3ee,#6366f1)', flexShrink:0 }} />
+                <div>
+                  <div style={{ height:3, width:36, borderRadius:2, background:'rgba(255,255,255,0.5)', marginBottom:2 }} />
+                  <div style={{ height:2.5, width:24, borderRadius:2, background:'rgba(34,211,238,0.6)' }} />
+                </div>
+              </div>
+              {[100,78,58].map((w,j) => (
+                <div key={j} style={{ height:2.5, width:`${w}%`, borderRadius:2, background:'rgba(255,255,255,0.1)', marginBottom:3 }} />
+              ))}
+              <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:3, marginTop:4 }}>
+                {[0,1,2,3].map(j => (
+                  <div key={j} style={{
+                    height:26, borderRadius:5,
+                    background:`rgba(${j<2?'34,211,238':'99,102,241'},0.1)`,
+                    border:`1px solid rgba(${j<2?'34,211,238':'99,102,241'},0.17)`,
+                  }} />
+                ))}
+              </div>
+              <div style={{ marginTop:5, height:15, borderRadius:5, background:'linear-gradient(90deg,rgba(34,211,238,0.25),rgba(14,165,233,0.14))' }} />
+            </div>
+          </div>
+          <div style={{ position:'absolute', inset:0, background:'linear-gradient(135deg,rgba(255,255,255,0.06) 0%,transparent 50%)', pointerEvents:'none' }} />
+        </div>
+        <div style={{ width:46, height:4, borderRadius:2, background:'rgba(255,255,255,0.2)', margin:'7px auto 0' }} />
+      </div>
+
+    </div>
+  )
+}
+
+
+/* ══════════════════════════════════════════
+   DATA
+   ══════════════════════════════════════════ */
+const features = [
+  { icon: Zap,    title: 'AI Content Generation', desc: 'Our AI suggests professional bio and project descriptions based on your skills and experience.', gradient: 'linear-gradient(135deg,#22d3ee,#0ea5e9)', glow: 'rgba(34,211,238,0.3)', bgImage: 'https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&q=80&w=800' },
+  { icon: Palette, title: 'Stunning Templates',  desc: 'Choose from 15+ professionally designed templates that make you stand out.', gradient: 'linear-gradient(135deg,#6366f1,#8b5cf6)', glow: 'rgba(99,102,241,0.3)', bgImage: 'https://images.unsplash.com/photo-1558655146-d09347e92766?auto=format&fit=crop&q=80&w=800' },
+  { icon: Globe,  title: 'Instant Deployment',   desc: 'Publish your portfolio with one click and share it anywhere with a custom link.', gradient: 'linear-gradient(135deg,#14b8a6,#22d3ee)', glow: 'rgba(20,184,166,0.3)', bgImage: 'https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&q=80&w=800' },
+  { icon: Shield, title: 'Always Up-to-Date',    desc: 'Edit your portfolio anytime. Changes go live instantly without any re-deployment.', gradient: 'linear-gradient(135deg,#f59e0b,#ef4444)', glow: 'rgba(245,158,11,0.3)', bgImage: 'https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&q=80&w=800' },
+  { icon: Code2,  title: 'No Coding Needed',     desc: 'Built for everyone. Zero technical skills required to create a pro portfolio.', gradient: 'linear-gradient(135deg,#ec4899,#8b5cf6)', glow: 'rgba(236,72,153,0.3)', bgImage: 'https://images.unsplash.com/photo-1618477388954-7852f32655ec?auto=format&fit=crop&q=80&w=800' },
+  { icon: Star,   title: 'SEO Optimized',        desc: 'Your portfolio ranks on Google. Built-in SEO so recruiters can find you easily.', gradient: 'linear-gradient(135deg,#22d3ee,#6366f1)', glow: 'rgba(34,211,238,0.3)', bgImage: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&q=80&w=800' },
+]
+
+const templates = [
+  { name: 'Brown & Cream',    tag: 'Classic',  accent: '#7B5B3A', colors: ['linear-gradient(135deg,#FAF7F2,#E8D5C0)', 'radial-gradient(circle at 70% 30%,rgba(123,91,58,0.18),transparent 60%)'] },
+  { name: 'Neural Circuit',   tag: 'Exclusive',accent: '#00d4ff', colors: ['linear-gradient(135deg,#03040d,#07021a)', 'radial-gradient(circle at 30% 70%,rgba(0,212,255,0.22),transparent 60%)'] },
+  { name: 'Purple Beige',     tag: 'Creative', accent: '#c4a0d0', colors: ['linear-gradient(135deg,#f4ece8,#ede0f0)', 'radial-gradient(circle at 50% 50%,rgba(196,160,208,0.25),transparent 60%)'] },
+  { name: 'Bold Black',       tag: 'Premium',  accent: '#F0EEE8', colors: ['linear-gradient(135deg,#0a0a0a,#1a1a1a)', 'radial-gradient(circle at 80% 20%,rgba(240,238,232,0.1),transparent 60%)'] },
+]
+
+const TEMPLATE_DURATIONS = ['4.2s', '5.1s', '3.8s', '4.7s']
+const TEMPLATE_DELAYS    = ['0s', '0.7s', '1.3s', '0.4s']
+
+/* ══════════════════════════════════════════
+   PAGE
+   ══════════════════════════════════════════ */
+export default function HomePage() {
+  const navigate = useNavigate()
+  const [activeStep, setActiveStep] = useState(1)
+
+  useEffect(() => {
+    const interval = setInterval(() => setActiveStep(s => s === 3 ? 1 : s + 1), 2000)
+    return () => clearInterval(interval)
+  }, [])
+
+  return (
+    <div className="flex h-screen bg-[#060d1a] overflow-hidden">
+      <ParticleBackground />
+      <FloatingIconsBackground />
+      <style>{`
+        @keyframes float3d {
+          0%,100% { transform: translateY(0px); }
+          50%      { transform: translateY(-18px); }
+        }
+        @keyframes spin        { from { transform: translate(-50%,-50%) rotate(0deg); }   to { transform: translate(-50%,-50%) rotate(360deg); } }
+        @keyframes spinReverse { from { transform: translate(-50%,-50%) rotate(0deg); }   to { transform: translate(-50%,-50%) rotate(-360deg); } }
+        @keyframes counterUp { from { opacity:0; transform:translateY(20px); } to { opacity:1; transform:translateY(0); } }
+        @keyframes gradientShift {
+          0%,100% { background-position: 0% 50%; }
+          50%      { background-position: 100% 50%; }
+        }
+        @keyframes orbPulse {
+          0%,100% { opacity: 0.4; }
+          50%      { opacity: 1; }
+        }
+        @keyframes templateFloat {
+          0%,100% { transform: translateY(0px); }
+          50%      { transform: translateY(-10px); }
+        }
+        @keyframes shimmer {
+          0%   { transform: translateX(-100%); }
+          60%  { transform: translateX(200%); }
+          100% { transform: translateX(200%); }
+        }
+        @keyframes orbsShapeFloat {
+          0%,100% { opacity: 0.5; transform: translate(-50%,-50%) scale(1) rotate(0deg); }
+          33%     { opacity: 0.75; transform: translate(-50%,-50%) scale(1.18) rotate(8deg); }
+          66%     { opacity: 0.4; transform: translate(-50%,-50%) scale(0.88) rotate(-5deg); }
+        }
+        @keyframes sway0 { 0%,100%{transform:translate(0px,0px) rotate(-0.8deg)} 30%{transform:translate(5px,-18px) rotate(1.2deg)} 65%{transform:translate(-3px,-8px) rotate(-0.3deg)} }
+        @keyframes sway1 { 0%,100%{transform:translate(0px,0px) rotate(0.6deg)} 35%{transform:translate(-6px,-14px) rotate(-1deg)} 70%{transform:translate(3px,-6px) rotate(0.4deg)} }
+        @keyframes sway2 { 0%,100%{transform:translate(0px,0px) rotate(-0.4deg)} 40%{transform:translate(3px,-20px) rotate(0.8deg)} 75%{transform:translate(-4px,-9px) rotate(-0.5deg)} }
+        @keyframes sway3 { 0%,100%{transform:translate(0px,0px) rotate(0.9deg)} 25%{transform:translate(-4px,-13px) rotate(-1.1deg)} 60%{transform:translate(5px,-7px) rotate(0.2deg)} }
+        @keyframes sway4 { 0%,100%{transform:translate(0px,0px) rotate(-0.7deg)} 45%{transform:translate(-5px,-16px) rotate(1deg)} 80%{transform:translate(3px,-5px) rotate(-0.3deg)} }
+      `}</style>
+
+      <Sidebar />
+
+      <div className="flex-1 ml-64 overflow-y-auto relative" style={{ zIndex: 1 }}>
+
+        {/* ══════════════ HERO SECTION ══════════════ */}
+        <section style={{
+          position: 'relative', minHeight: '100vh',
+          display: 'flex', alignItems: 'center',
+          padding: '80px 60px 80px 50px',
+          overflow: 'hidden',
+          gap: 20,
+        }}>
+          <div style={{ position:'absolute', inset:0, pointerEvents:'none', overflow:'hidden' }}>
+            <div style={{ position:'absolute', right:'35%', top:'35%', width:280, height:280, background:'radial-gradient(circle, rgba(99,102,241,0.07), transparent)', filter:'blur(80px)' }} />
+            <div style={{ position:'absolute', left:'260px', top:'40%', width:200, height:200, background:'radial-gradient(circle, rgba(34,211,238,0.05), transparent)', filter:'blur(60px)' }} />
+          </div>
+
+          <MouseOrbs />
+
+          <div style={{ flex:1, position:'relative', zIndex:10, maxWidth:520 }}>
+            <div style={{
+              display:'inline-flex', alignItems:'center', gap:8,
+              padding:'6px 16px', borderRadius:9999, marginBottom:28,
+              background:'rgba(34,211,238,0.08)',
+              border:'1px solid rgba(34,211,238,0.28)',
+            }}>
+              <div style={{ width:8, height:8, borderRadius:'50%', background:'#22d3ee', animation:'pulse 2s ease-in-out infinite' }} />
+              <span style={{ color:'#22d3ee', fontSize:14, fontWeight:500 }}>AI-Powered · Free to Start</span>
+            </div>
+
+            <h1 style={{ fontSize:60, fontWeight:900, lineHeight:1.06, marginBottom:24, letterSpacing:'-0.022em' }}>
+              <span style={{ display:'block', color:'white' }}>Build Your</span>
+              <span style={{
+                display:'block',
+                background:'linear-gradient(135deg,#22d3ee,#0ea5e9,#6366f1)',
+                WebkitBackgroundClip:'text', WebkitTextFillColor:'transparent',
+                backgroundClip:'text', backgroundSize:'200% 200%',
+                animation:'gradientShift 4s ease infinite',
+                filter:'drop-shadow(0 0 28px rgba(34,211,238,0.3))',
+              }}>Dream Portfolio.</span>
+              <span style={{ display:'block', color:'white' }}>Get Hired Fast.</span>
+            </h1>
+
+            <p style={{ color:'#9ca3af', fontSize:17, lineHeight:1.75, marginBottom:36 }}>
+              Craft your professional journey and watch as we create a{' '}
+              <span style={{ color:'#22d3ee', fontWeight:500 }}>stunning portfolio website</span>{' '}
+              that gets you hired faster.
+            </p>
+
+            <div style={{ display:'flex', alignItems:'center', gap:16 }}>
+              <button
+                onClick={() => navigate('/dashboard')}
+                style={{
+                  display:'flex', alignItems:'center', gap:8,
+                  padding:'14px 28px', borderRadius:12,
+                  background:'linear-gradient(135deg,#22d3ee,#0ea5e9)',
+                  boxShadow:'0 0 32px rgba(34,211,238,0.42), 0 4px 20px rgba(0,0,0,0.3)',
+                  border:'none', color:'white', fontWeight:700, fontSize:16,
+                  cursor:'pointer', transition:'transform 0.2s, box-shadow 0.2s',
+                }}
+                onMouseEnter={e => { e.currentTarget.style.transform='scale(1.05)'; e.currentTarget.style.boxShadow='0 0 48px rgba(34,211,238,0.65), 0 4px 20px rgba(0,0,0,0.3)'; }}
+                onMouseLeave={e => { e.currentTarget.style.transform='scale(1)'; e.currentTarget.style.boxShadow='0 0 32px rgba(34,211,238,0.42), 0 4px 20px rgba(0,0,0,0.3)'; }}
+              >
+                <Sparkles size={18} />
+                Get Started Free
+                <ArrowRight size={16} />
+              </button>
+            </div>
+
+            <div style={{ display:'flex', gap:32, marginTop:40 }}>
+              {[['50K+','Portfolios Created'], ['4.9★','User Rating'], ['2 min','Setup Time']].map(([v, l]) => (
+                <div key={l}>
+                  <div style={{ color:'white', fontWeight:700, fontSize:20 }}>{v}</div>
+                  <div style={{ color:'#6b7280', fontSize:12, marginTop:2 }}>{l}</div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <HeroPhoneShowcase />
+        </section>
+
+        {/* ══════════════ FEATURES SECTION ══════════════ */}
+        <section className="px-8 py-20">
+          <div className="text-center mb-14">
+            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full mb-4"
+              style={{ background: 'rgba(34,211,238,0.08)', border: '1px solid rgba(34,211,238,0.2)' }}>
+              <Zap size={13} className="text-cyan-400" />
+              <span className="text-cyan-400 text-xs font-semibold uppercase tracking-wider">Powerful Features</span>
+            </div>
+            <h2 className="text-white text-4xl font-black mb-3">Everything You Need</h2>
+            <p className="text-gray-400 max-w-lg mx-auto">Tools designed to make your portfolio stand out in a competitive market</p>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 max-w-5xl mx-auto">
+            {features.map((f, i) => <FeatureCard key={i} {...f} />)}
+          </div>
+        </section>
+
+        {/* ══════════════ HOW IT WORKS ══════════════ */}
+        <section className="px-8 py-20">
+          <div className="max-w-5xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+            <div>
+              <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full mb-6"
+                style={{ background: 'rgba(34,211,238,0.08)', border: '1px solid rgba(34,211,238,0.2)' }}>
+                <span className="text-cyan-400 text-xs font-semibold uppercase tracking-wider">How It Works</span>
+              </div>
+              <h2 className="text-white text-4xl font-black mb-10">3 Simple Steps<br/>to Your Portfolio</h2>
+              <StepCard num={1} title="Craft Your Details" desc="Enter your skills, experience, and projects in our intuitive editor. Get real-time AI suggestions." active={activeStep === 1} />
+              <StepCard num={2} title="Choose a Template" desc="Browse our collection of stunning templates and pick the one that matches your style." active={activeStep === 2} />
+              <StepCard num={3} title="Publish & Share" desc="Go live with one click. Share your portfolio URL with recruiters and land your dream job." active={activeStep === 3} />
+            </div>
+
+            <div className="relative flex justify-center items-center h-80">
+              <div className="absolute inset-0 flex items-center justify-center">
+                <div className="w-64 h-64 rounded-full opacity-20"
+                  style={{ background: 'radial-gradient(circle, #22d3ee, transparent)', filter: 'blur(40px)' }} />
+              </div>
+              <div
+                className="relative rounded-3xl overflow-hidden shadow-2xl"
+                style={{
+                  width: 260,
+                  background: 'linear-gradient(135deg,#0d1a33,#0a1220)',
+                  border: '1px solid rgba(34,211,238,0.3)',
+                  boxShadow: '0 30px 80px rgba(0,0,0,0.6), 0 0 40px rgba(34,211,238,0.15)',
+                  animation: 'float3d 5s ease-in-out infinite',
+                  transformStyle: 'preserve-3d',
+                  transform: 'perspective(600px) rotateY(-10deg) rotateX(5deg)'
+                }}
+              >
+                <div className="p-4">
+                  <div className="flex items-center gap-3 mb-4">
+                    <div className="w-10 h-10 rounded-full" style={{ background: 'linear-gradient(135deg,#22d3ee,#6366f1)' }} />
+                    <div>
+                      <div className="h-2.5 w-20 rounded-full mb-1.5" style={{ background: 'rgba(255,255,255,0.4)' }} />
+                      <div className="h-2 w-14 rounded-full" style={{ background: 'rgba(34,211,238,0.5)' }} />
+                    </div>
+                  </div>
+                  <div className="space-y-2 mb-4">
+                    <div className="h-2 rounded-full" style={{ background: 'rgba(255,255,255,0.12)' }} />
+                    <div className="h-2 w-4/5 rounded-full" style={{ background: 'rgba(255,255,255,0.08)' }} />
+                    <div className="h-2 w-3/5 rounded-full" style={{ background: 'rgba(255,255,255,0.06)' }} />
+                  </div>
+                  <div className="flex gap-2 mb-4">
+                    {['React','Node','UI'].map(t => (
+                      <span key={t} className="text-[9px] px-2 py-0.5 rounded-full" style={{ background: 'rgba(34,211,238,0.15)', color: '#22d3ee', border: '1px solid rgba(34,211,238,0.2)' }}>{t}</span>
+                    ))}
+                  </div>
+                  <div className="grid grid-cols-2 gap-2">
+                    {[0,1,2,3].map(i => (
+                      <div key={i} className="h-14 rounded-xl" style={{ background: `linear-gradient(135deg, rgba(${i%2===0?'34,211,238':'99,102,241'},0.12), rgba(${i%2===0?'14,165,233':'139,92,246'},0.06))`, border: '1px solid rgba(34,211,238,0.1)' }} />
+                    ))}
+                  </div>
+                </div>
+                <div className="absolute inset-0 pointer-events-none"
+                  style={{ background: 'linear-gradient(135deg, rgba(255,255,255,0.05) 0%, transparent 50%, rgba(255,255,255,0.02) 100%)' }} />
+              </div>
+              <div className="absolute -top-4 -right-4 px-3 py-2 rounded-xl text-xs font-bold text-white"
+                style={{ background: 'linear-gradient(135deg,#22d3ee,#0ea5e9)', boxShadow: '0 0 20px rgba(34,211,238,0.5)', animation: 'float3d 3s ease-in-out infinite', animationDelay: '0.5s' }}>
+                ✓ AI Generated
+              </div>
+              <div className="absolute -bottom-2 -left-6 px-3 py-2 rounded-xl text-xs font-bold"
+                style={{ background: 'rgba(99,102,241,0.2)', border: '1px solid rgba(99,102,241,0.4)', color: '#a78bfa', animation: 'float3d 4s ease-in-out infinite', animationDelay: '1s' }}>
+                🚀 Live in 2 min
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* ══════════════ TEMPLATES SECTION ══════════════ */}
+        <section className="px-8 py-20">
+          <div className="max-w-5xl mx-auto">
+            <div className="text-center mb-12">
+              <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full mb-4"
+                style={{ background: 'rgba(34,211,238,0.08)', border: '1px solid rgba(34,211,238,0.2)' }}>
+                <Palette size={13} className="text-cyan-400" />
+                <span className="text-cyan-400 text-xs font-semibold uppercase tracking-wider">Templates</span>
+              </div>
+              <h2 className="text-white text-4xl font-black mb-3">Pick Your Style</h2>
+              <p className="text-gray-400">15+ handcrafted templates. All fully customizable.</p>
+            </div>
+
+            <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+              {templates.map((t, i) => (
+                <div
+                  key={i}
+                  style={{
+                    animation: `templateFloat ${TEMPLATE_DURATIONS[i]} ease-in-out ${TEMPLATE_DELAYS[i]} infinite`,
+                  }}
+                >
+                  <TemplateCard {...t} onClick={() => navigate('/templates')} />
+                </div>
+              ))}
+            </div>
+
+            <div className="text-center mt-8">
+              <button onClick={() => navigate('/templates')} className="group inline-flex items-center gap-2 text-cyan-400 hover:text-cyan-300 font-medium transition-all">
+                View all templates
+                <ChevronRight size={16} className="transition-transform group-hover:translate-x-1" />
+              </button>
+            </div>
+          </div>
+        </section>
+
+        {/* ══════════════ CTA SECTION ══════════════ */}
+        <section className="px-8 py-20">
+          <div className="max-w-3xl mx-auto">
+            <TiltCard
+              className="relative overflow-hidden rounded-[2.5rem] p-16 text-center"
+              style={{
+                background: 'rgba(13,21,38,0.4)',
+                border: '1px solid rgba(255,255,255,0.05)',
+                backdropFilter: 'blur(30px)'
+              }}
+            >
+              <div className="absolute -top-10 -left-10 w-40 h-40 rounded-full opacity-20"
+                style={{ background: 'radial-gradient(circle,#22d3ee,transparent)', filter: 'blur(30px)' }} />
+              <div className="absolute -bottom-10 -right-10 w-40 h-40 rounded-full opacity-20"
+                style={{ background: 'radial-gradient(circle,#6366f1,transparent)', filter: 'blur(30px)' }} />
+              
+              <div className="relative z-10">
+                <div className="w-20 h-20 rounded-[1.5rem] mx-auto mb-8 flex items-center justify-center"
+                  style={{ background: 'linear-gradient(135deg,#22d3ee,#0ea5e9)', boxShadow: '0 0 40px rgba(34,211,238,0.4)' }}>
+                  <Sparkles size={36} className="text-white" />
+                </div>
+                <h2 className="text-white text-5xl font-black mb-6 italic tracking-tighter uppercase">Ready to Shine?</h2>
+                <p className="text-gray-400 text-lg mb-12 max-w-md mx-auto leading-relaxed">
+                  Join 50,000+ top professionals who already built their dream portfolio with <span className="text-cyan-400 font-bold">PortfolioMaker</span>
+                </p>
+                <button
+                  onClick={() => navigate('/dashboard')}
+                  className="group flex items-center gap-3 px-10 py-5 rounded-2xl font-black text-white transition-all duration-300 hover:scale-105 active:scale-95"
+                  style={{ 
+                    margin: '0 auto',
+                    background: 'linear-gradient(135deg,#22d3ee,#0ea5e9)', 
+                    boxShadow: '0 20px 40px rgba(34,211,238,0.25)' 
+                  }}
+                >
+                  <PenLine size={20} />
+                  Start Creating Now
+                  <ArrowRight size={18} className="transition-transform group-hover:translate-x-1" />
+                </button>
+              </div>
+            </TiltCard>
+          </div>
+        </section>
+
+        <footer className="px-8 py-10 border-t border-white/5 text-center">
+          <p className="text-gray-600 text-sm mb-2">© 2026 PortfolioMaker · Built with AI · All rights reserved</p>
+          <div className="flex justify-center gap-6 text-gray-700 text-xs">
+            <a href="#" className="hover:text-cyan-400 transition-colors">Privacy Policy</a>
+            <a href="#" className="hover:text-cyan-400 transition-colors">Terms of Service</a>
+            <a href="#" className="hover:text-cyan-400 transition-colors">Support</a>
+          </div>
+        </footer>
+
+      </div>
+    </div>
+  )
+}

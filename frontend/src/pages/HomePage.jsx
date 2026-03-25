@@ -6,7 +6,6 @@ import {
   Twitter, Linkedin, Github, ExternalLink
 } from 'lucide-react'
 import Sidebar from '../components/Sidebar'
-import Header from '../components/Header'
 import ParticleBackground from '../components/ParticleBackground'
 import FloatingIconsBackground from '../components/FloatingIconsBackground'
 
@@ -591,7 +590,6 @@ export default function HomePage() {
       <Sidebar mobileOpen={mobileOpen} setMobileOpen={setMobileOpen} />
 
       <div className="flex-1 lg:ml-64 overflow-y-auto relative custom-scrollbar" style={{ zIndex: 1 }}>
-        <Header setMobileOpen={setMobileOpen} />
 
         {/* ══════════════ HERO SECTION ══════════════ */}
         <section className="relative min-h-[75vh] flex flex-col lg:flex-row items-center justify-center lg:justify-start px-4 sm:px-12 lg:px-20 py-10 sm:py-16 lg:py-14 overflow-hidden gap-10 lg:gap-20">

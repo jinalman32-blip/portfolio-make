@@ -2,7 +2,6 @@ import React, { useState } from 'react'
 import axios from 'axios'
 import { User, Mail, Lock, Save, Loader, AlertCircle, LogOut } from 'lucide-react'
 import Sidebar from '../components/Sidebar'
-import Header from '../components/Header'
 import ParticleBackground from '../components/ParticleBackground'
 
 export default function ProfileSettings() {
@@ -45,7 +44,6 @@ export default function ProfileSettings() {
       <ParticleBackground />
 
       <div className="flex-1 flex flex-col lg:ml-64 relative" style={{ zIndex: 1 }}>
-        <Header setMobileOpen={setMobileOpen} title="Profile Settings" />
 
         <main className="flex-1 overflow-y-auto px-4 sm:px-8 py-6 sm:py-8">
           <div className="max-w-lg mx-auto lg:mx-0">

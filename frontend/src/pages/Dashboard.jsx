@@ -2,7 +2,6 @@ import React, { useState } from 'react'
 import { PenLine, Zap, Star, ArrowRight, Sparkles } from 'lucide-react'
 import { useNavigate } from 'react-router-dom'
 import Sidebar from '../components/Sidebar'
-import Header from '../components/Header'
 import Card from '../components/Card'
 import ParticleBackground from '../components/ParticleBackground'
 import FloatingIconsBackground from '../components/FloatingIconsBackground'
@@ -26,7 +25,6 @@ export default function Dashboard() {
 
       {/* Main content */}
       <div className="flex-1 flex flex-col lg:ml-64 relative" style={{ zIndex: 1 }}>
-        <Header setMobileOpen={setMobileOpen} />
 
         <main className="flex-1 overflow-y-auto">
           <div className="flex flex-col items-center justify-center min-h-full px-4 sm:px-6 py-8 sm:py-12">

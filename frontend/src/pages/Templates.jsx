@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import Sidebar from '../components/Sidebar'
-import Header from '../components/Header'
 import ParticleBackground from '../components/ParticleBackground'
 import { LayoutTemplate, Eye, Wand2, Check, Sparkles, X, Loader2, User, Briefcase, Code2, Clock } from 'lucide-react'
 
@@ -310,7 +309,6 @@ Include 4-6 skills, 1-2 education entries, 2-3 experience entries, 2-3 projects.
       <ParticleBackground />
 
       <div className="flex-1 flex flex-col lg:ml-64 relative" style={{ zIndex: 1 }}>
-        <Header setMobileOpen={setMobileOpen} />
         <main className="flex-1 overflow-y-auto px-4 sm:px-8 py-6 sm:py-10">
 
           {/* Page header */}

@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react'
 import { FolderOpen, Plus, Trash2, Eye, Edit3, Calendar, Layers, CheckCircle2 } from 'lucide-react'
 import { useNavigate } from 'react-router-dom'
 import Sidebar from '../components/Sidebar'
-import Header from '../components/Header'
 import ParticleBackground from '../components/ParticleBackground'
 import FloatingIconsBackground from '../components/FloatingIconsBackground'
 import axios from 'axios'
@@ -120,7 +119,6 @@ export default function MyPortfolios() {
       <FloatingIconsBackground />
 
       <div className="flex-1 flex flex-col lg:ml-64 relative" style={{ zIndex: 1 }}>
-        <Header setMobileOpen={setMobileOpen} title="My Portfolios" />
 
         <main className="flex-1 overflow-y-auto px-4 sm:px-8 py-6 sm:py-8">
           {/* Top bar */}

@@ -4,6 +4,48 @@ import Sidebar from '../components/Sidebar'
 import ParticleBackground from '../components/ParticleBackground'
 import { LayoutTemplate, Eye, Wand2, Check, Sparkles, X, Loader2, User, Briefcase, Code2, Clock } from 'lucide-react'
 
+import TemplatePurple      from '../templates/TemplatePurple'
+import TemplateFuturistic  from '../templates/TemplateFuturistic'
+import TemplateMinimalist  from '../templates/TemplateMinimalist'
+import TemplateGrayscale   from '../templates/TemplateGrayscale'
+import TemplateBrownCream  from '../templates/TemplateBrownCream'
+import TemplateDarkBlue   from '../templates/TemplateDarkBlue'
+import TemplatePresentationStyle from '../templates/TemplatePresentationStyle'
+import TemplateBoldBlack from '../templates/TemplateBoldBlack'
+import TemplateOrangeWhite from '../templates/TemplateOrangeWhite'
+import TemplateBlueGradientAesthetic from '../templates/TemplateBlueGradientAesthetic'
+import TemplateGreenBeige from '../templates/TemplateGreenBeige'
+import TemplateNeon from '../templates/TemplateNeon'
+import TemplateLight from '../templates/TemplateLight'
+import TemplateDark from '../templates/TemplateDark'
+import TemplateClassic from '../templates/TemplateClassic'
+
+const TEMPLATE_COMPONENTS = {
+  browncream: TemplateBrownCream,
+  grayscale: TemplateGrayscale,
+  purple: TemplatePurple,
+  futuristic: TemplateFuturistic,
+  minimalist: TemplateMinimalist,
+  darkblue: TemplateDarkBlue,
+  presentationstyle: TemplatePresentationStyle,
+  boldblack: TemplateBoldBlack,
+  orangewhite: TemplateOrangeWhite,
+  bluegradientaesthetic: TemplateBlueGradientAesthetic,
+  greenbeige: TemplateGreenBeige,
+  neon: TemplateNeon,
+  light: TemplateLight,
+  dark: TemplateDark,
+  classic: TemplateClassic
+}
+
+const DEMO_PORTFOLIO = {
+  details: { name: 'Jane Smith', title: 'Full Stack Developer', bio: 'Passionate developer with 5 years of experience.' },
+  skills: [{ name: 'React', level: 'Expert' }, { name: 'Node.js', level: 'Intermediate' }],
+  education: [{ degree: 'B.Sc.', field: 'Computer Science', institution: 'University of California', from: '2016', to: '2020' }],
+  experience: [{ role: 'Frontend Developer', company: 'Acme Corp', location: 'San Francisco', from: 'Jan 2021', to: 'Present' }],
+  projects: [{ name: 'Portfolio Builder', description: 'AI-powered portfolio creation tool.' }],
+}
+
 const templates = [
   {
     id: 'darkblue',
@@ -354,262 +396,17 @@ Include 4-6 skills, 1-2 education entries, 2-3 experience entries, 2-3 projects.
                   className="relative h-44 overflow-hidden"
                   style={{ background: t.bg }}
                 >
-                  {/* Brown & Cream template: circular avatar + warm layout */}
-                  {t.id === 'browncream' && (
-                    <div style={{ position: 'absolute', inset: 0, padding: '14px 16px', display: 'flex', flexDirection: 'column', gap: 8 }}>
-                      {/* hero row */}
-                      <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-                        <div style={{ width: 38, height: 38, borderRadius: '50%', border: '3px solid #7B5B3A', background: '#E8D5C0', flexShrink: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 14, fontWeight: 900, color: '#3D2B1F' }}>N</div>
-                        <div>
-                          <div style={{ height: 8, width: 80, background: '#3D2B1F', borderRadius: 3, marginBottom: 4 }} />
-                          <div style={{ display: 'inline-block', background: '#7B5B3A', borderRadius: 20, height: 6, width: 50 }} />
-                        </div>
-                        {/* deco circle top-right */}
-                        <div style={{ marginLeft: 'auto', width: 18, height: 18, borderRadius: '50%', background: '#E8D5C0' }} />
-                      </div>
-                      {/* skill bars */}
-                      {[75, 55, 88].map((w, i) => (
-                        <div key={i} style={{ height: 5, background: '#E8D5C0', borderRadius: 3 }}>
-                          <div style={{ height: '100%', width: `${w}%`, background: 'linear-gradient(90deg,#7B5B3A,#A67C52)', borderRadius: 3 }} />
-                        </div>
-                      ))}
-                      {/* deco circle bottom-right */}
-                      <div style={{ position: 'absolute', bottom: -14, right: -14, width: 44, height: 44, borderRadius: '50%', background: '#7B5B3A', opacity: 0.3 }} />
-                    </div>
-                  )}
-
-                  {/* Grayscale template: split photo + big text */}
-                  {t.id === 'grayscale' && (
-                    <div style={{ position: 'absolute', inset: 0, display: 'flex' }}>
-                      <div style={{ flex: '0 0 42%', background: 'linear-gradient(135deg,#1a1a1a,#444)' }} />
-                      <div style={{ flex: 1, background: '#1e1e1e', display: 'flex', flexDirection: 'column', justifyContent: 'center', padding: '12px 14px' }}>
-                        <div style={{ height: 1, background: 'rgba(255,255,255,0.3)', marginBottom: 8, width: '60%' }} />
-                        <div style={{ fontSize: 20, fontWeight: 900, color: 'white', lineHeight: 1.1 }}>My<br/>Portfolio</div>
-                        <div style={{ height: 4, background: 'rgba(255,255,255,0.15)', borderRadius: 2, marginTop: 8, width: '80%' }} />
-                        <div style={{ height: 4, background: 'rgba(255,255,255,0.1)', borderRadius: 2, marginTop: 4, width: '60%' }} />
-                      </div>
-                    </div>
-                  )}
-
-                  {/* Minimalist template: big bold title + card rows */}
-                  {t.id === 'minimalist' && (
-                    <div style={{ position: 'absolute', top: 14, left: 16, right: 16 }}>
-                      <div style={{ fontSize: 22, fontWeight: 900, color: '#e8e3d5', lineHeight: 1, marginBottom: 10, letterSpacing: -0.5 }}>Portfolio.</div>
-                      <div style={{ height: 22, background: '#d4cfbf', borderRadius: 5, marginBottom: 6, width: '100%' }} />
-                      <div style={{ height: 22, background: 'transparent', border: '1.5px solid rgba(232,227,213,0.35)', borderRadius: 5, marginBottom: 6 }} />
-                      <div style={{ height: 22, background: '#d4cfbf', borderRadius: 5, width: '80%' }} />
-                    </div>
-                  )}
-
-                  {/* Bold Black template: massive B&W typography preview */}
-                  {t.id === 'boldblack' && (
-                    <div style={{ position: 'absolute', inset: 0, display: 'flex', flexDirection: 'column' }}>
-                      {/* top bar */}
-                      <div style={{ display: 'flex', justifyContent: 'space-between', padding: '7px 12px', borderBottom: '1px solid #222' }}>
-                        <div style={{ width: 50, height: 5, background: '#F0EEE8', borderRadius: 2 }} />
-                        <div style={{ width: 40, height: 5, background: '#555', borderRadius: 2 }} />
-                        <div style={{ width: 20, height: 5, background: '#555', borderRadius: 2 }} />
-                      </div>
-                      {/* massive title */}
-                      <div style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 2 }}>
-                        <div style={{ fontSize: 22, fontWeight: 900, color: '#F0EEE8', letterSpacing: -1, textTransform: 'uppercase', lineHeight: 1 }}>DIGITAL</div>
-                        <div style={{ fontSize: 22, fontWeight: 900, color: '#F0EEE8', letterSpacing: -1, textTransform: 'uppercase', lineHeight: 1 }}>MARKETING</div>
-                        <div style={{ fontSize: 22, fontWeight: 900, color: '#F0EEE8', letterSpacing: -1, textTransform: 'uppercase', lineHeight: 1 }}>PORTFOLIO</div>
-                      </div>
-                      {/* bottom bar */}
-                      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 6, padding: '7px 12px', borderTop: '1px solid #222' }}>
-                        {[60, 50, 55].map((w, i) => (
-                          <div key={i} style={{ textAlign: i === 1 ? 'center' : i === 2 ? 'right' : 'left' }}>
-                            <div style={{ height: 3, background: '#333', borderRadius: 1, marginBottom: 3, width: '70%', display: 'inline-block' }} />
-                            <div style={{ height: 5, background: '#F0EEE8', borderRadius: 1, width: `${w}%`, display: 'block' }} />
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-                  )}
-
-                  {/* Simulated header bar — for non-minimalist, non-presentation templates */}
-                  {t.id !== 'minimalist' && t.id !== 'presentationstyle' && t.id !== 'boldblack' && (
-                  <div className="absolute top-5 left-5 right-5">
-                    <div className="flex items-center gap-3 mb-3">
-                      <div style={{ width: 36, height: 36, borderRadius: '50%', background: t.accent, opacity: 0.9 }} />
-                      <div>
-                        <div style={{ height: 8, width: 100, borderRadius: 4, background: t.id === 'purple' ? 'rgba(0,0,0,0.3)' : 'rgba(255,255,255,0.85)', marginBottom: 4 }} />
-                        <div style={{ height: 5, width: 70, borderRadius: 4, background: `rgba(${t.accentRgb},0.8)` }} />
-                      </div>
-                    </div>
-                    {/* Fake skill bars */}
-                    {[80, 60, 90].map((w, i) => (
-                      <div key={i} style={{ height: 4, background: t.id === 'purple' ? 'rgba(0,0,0,0.1)' : 'rgba(255,255,255,0.08)', borderRadius: 2, marginBottom: 5 }}>
-                        <div style={{ height: '100%', width: `${w}%`, borderRadius: 2, background: `linear-gradient(90deg,${t.accent},rgba(${t.accentRgb},0.5))` }} />
-                      </div>
-                    ))}
+                  <div style={{
+                    position: 'absolute',
+                    top: 0, left: 0,
+                    width: '333%', /* 1 / 0.3 */
+                    height: '333%',
+                    transform: 'scale(0.3)',
+                    transformOrigin: 'top left',
+                    pointerEvents: 'none'
+                  }}>
+                    {TEMPLATE_COMPONENTS[t.id] && React.createElement(TEMPLATE_COMPONENTS[t.id], { p: { ...DEMO_PORTFOLIO, template: t.id } })}
                   </div>
-                  )}
-
-                  {/* Futuristic template: circuit + grid + robot decorations */}
-                  {t.id === 'futuristic' && (<>
-                    {/* grid overlay */}
-                    <div style={{
-                      position: 'absolute', inset: 0, opacity: 0.25,
-                      backgroundImage: 'linear-gradient(rgba(0,212,255,0.3) 1px,transparent 1px),linear-gradient(90deg,rgba(0,212,255,0.3) 1px,transparent 1px)',
-                      backgroundSize: '18px 18px',
-                    }} />
-                    {/* circuit SVG bottom-left */}
-                    <svg width={110} height={90} style={{ position:'absolute', bottom:0, left:0, opacity:0.5 }}>
-                      <g stroke="#00d4ff" strokeWidth={1} fill="none">
-                        <polyline points="5,85 5,55 35,55 35,30 75,30" />
-                        <polyline points="20,90 20,65 55,65 55,42 100,42" />
-                        <circle cx={35} cy={55} r={3} fill="#00d4ff" />
-                        <circle cx={55} cy={65} r={2} fill="#a855f7" />
-                      </g>
-                    </svg>
-                    {/* robot head top-right */}
-                    <svg width={48} height={56} viewBox="0 0 120 140" style={{ position:'absolute', top:6, right:6, opacity:0.22 }}>
-                      <rect x={20} y={25} width={80} height={70} rx={12} fill="none" stroke="#00d4ff" strokeWidth={3}/>
-                      <rect x={32} y={48} width={20} height={10} rx={3} fill="#00d4ff" opacity={0.8}/>
-                      <rect x={68} y={48} width={20} height={10} rx={3} fill="#00d4ff" opacity={0.8}/>
-                      {[0,1,2,3].map(i=><line key={i} x1={38+i*12} y1={75} x2={38+i*12} y2={85} stroke="#a855f7" strokeWidth={3}/>)}
-                      <line x1={60} y1={25} x2={60} y2={8} stroke="#00d4ff" strokeWidth={2}/>
-                      <circle cx={60} cy={6} r={4} fill="#00d4ff"/>
-                    </svg>
-                    {/* purple glow orb */}
-                    <div style={{
-                      position:'absolute', bottom:-30, right:-30,
-                      width:100, height:100, borderRadius:'50%',
-                      background:'radial-gradient(circle,rgba(168,85,247,0.35) 0%,transparent 70%)',
-                    }}/>
-                  </>)}
-
-                  {/* Purple template: bottom blob decoration */}
-                  {t.id === 'purple' && (
-                    <div style={{
-                      position: 'absolute', bottom: -10, left: -10,
-                      width: 80, height: 60,
-                      background: '#c4a0d0', opacity: 0.7,
-                      borderRadius: '60% 40% 70% 30% / 50% 60% 40% 50%',
-                    }} />
-                  )}
-                  {t.id === 'purple' && (
-                    <div style={{
-                      position: 'absolute', bottom: -10, right: -10,
-                      width: 65, height: 65,
-                      background: '#c4a0d0', opacity: 0.65,
-                      borderRadius: '50% 50% 40% 60% / 60% 40% 60% 40%',
-                    }} />
-                  )}
-
-                  {/* Presentation Style template: slide layout with golden cards */}
-                  {t.id === 'presentationstyle' && (
-                    <div style={{ position: 'absolute', inset: 0, padding: '12px 14px', display: 'flex', flexDirection: 'column', gap: 6 }}>
-                      {/* cover title */}
-                      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginBottom: 4 }}>
-                        <div style={{ fontSize: 13, fontStyle: 'italic', fontFamily: 'Georgia, serif', color: '#1a1a1a', fontWeight: 400, lineHeight: 1 }}>Personal</div>
-                        <div style={{ fontSize: 16, fontWeight: 900, color: '#1a1a1a', lineHeight: 1 }}>Portfolio</div>
-                        <div style={{ width: 20, height: 2, background: '#C8860A', margin: '4px 0 2px', borderRadius: 1 }} />
-                        <div style={{ height: 5, width: 60, background: '#1a1a1a', borderRadius: 2 }} />
-                      </div>
-                      {/* golden cards grid */}
-                      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: 3 }}>
-                        {['Strategy','Content','Social','Email','Ads','Analytics'].map((c,i) => (
-                          <div key={i} style={{ background: '#C8860A', padding: '5px 4px', borderRadius: 2, textAlign: 'center', fontSize: 7, fontWeight: 700, color: '#fff' }}>{c}</div>
-                        ))}
-                      </div>
-                      {/* bottom accent line */}
-                      <div style={{ position: 'absolute', bottom: 12, left: 14, right: 14, height: 2, background: '#C8860A', opacity: 0.4, borderRadius: 1 }} />
-                    </div>
-                  )}
-
-                  {/* Neon Cyber template: glowing orbs and lines */}
-                  {t.id === 'neon' && (
-                    <div style={{ position: 'absolute', inset: 0, padding: '14px 16px' }}>
-                      <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 12 }}>
-                        <div style={{ width: 34, height: 34, borderRadius: '50%', background: '#a78bfa', boxShadow: '0 0 15px rgba(167,139,250,0.5)' }} />
-                        <div style={{ height: 10, width: 80, background: 'rgba(255,255,255,0.8)', borderRadius: 4 }} />
-                      </div>
-                      <div style={{ height: 2, width: '100%', background: 'linear-gradient(90deg,#a78bfa,transparent)', marginBottom: 8 }} />
-                      {[85, 65, 90].map((w,i)=>(
-                        <div key={i} style={{ height: 5, background: 'rgba(167,139,250,0.1)', borderRadius: 3, marginBottom: 6 }}>
-                          <div style={{ height: '100%', width: `${w}%`, background: '#a78bfa', borderRadius: 3, boxShadow: '0 0 8px #a78bfa' }} />
-                        </div>
-                      ))}
-                    </div>
-                  )}
-
-                  {/* Light template: blue header + white body */}
-                  {t.id === 'light' && (
-                    <div style={{ position: 'absolute', inset: 0, display: 'flex', flexDirection: 'column' }}>
-                      <div style={{ height: '35%', background: '#0ea5e9', padding: '10px 14px', display: 'flex', alignItems: 'center', gap: 8 }}>
-                        <div style={{ width: 30, height: 30, borderRadius: '50%', background: 'rgba(255,255,255,0.3)' }} />
-                        <div style={{ height: 8, width: 60, background: 'white', borderRadius: 2 }} />
-                      </div>
-                      <div style={{ flex: 1, padding: '10px 14px' }}>
-                        <div style={{ height: 6, width: 40, background: '#0ea5e9', borderRadius: 2, marginBottom: 8 }} />
-                        <div style={{ height: 2, width: '100%', background: '#f1f5f9', marginBottom: 10 }} />
-                        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 6 }}>
-                          <div style={{ height: 30, background: 'white', border: '1px solid #e2e8f0', borderRadius: 6 }} />
-                          <div style={{ height: 30, background: 'white', border: '1px solid #e2e8f0', borderRadius: 6 }} />
-                        </div>
-                      </div>
-                    </div>
-                  )}
-
-                  {/* Classic Professional template: dark nave + gold amber */}
-                  {t.id === 'classic' && (
-                    <div style={{ position: 'absolute', inset: 0, display: 'flex', flexDirection: 'column' }}>
-                      <div style={{ height: '40%', background: '#1a1a2e', borderBottom: '2px solid #f59e0b', padding: '12px 16px', position: 'relative' }}>
-                        <div style={{ height: 2, position: 'absolute', top: 0, left: 0, right: 0, background: '#f59e0b' }} />
-                        <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-                          <div style={{ width: 32, height: 32, borderRadius: '50%', background: '#f59e0b' }} />
-                          <div style={{ height: 8, width: 70, background: 'white', borderRadius: 2 }} />
-                        </div>
-                      </div>
-                      <div style={{ flex: 1, padding: '12px 16px' }}>
-                        <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: 10 }}>
-                          <div style={{ width: 6, height: 6, background: '#f59e0b', transform: 'rotate(45deg)' }} />
-                          <div style={{ height: 8, width: 50, background: 'white', borderRadius: 2 }} />
-                        </div>
-                        <div style={{ height: 40, background: 'rgba(245,158,11,0.05)', border: '1px solid rgba(245,158,11,0.2)', borderRadius: 8 }} />
-                      </div>
-                    </div>
-                  )}
-
-                  {/* Modern Dark template: navy/black cards + cyan glow */}
-                  {t.id === 'dark' && (
-                    <div style={{ position: 'absolute', inset: 0, padding: '14px 16px', display: 'flex', gap: 10 }}>
-                      <div style={{ width: '35%', display: 'flex', flexDirection: 'column', gap: 6 }}>
-                        <div style={{ width: 30, height: 30, borderRadius: '50%', background: 'linear-gradient(135deg,#22d3ee,#6366f1)' }} />
-                        {[40, 60, 50].map((w,i)=>(
-                           <div key={i} style={{ height: 4, width: `${w}%`, background: 'rgba(255,255,255,0.1)', borderRadius: 2 }} />
-                        ))}
-                      </div>
-                      <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: 8 }}>
-                        <div style={{ height: 8, width: '40%', background: '#22d3ee', borderRadius: 2 }} />
-                        <div style={{ height: 45, background: 'rgba(34,211,238,0.05)', border: '1px solid rgba(34,211,238,0.15)', borderRadius: 8 }} />
-                        <div style={{ height: 45, background: 'rgba(34,211,238,0.05)', border: '1px solid rgba(34,211,238,0.15)', borderRadius: 8 }} />
-                      </div>
-                    </div>
-                  )}
-
-                  {/* Green Beige Creative template: beige bg + forest green accents */}
-                  {t.id === 'greenbeige' && (
-                    <div style={{ position: 'absolute', inset: 0, padding: '14px 16px' }}>
-                      <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 12 }}>
-                        <div style={{ width: 36, height: 36, borderRadius: 8, background: '#6b8c4e' }} />
-                        <div>
-                          <div style={{ height: 8, width: 80, background: '#333', borderRadius: 2, marginBottom: 4 }} />
-                          <div style={{ height: 5, width: 50, background: '#6b8c4e', borderRadius: 2 }} />
-                        </div>
-                      </div>
-                      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8 }}>
-                        {[1, 2].map(i => (
-                          <div key={i} style={{ height: 50, background: 'white', border: '1px solid #e8dfd8', borderRadius: 10, position: 'relative' }}>
-                            <div style={{ position: 'absolute', top: 6, left: 6, right: 6, height: 4, background: '#6b8c4e', opacity: 0.2, borderRadius: 2 }} />
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-                  )}
 
                   {/* Badge */}
                   <div

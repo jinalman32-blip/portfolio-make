@@ -399,7 +399,7 @@ export default function TemplateFuturistic({ p = {} }) {
                     )}
                     {proj.tech && (
                       <div style={{ display: 'flex', flexWrap: 'wrap', gap: 4, marginTop: 8 }}>
-                        {proj.tech.split(',').map((t, ti) => (
+                        {(typeof proj.tech === 'string' ? proj.tech.split(',') : Array.isArray(proj.tech) ? proj.tech : []).map((t, ti) => (
                           <span key={ti} style={{
                             fontSize: 10, padding: '2px 8px', borderRadius: 20,
                             background: `${PURPLE}18`, color: PURPLE,

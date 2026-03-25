@@ -95,7 +95,7 @@ export default function TemplateNeon({ p }) {
                   {proj.description && <p style={{ fontSize: 13, color: '#94a3b8', marginTop: 6, lineHeight: 1.6 }}>{proj.description}</p>}
                   {proj.tech && (
                     <div style={{ display: 'flex', flexWrap: 'wrap', gap: 5, marginTop: 8 }}>
-                      {proj.tech.split(',').map(t => t.trim()).filter(Boolean).map((t, ti) => (
+                      {(typeof proj.tech === 'string' ? proj.tech.split(',') : Array.isArray(proj.tech) ? proj.tech : []).map(t => t.trim()).filter(Boolean).map((t, ti) => (
                         <span key={ti} style={{ fontSize: 11, padding: '3px 8px', borderRadius: 6, background: 'rgba(167,139,250,0.1)', color: '#a78bfa', border: '1px solid rgba(167,139,250,0.2)' }}>{t}</span>
                       ))}
                     </div>

@@ -104,7 +104,7 @@ export default function TemplateClassic({ p }) {
                     {proj.description && <p style={{ fontSize: 13, color: '#94a3b8', marginTop: 6, lineHeight: 1.6 }}>{proj.description}</p>}
                     {proj.tech && (
                       <div style={{ display: 'flex', flexWrap: 'wrap', gap: 5, marginTop: 8 }}>
-                        {proj.tech.split(',').map(t => t.trim()).filter(Boolean).map((t, ti) => (
+                        {(typeof proj.tech === 'string' ? proj.tech.split(',') : Array.isArray(proj.tech) ? proj.tech : []).map(t => t.trim()).filter(Boolean).map((t, ti) => (
                           <span key={ti} style={{ fontSize: 11, padding: '2px 8px', borderRadius: 5, background: 'rgba(245,158,11,0.1)', color: '#f59e0b', border: '1px solid rgba(245,158,11,0.2)' }}>{t}</span>
                         ))}
                       </div>

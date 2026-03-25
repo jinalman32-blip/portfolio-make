@@ -381,7 +381,7 @@ export default function TemplatePresentationStyle({ p = {} }) {
                 <div style={{ fontSize: 22, fontWeight: 900, color: BLACK, marginBottom: 10 }}>{proj.name}</div>
                 {proj.tech && (
                   <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6, marginBottom: 12 }}>
-                    {proj.tech.split(',').map((t, ti) => (
+                    {(typeof proj.tech === 'string' ? proj.tech.split(',') : Array.isArray(proj.tech) ? proj.tech : []).map((t, ti) => (
                       <span key={ti} style={{
                         fontSize: 11, padding: '3px 10px', borderRadius: 20,
                         background: `${GOLD}18`, color: GOLD,

@@ -350,7 +350,7 @@ export default function TemplateMinimalist({ p }) {
                           {proj.description && <p style={{ fontSize: 12, color: '#4a4740', marginTop: 8, lineHeight: 1.65 }}>{proj.description}</p>}
                           {proj.tech && (
                             <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6, marginTop: 10 }}>
-                              {proj.tech.split(',').map(t => t.trim()).filter(Boolean).map((t, ti) => (
+                              {(typeof proj.tech === 'string' ? proj.tech.split(',') : Array.isArray(proj.tech) ? proj.tech : []).map(t => t.trim()).filter(Boolean).map((t, ti) => (
                                 <span key={ti} style={{ fontSize: 10, padding: '3px 8px', borderRadius: 4, background: 'rgba(0,0,0,0.1)', color: CDARK, fontWeight: 600 }}>{t}</span>
                               ))}
                             </div>
@@ -370,7 +370,7 @@ export default function TemplateMinimalist({ p }) {
                           {proj.description && <p style={{ fontSize: 12, color: CSUB, marginTop: 8, lineHeight: 1.65 }}>{proj.description}</p>}
                           {proj.tech && (
                             <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6, marginTop: 10 }}>
-                              {proj.tech.split(',').map(t => t.trim()).filter(Boolean).map((t, ti) => (
+                              {(typeof proj.tech === 'string' ? proj.tech.split(',') : Array.isArray(proj.tech) ? proj.tech : []).map(t => t.trim()).filter(Boolean).map((t, ti) => (
                                 <span key={ti} style={{ fontSize: 10, padding: '3px 8px', borderRadius: 4, background: `${CREAM}18`, color: CREAM, border: `1px solid ${CREAM}30`, fontWeight: 600 }}>{t}</span>
                               ))}
                             </div>

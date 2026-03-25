@@ -107,7 +107,7 @@ export default function TemplateLight({ p }) {
                     {proj.description && <p style={{ fontSize: 13, color: '#64748b', marginTop: 6, lineHeight: 1.6 }}>{proj.description}</p>}
                     {proj.tech && (
                       <div style={{ display: 'flex', flexWrap: 'wrap', gap: 5, marginTop: 8 }}>
-                        {proj.tech.split(',').map(t => t.trim()).filter(Boolean).map((t, ti) => (
+                        {(typeof proj.tech === 'string' ? proj.tech.split(',') : Array.isArray(proj.tech) ? proj.tech : []).map(t => t.trim()).filter(Boolean).map((t, ti) => (
                           <span key={ti} style={{ fontSize: 11, padding: '3px 8px', borderRadius: 6, background: '#f0f9ff', color: '#0284c7', border: '1px solid #bae6fd' }}>{t}</span>
                         ))}
                       </div>

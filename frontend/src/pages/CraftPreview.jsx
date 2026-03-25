@@ -1,5 +1,31 @@
-import React, { useState, useRef } from 'react'
+import React, { useState, useRef, Component } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
+
+class PreviewErrorBoundary extends Component {
+  constructor(props) {
+    super(props);
+    this.state = { hasError: false, error: null };
+  }
+  static getDerivedStateFromError(error) {
+    return { hasError: true, error };
+  }
+  componentDidCatch(error, errorInfo) {
+    console.error("Template rendering error:", error, errorInfo);
+  }
+  render() {
+    if (this.state.hasError) {
+      return (
+        <div style={{ padding: '20px', color: 'red', textAlign: 'left', background: '#ffebee', borderRadius: '10px' }}>
+          <h2>Template Crashed</h2>
+          <pre style={{ whiteSpace: 'pre-wrap', wordBreak: 'break-word', fontSize: '12px' }}>
+            {this.state.error && this.state.error.toString()}
+          </pre>
+        </div>
+      );
+    }
+    return this.props.children;
+  }
+}
 import {
   ArrowLeft, Download, Edit3, Check, Palette,
   Monitor, Smartphone, RefreshCw, Printer, Sparkles, ImageIcon, User, Save, FolderOpen, Globe, ExternalLink, X, Loader
@@ -528,6 +554,7 @@ const DEMO_PORTFOLIO = {
 }
 
 export default function CraftPreview() {
+  const navigate = useNavigate()
   const location = useLocation()
   const query = new URLSearchParams(location.search)
   const isFullScreen = query.get('full') === 'true'
@@ -560,25 +587,30 @@ export default function CraftPreview() {
   const tmpl = TEMPLATE_MAP[templateId] || TEMPLATE_MAP.browncream || TEMPLATE_MAP.purple
   const TemplateComp = tmpl.component
 
-  const handleDownload = () => {
+  const handleDownload = async () => {
     const html = generateHTML(portfolio, templateId)
-    const blob = new Blob([html], { type: 'text/html' })
-    const url = URL.createObjectURL(blob)
-    const a = document.createElement('a')
-    a.href = url
-    a.download = `${portfolio.details?.name?.replace(/\s+/g,'-') || 'portfolio'}.html`
-    a.click()
-    URL.revokeObjectURL(url)
-    setDownloaded(true)
-    setTimeout(() => setDownloaded(false), 3000)
-  }
-
-  const handlePrint = () => {
-    const html = generateHTML(portfolio, templateId)
-    const win = window.open('', '_blank')
-    win.document.write(html)
-    win.document.close()
-    setTimeout(() => win.print(), 600)
+    const iframe = document.createElement('iframe')
+    iframe.style.visibility = 'hidden'
+    iframe.style.position = 'absolute'
+    iframe.style.width = '1000px'
+    iframe.style.height = '100%vh'
+    document.body.appendChild(iframe)
+    iframe.contentDocument.write(html)
+    iframe.contentDocument.close()
+    
+    // wait for styles/images to load
+    await new Promise(r => setTimeout(r, 800))
+    
+    try {
+      iframe.contentWindow.focus()
+      iframe.contentWindow.print()
+      setDownloaded(true)
+      setTimeout(() => setDownloaded(false), 3000)
+    } catch (e) {
+      console.error(e)
+    } finally {
+      setTimeout(() => document.body.removeChild(iframe), 2000)
+    }
   }
 
   const handleSaveToPortfolios = async () => {
@@ -725,7 +757,9 @@ export default function CraftPreview() {
         >
           <Edit3 size={14} /> Back to Editor
         </button>
-        <TemplateComp p={portfolio} />
+        <PreviewErrorBoundary>
+          <TemplateComp p={portfolio} />
+        </PreviewErrorBoundary>
       </div>
     )
   }
@@ -734,7 +768,7 @@ export default function CraftPreview() {
     <div className="flex flex-col lg:flex-row h-screen bg-[#060d1a] overflow-hidden" style={{ fontFamily: 'system-ui' }}>
 
       {/* LEFT — Controls panel */}
-      <div className="w-full lg:w-80 flex-shrink-0 flex flex-col h-[40vh] lg:h-full overflow-y-auto"
+      <div className="w-full lg:w-80 flex-shrink-0 flex flex-col h-[40vh] lg:h-full"
         style={{ background:'linear-gradient(180deg,#0d1526,#060e20)', borderRight:'1px solid rgba(34,211,238,0.1)', zIndex:10 }}>
 
         {/* Header */}
@@ -747,8 +781,10 @@ export default function CraftPreview() {
           <p className="text-gray-400 text-xs mt-1">Review, edit & download your portfolio</p>
         </div>
 
-        {/* Template switcher */}
-        <div className="p-4 border-b border-cyan-500/10">
+        {/* Scrollable middle content */}
+        <div className="flex-1 overflow-y-auto custom-scrollbar">
+          {/* Template switcher */}
+          <div className="p-4 border-b border-cyan-500/10">
           <p className="text-gray-400 text-xs font-semibold uppercase tracking-wider mb-3 flex items-center gap-1.5">
             <Palette size={12}/> Switch Template
           </p>
@@ -915,8 +951,10 @@ export default function CraftPreview() {
           ))}
         </div>
 
-        {/* Action buttons */}
-        <div className="p-4 border-t border-cyan-500/10">
+        </div>
+
+        {/* Action buttons (Pinned to bottom) */}
+        <div className="p-4 border-t border-cyan-500/10 bg-[#0d1526]/80 backdrop-blur-md">
           <p className="text-gray-400 text-xs font-semibold uppercase tracking-wider mb-2 flex items-center gap-1.5 px-1 py-1">
             Actions
           </p>
@@ -927,23 +965,16 @@ export default function CraftPreview() {
             <Globe size={18} /> Publish Site (Live URL)
           </button>
 
-          <div className="grid grid-cols-2 gap-3 mb-3">
-            <button onClick={handleSaveToPortfolios}
-              className="flex items-center justify-center gap-2 py-3 rounded-xl transition-all"
-              style={{ background: saved ? 'rgba(34,211,238,0.1)' : 'rgba(255,255,255,0.05)', border: `1px solid ${saved ? '#22d3ee' : 'rgba(255,255,255,0.1)'}`, color: saved ? '#22d3ee' : '#94a3b8' }}>
-              {saved ? <Check size={16}/> : <Save size={16}/>} {saved ? 'Saved' : 'Save'}
-            </button>
-            <button onClick={handleDownload}
-              className="flex items-center justify-center gap-2 py-3 rounded-xl transition-all"
-              style={{ background: downloaded ? 'rgba(34,211,238,0.1)' : 'rgba(255,255,255,0.05)', border: `1px solid ${downloaded ? '#22d3ee' : 'rgba(255,255,255,0.1)'}`, color: downloaded ? '#22d3ee' : '#94a3b8' }}>
-              {downloaded ? <Check size={16}/> : <Download size={16}/>} {downloaded ? 'Ready' : 'Download'}
-            </button>
-          </div>
+          <button onClick={handleDownload}
+            className="w-full flex items-center justify-center gap-2 py-3 rounded-xl font-semibold transition-all mb-3 hover:scale-[1.02]"
+            style={{ background: downloaded ? 'rgba(34,211,238,0.15)' : 'rgba(255,255,255,0.08)', border: `1px solid ${downloaded ? '#22d3ee' : 'rgba(255,255,255,0.15)'}`, color: downloaded ? '#22d3ee' : 'white' }}>
+            {downloaded ? <Check size={18}/> : <Download size={18}/>} {downloaded ? 'PDF Generated' : 'Download as PDF'}
+          </button>
 
-          <button onClick={handlePrint}
-            className="w-full flex items-center justify-center gap-2 py-3 rounded-xl transition-all mb-3"
-            style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', color: '#94a3b8' }}>
-            <Printer size={16}/> Print to PDF
+          <button onClick={handleSaveToPortfolios}
+            className="w-full flex items-center justify-center gap-2 py-3 rounded-xl transition-all"
+            style={{ background: saved ? 'rgba(34,211,238,0.1)' : 'rgba(255,255,255,0.03)', border: `1px solid ${saved ? '#22d3ee' : 'rgba(255,255,255,0.08)'}`, color: saved ? '#22d3ee' : '#94a3b8' }}>
+            {saved ? <Check size={16}/> : <Save size={16}/>} {saved ? 'Saved to Cloud' : 'Save Draft'}
           </button>
         </div>
 
@@ -1074,7 +1105,9 @@ export default function CraftPreview() {
               overflow: 'hidden'
             }}
           >
-            <TemplateComp p={portfolio} />
+            <PreviewErrorBoundary key={portfolio.template || templateId}>
+              <TemplateComp p={portfolio} />
+            </PreviewErrorBoundary>
           </div>
         </div>
       </div>

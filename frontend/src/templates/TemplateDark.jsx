@@ -114,7 +114,7 @@ export default function TemplateDark({ p }) {
                     {proj.description && <p style={{ color: '#94a3b8', fontSize: 13, marginTop: 6, lineHeight: 1.6 }}>{proj.description}</p>}
                     {proj.tech && (
                       <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6, marginTop: 8 }}>
-                        {proj.tech.split(',').map(t => t.trim()).filter(Boolean).map((t, ti) => (
+                        {(typeof proj.tech === 'string' ? proj.tech.split(',') : Array.isArray(proj.tech) ? proj.tech : []).map(t => t.trim()).filter(Boolean).map((t, ti) => (
                           <span key={ti} style={{ fontSize: 11, padding: '3px 8px', borderRadius: 6, background: 'rgba(34,211,238,0.1)', color: '#22d3ee', border: '1px solid rgba(34,211,238,0.2)' }}>{t}</span>
                         ))}
                       </div>

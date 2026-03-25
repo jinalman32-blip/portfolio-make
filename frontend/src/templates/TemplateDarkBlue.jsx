@@ -269,7 +269,8 @@ export default function TemplateDarkBlue({ p = {} }) {
       </section>
 
       {/* ── PROJECT SECTIONS (one per project) ── */}
-      {projList.map((proj, idx) => {
+      {projList.map((rawProj, idx) => {
+        const proj = { ...rawProj, tech: typeof rawProj.tech === 'string' ? rawProj.tech.split(',').map(x=>x.trim()).filter(Boolean) : rawProj.tech };
         const sectionLabels = ['Project Design Logo', 'Project Design Poster', 'Project Illustration Work', 'Project Brand Identity']
         const label = sectionLabels[idx] || `Project ${idx + 1}`
         const labelParts = label.split(' ')
@@ -289,7 +290,7 @@ export default function TemplateDarkBlue({ p = {} }) {
               <>
                 <p style={{ color: GR, fontSize: 15, maxWidth: 700, textAlign: 'center', lineHeight: 1.8, marginBottom: 48 }}>{proj.description}</p>
                 <div style={{ display: 'flex', gap: 24, flexWrap: 'wrap', justifyContent: 'center' }}>
-                  {(proj.tech || ['Figma','Illustrator','Photoshop','Sketch']).map((t, i) => (
+                  {(Array.isArray(proj.tech) ? proj.tech : ['Figma','Illustrator','Photoshop','Sketch']).map((t, i) => (
                     <div key={i} style={{ width: 100, height: 100, borderRadius: '50%', background: ACC, display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 700, fontSize: 11, textAlign: 'center', padding: 8 }}>
                       {t}
                     </div>

@@ -768,17 +768,17 @@ export default function CraftPreview() {
     <div className="flex flex-col lg:flex-row h-screen bg-[#060d1a] overflow-hidden" style={{ fontFamily: 'system-ui' }}>
 
       {/* LEFT — Controls panel */}
-      <div className="w-full lg:w-80 flex-shrink-0 flex flex-col h-[35vh] sm:h-[40vh] lg:h-full"
+      <div className="w-full lg:w-80 flex-shrink-0 flex flex-col h-[28vh] sm:h-[35vh] lg:h-full"
         style={{ background:'linear-gradient(180deg,#0d1526,#060e20)', borderRight:'1px solid rgba(34,211,238,0.1)', zIndex:100 }}>
 
         {/* Header */}
-        <div className="p-3 sm:p-5 border-b border-cyan-500/10 flex items-center lg:block gap-4">
+        <div className="p-2 sm:p-5 border-b border-cyan-500/10 flex items-center lg:block gap-3">
           <button onClick={() => navigate('/craft')}
-            className="flex items-center gap-2 text-gray-400 hover:text-white transition-colors text-sm lg:mb-4">
-            <ArrowLeft size={16}/> <span className="hidden lg:inline">Back to Edit</span>
+            className="flex items-center gap-1.5 text-gray-400 hover:text-white transition-colors text-xs lg:text-sm lg:mb-4">
+            <ArrowLeft size={16}/> <span className="hidden sm:inline lg:hidden">Back</span><span className="hidden lg:inline">Back to Edit</span>
           </button>
-          <div className="flex-1">
-            <h2 className="text-white font-bold text-base lg:text-lg">Preview</h2>
+          <div className="flex-1 lg:block">
+            <h2 className="text-white font-bold text-sm lg:text-lg">Preview</h2>
             <p className="hidden lg:block text-gray-400 text-xs mt-1">Review & download your portfolio</p>
           </div>
         </div>
@@ -933,7 +933,7 @@ export default function CraftPreview() {
 
 
         {/* Summary */}
-        <div className="p-4 flex-1">
+        <div className="p-4 flex-1 hidden lg:block">
           <p className="text-gray-400 text-xs font-semibold uppercase tracking-wider mb-3">Portfolio Summary</p>
           {[
             ['Name', portfolio.details?.name || '—'],
@@ -956,32 +956,32 @@ export default function CraftPreview() {
         </div>
 
         {/* Action buttons (Pinned to bottom) */}
-        <div className="p-3 sm:p-4 border-t border-cyan-500/10 bg-[#0d1526]/80 backdrop-blur-md shrink-0">
-          <p className="hidden lg:flex text-gray-400 text-xs font-semibold uppercase tracking-wider mb-2 items-center gap-1.5 px-1 py-1">
+        <div className="p-2 sm:p-4 border-t border-cyan-500/10 bg-[#0d1526]/90 backdrop-blur-md shrink-0">
+          <p className="hidden lg:flex text-gray-400 text-[10px] font-semibold uppercase tracking-wider mb-2 items-center gap-1.5 px-1">
             Actions
           </p>
 
-          <div className="flex flex-row lg:flex-col gap-2 relative">
+          <div className="flex flex-row lg:flex-col gap-2">
             <button onClick={() => setPublishModal(true)}
-              className="flex-1 lg:w-full flex items-center justify-center gap-1.5 lg:gap-2 lg:mb-3 py-2.5 lg:py-3 rounded-lg lg:rounded-xl font-bold transition-all hover:scale-[1.02] shadow-lg text-xs lg:text-sm"
+              className="flex-1 lg:w-full flex items-center justify-center gap-1.5 py-2 lg:py-3 rounded-lg lg:rounded-xl font-bold transition-all hover:scale-[1.02] shadow-lg text-[10px] sm:text-xs lg:text-sm"
               style={{ background: 'linear-gradient(135deg, #22d3ee, #0ea5e9)', color: 'white' }}>
-              <Globe size={16} /> 
-              <span className="hidden sm:inline lg:hidden">Publish</span>
+              <Globe size={14} /> 
+              <span className="lg:hidden ml-1">Publish</span>
               <span className="hidden lg:inline">Publish Site</span>
             </button>
 
             <button onClick={handleDownload}
-              className="flex-1 lg:w-full flex items-center justify-center gap-1.5 lg:gap-2 py-2.5 lg:py-3 rounded-lg lg:rounded-xl font-semibold transition-all lg:mb-3 hover:scale-[1.02] text-xs lg:text-sm"
+              className="flex-1 lg:w-full flex items-center justify-center gap-1.5 py-2 lg:py-3 rounded-lg lg:rounded-xl font-semibold transition-all lg:mb-3 hover:scale-[1.02] text-[10px] sm:text-xs lg:text-sm"
               style={{ background: downloaded ? 'rgba(34,211,238,0.15)' : 'rgba(255,255,255,0.08)', border: `1px solid ${downloaded ? '#22d3ee' : 'rgba(255,255,255,0.15)'}`, color: downloaded ? '#22d3ee' : 'white' }}>
-              {downloaded ? <Check size={16}/> : <Download size={16}/>} 
-              <span className="hidden sm:inline lg:hidden ml-1">PDF</span>
-              <span className="hidden lg:inline">{downloaded ? 'PDF Generated' : 'Download PDF'}</span>
+              {downloaded ? <Check size={14}/> : <Download size={14}/>} 
+              <span className="lg:hidden ml-1">PDF</span>
+              <span className="hidden lg:inline">{downloaded ? 'Generated' : 'Download PDF'}</span>
             </button>
 
             <button onClick={handleSaveToPortfolios}
-              className="flex-1 lg:w-full flex items-center justify-center gap-1.5 lg:gap-2 py-2.5 lg:py-3 rounded-lg lg:rounded-xl transition-all text-xs lg:text-sm"
+              className="flex-1 lg:w-full flex items-center justify-center gap-1.5 py-2 lg:py-3 rounded-lg lg:rounded-xl transition-all text-[10px] sm:text-xs lg:text-sm"
               style={{ background: saved ? 'rgba(34,211,238,0.1)' : 'rgba(255,255,255,0.03)', border: `1px solid ${saved ? '#22d3ee' : 'rgba(255,255,255,0.08)'}`, color: saved ? '#22d3ee' : '#94a3b8' }}>
-              {saved ? <Check size={16}/> : <Save size={16}/>} 
+              {saved ? <Check size={14}/> : <Save size={14}/>} 
               <span className="hidden sm:inline">Save</span>
             </button>
           </div>

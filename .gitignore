@@ -6,3 +6,6 @@ backend/uploads/*
 backend/.env
 dist/
 .DS_Store
+
+.vercel
+.env*.local

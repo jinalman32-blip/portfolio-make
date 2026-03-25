@@ -782,7 +782,7 @@ export default function CraftPreview() {
         </div>
 
         {/* Scrollable middle content */}
-        <div className="flex-1 overflow-y-auto custom-scrollbar">
+        <div className="flex-1 overflow-y-auto custom-scrollbar min-h-0">
           {/* Template switcher */}
           <div className="p-4 border-b border-cyan-500/10">
           <p className="text-gray-400 text-xs font-semibold uppercase tracking-wider mb-3 flex items-center gap-1.5">
@@ -954,28 +954,35 @@ export default function CraftPreview() {
         </div>
 
         {/* Action buttons (Pinned to bottom) */}
-        <div className="p-4 border-t border-cyan-500/10 bg-[#0d1526]/80 backdrop-blur-md">
-          <p className="text-gray-400 text-xs font-semibold uppercase tracking-wider mb-2 flex items-center gap-1.5 px-1 py-1">
+        <div className="p-3 sm:p-4 border-t border-cyan-500/10 bg-[#0d1526]/80 backdrop-blur-md shrink-0">
+          <p className="hidden lg:flex text-gray-400 text-xs font-semibold uppercase tracking-wider mb-2 items-center gap-1.5 px-1 py-1">
             Actions
           </p>
 
-          <button onClick={() => setPublishModal(true)}
-            className="w-full flex items-center justify-center gap-2 mb-3 py-3 rounded-xl font-bold transition-all hover:scale-[1.02] shadow-lg"
-            style={{ background: 'linear-gradient(135deg, #22d3ee, #0ea5e9)', color: 'white' }}>
-            <Globe size={18} /> Publish Site (Live URL)
-          </button>
+          <div className="flex flex-row lg:flex-col gap-2 relative">
+            <button onClick={() => setPublishModal(true)}
+              className="flex-1 lg:w-full flex items-center justify-center gap-1.5 lg:gap-2 lg:mb-3 py-2.5 lg:py-3 rounded-lg lg:rounded-xl font-bold transition-all hover:scale-[1.02] shadow-lg text-xs lg:text-sm"
+              style={{ background: 'linear-gradient(135deg, #22d3ee, #0ea5e9)', color: 'white' }}>
+              <Globe size={16} /> 
+              <span className="hidden sm:inline lg:hidden">Publish</span>
+              <span className="hidden lg:inline">Publish Site</span>
+            </button>
 
-          <button onClick={handleDownload}
-            className="w-full flex items-center justify-center gap-2 py-3 rounded-xl font-semibold transition-all mb-3 hover:scale-[1.02]"
-            style={{ background: downloaded ? 'rgba(34,211,238,0.15)' : 'rgba(255,255,255,0.08)', border: `1px solid ${downloaded ? '#22d3ee' : 'rgba(255,255,255,0.15)'}`, color: downloaded ? '#22d3ee' : 'white' }}>
-            {downloaded ? <Check size={18}/> : <Download size={18}/>} {downloaded ? 'PDF Generated' : 'Download as PDF'}
-          </button>
+            <button onClick={handleDownload}
+              className="flex-1 lg:w-full flex items-center justify-center gap-1.5 lg:gap-2 py-2.5 lg:py-3 rounded-lg lg:rounded-xl font-semibold transition-all lg:mb-3 hover:scale-[1.02] text-xs lg:text-sm"
+              style={{ background: downloaded ? 'rgba(34,211,238,0.15)' : 'rgba(255,255,255,0.08)', border: `1px solid ${downloaded ? '#22d3ee' : 'rgba(255,255,255,0.15)'}`, color: downloaded ? '#22d3ee' : 'white' }}>
+              {downloaded ? <Check size={16}/> : <Download size={16}/>} 
+              <span className="hidden sm:inline lg:hidden ml-1">PDF</span>
+              <span className="hidden lg:inline">{downloaded ? 'PDF Generated' : 'Download PDF'}</span>
+            </button>
 
-          <button onClick={handleSaveToPortfolios}
-            className="w-full flex items-center justify-center gap-2 py-3 rounded-xl transition-all"
-            style={{ background: saved ? 'rgba(34,211,238,0.1)' : 'rgba(255,255,255,0.03)', border: `1px solid ${saved ? '#22d3ee' : 'rgba(255,255,255,0.08)'}`, color: saved ? '#22d3ee' : '#94a3b8' }}>
-            {saved ? <Check size={16}/> : <Save size={16}/>} {saved ? 'Saved to Cloud' : 'Save Draft'}
-          </button>
+            <button onClick={handleSaveToPortfolios}
+              className="flex-1 lg:w-full flex items-center justify-center gap-1.5 lg:gap-2 py-2.5 lg:py-3 rounded-lg lg:rounded-xl transition-all text-xs lg:text-sm"
+              style={{ background: saved ? 'rgba(34,211,238,0.1)' : 'rgba(255,255,255,0.03)', border: `1px solid ${saved ? '#22d3ee' : 'rgba(255,255,255,0.08)'}`, color: saved ? '#22d3ee' : '#94a3b8' }}>
+              {saved ? <Check size={16}/> : <Save size={16}/>} 
+              <span className="hidden sm:inline">Save</span>
+            </button>
+          </div>
         </div>
 
         {/* --- PUBLISH MODAL --- */}

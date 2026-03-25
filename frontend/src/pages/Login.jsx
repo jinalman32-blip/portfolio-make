@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { useNavigate, Link } from 'react-router-dom'
 import { Eye, EyeOff, LogIn, Layers, Loader } from 'lucide-react'
-import axios from 'axios'
+import api from '../api/api'
 import ParticleBackground from '../components/ParticleBackground'
 
 export default function Login() {
@@ -16,9 +16,10 @@ export default function Login() {
     setLoading(true)
     setError('')
     try {
-      const { data } = await axios.post('/api/auth/login', form)
-      localStorage.setItem('token', data.token)
-      localStorage.setItem('user', JSON.stringify(data))
+      const { data } = await api.post('/api/auth/login', form)
+      const { token, ...userInfo } = data
+      localStorage.setItem('token', token)
+      localStorage.setItem('user', JSON.stringify(userInfo))
       navigate('/')
     } catch (err) {
       setError(err.response?.data?.message || 'Login failed. Please check your credentials.')

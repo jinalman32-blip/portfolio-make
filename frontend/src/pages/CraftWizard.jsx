@@ -29,6 +29,15 @@ const TEMPLATES = [
   { id: 'futuristic',  name: 'Neural Circuit',  tag: 'Exclusive', bg: 'linear-gradient(135deg,#03040d,#07021a)',  accent: '#00d4ff', desc: 'Cyberpunk neon blue — built for tech visionaries' },
   { id: 'minimalist',  name: 'B&W Minimalist',  tag: 'Premium',   bg: 'linear-gradient(135deg,#252525,#1a1a1a)', accent: '#e8e3d5', desc: 'Dark charcoal with off-white cream — bold & minimal' },
   { id: 'greenbeige',  name: 'Green Beige',     tag: 'New',       bg: 'linear-gradient(135deg,#ddd9ce,#c8c4b4)', accent: '#6b8c4e', desc: 'Olive green & warm beige — editorial presentation style' },
+  { id: 'classic',     name: 'Classic Professional', tag: 'Elite',  bg: 'linear-gradient(135deg,#0f172a,#1e293b)', accent: '#f59e0b', desc: 'The gold standard — serif fonts and amber accents' },
+  { id: 'darkblue',    name: 'Dark Blue Creative', tag: 'Creative', bg: 'linear-gradient(135deg,#0f172a,#1e1b4b)', accent: '#818cf8', desc: 'Deep indigo and slate — modern and sleek' },
+  { id: 'presentationstyle', name: 'Presentation Style', tag: 'Bold', bg: 'linear-gradient(135deg,#f8f9fa,#e9ecef)', accent: '#C8860A', desc: 'Portfolio as a slide deck — unique and impactful' },
+  { id: 'boldblack',   name: 'Bold Black',      tag: 'Impact',    bg: 'linear-gradient(135deg,#000000,#171717)', accent: '#C4FF00', desc: 'High contrast black and electric lime' },
+  { id: 'orangewhite', name: 'Orange & White',   tag: 'Fresh',     bg: 'linear-gradient(135deg,#ffffff,#fef3c7)', accent: '#ea580c', desc: 'Bright white with vibrant orange highlights' },
+  { id: 'bluegradientaesthetic', name: 'Blue Gradient', tag: 'Artistic', bg: 'linear-gradient(135deg,#eff6ff,#dbeafe)', accent: '#3b82f6', desc: 'Soft blue gradients — clean and airy' },
+  { id: 'neon',        name: 'Neon Cyber',      tag: 'Gamer',     bg: 'linear-gradient(135deg,#020617,#1e1b4b)', accent: '#d946ef', desc: 'Vibrant magenta neon glow on dark slate' },
+  { id: 'light',       name: 'Clean Light',      tag: 'Standard',  bg: 'linear-gradient(135deg,#f8fafc,#f1f5f9)', accent: '#0ea5e9', desc: 'Pure white and light gray — professionally safe' },
+  { id: 'dark',        name: 'Simple Dark',      tag: 'Standard',  bg: 'linear-gradient(135deg,#0f172a,#020617)', accent: '#38bdf8', desc: 'Deep dark theme — easy on the eyes' },
 ]
 
 const SKILL_LEVELS = ['Beginner', 'Intermediate', 'Expert']

@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import axios from 'axios'
+import api from '../api/api'
 import { User, Mail, Lock, Save, Loader, AlertCircle, LogOut } from 'lucide-react'
 import Sidebar from '../components/Sidebar'
 import ParticleBackground from '../components/ParticleBackground'
@@ -17,14 +17,11 @@ export default function ProfileSettings() {
     setSaving(true)
     setError('')
     try {
-      const token = localStorage.getItem('token')
-      const { data } = await axios.put('/api/auth/profile', form, {
-        headers: { Authorization: `Bearer ${token}` }
-      })
-      
-      const updatedUser = { ...user, ...data.user }
+      const { data } = await api.put('/api/auth/profile', form)
+      const { token: newToken, ...userInfo } = data
+      const updatedUser = { ...user, ...userInfo }
       localStorage.setItem('user', JSON.stringify(updatedUser))
-      if (data.token) localStorage.setItem('token', data.token)
+      if (newToken) localStorage.setItem('token', newToken)
       setUser(updatedUser)
       setSaved(true)
       setTimeout(() => {

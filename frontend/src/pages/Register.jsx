@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { useNavigate, Link } from 'react-router-dom'
 import { Eye, EyeOff, UserPlus, Layers, Loader } from 'lucide-react'
-import axios from 'axios'
+import api from '../api/api'
 import ParticleBackground from '../components/ParticleBackground'
 
 export default function Register() {
@@ -16,9 +16,10 @@ export default function Register() {
     setLoading(true)
     setError('')
     try {
-      const { data } = await axios.post('/api/auth/register', form)
-      localStorage.setItem('token', data.token)
-      localStorage.setItem('user', JSON.stringify(data))
+      const { data } = await api.post('/api/auth/register', form)
+      const { token, ...userInfo } = data
+      localStorage.setItem('token', token)
+      localStorage.setItem('user', JSON.stringify(userInfo))
       navigate('/')
     } catch (err) {
       setError(err.response?.data?.message || 'Registration failed. Please try again.')

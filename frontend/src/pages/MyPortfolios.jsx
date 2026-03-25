@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom'
 import Sidebar from '../components/Sidebar'
 import ParticleBackground from '../components/ParticleBackground'
 import FloatingIconsBackground from '../components/FloatingIconsBackground'
-import axios from 'axios'
+import api from '../api/api'
 import { Globe, Lock, ExternalLink, Loader2 } from 'lucide-react'
 
 const TEMPLATE_COLORS = {
@@ -35,9 +35,7 @@ export default function MyPortfolios() {
     try {
       const token = localStorage.getItem('token')
       if (token) {
-        const { data } = await axios.get('/api/portfolios', {
-          headers: { Authorization: `Bearer ${token}` }
-        })
+        const { data } = await api.get('/api/portfolios')
         setPortfolios(data)
         // Sync to local
         localStorage.setItem('my_portfolios', JSON.stringify(data))
@@ -64,9 +62,7 @@ export default function MyPortfolios() {
       try {
         const token = localStorage.getItem('token')
         if (token && id.length > 10) { // Check if it's a mongo ID
-          await axios.delete(`/api/portfolios/${id}`, {
-            headers: { Authorization: `Bearer ${token}` }
-          })
+          await api.delete(`/api/portfolios/${id}`)
         }
         const updated = portfolios.filter(p => (p._id || p.id) !== id)
         setPortfolios(updated)
@@ -83,10 +79,7 @@ export default function MyPortfolios() {
 
   const handleUnpublish = async (id) => {
     try {
-      const token = localStorage.getItem('token')
-      const { data } = await axios.post(`/api/portfolios/${id}/unpublish`, {}, {
-        headers: { Authorization: `Bearer ${token}` }
-      })
+      const { data } = await api.post(`/api/portfolios/${id}/unpublish`, {})
       // Update local state
       setPortfolios(portfolios.map(p => p._id === id ? { ...p, isLive: false, status: 'draft' } : p))
       alert('Portfolio unpublished successfully')

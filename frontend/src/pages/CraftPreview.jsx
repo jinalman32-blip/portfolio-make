@@ -30,7 +30,7 @@ import {
   ArrowLeft, Download, Edit3, Check, Palette,
   Monitor, Smartphone, RefreshCw, Printer, Sparkles, ImageIcon, User, Save, FolderOpen, Globe, ExternalLink, X, Loader
 } from 'lucide-react'
-import axios from 'axios'
+import api from '../api/api'
 import TemplatePurple      from '../templates/TemplatePurple'
 import TemplateFuturistic  from '../templates/TemplateFuturistic'
 import TemplateMinimalist  from '../templates/TemplateMinimalist'
@@ -633,13 +633,9 @@ export default function CraftPreview() {
 
       let res;
       if (portfolioId) {
-        res = await axios.put(`/api/portfolios/${portfolioId}`, payload, {
-          headers: { Authorization: `Bearer ${token}` }
-        })
+        res = await api.put(`/api/portfolios/${portfolioId}`, payload)
       } else {
-        res = await axios.post('/api/portfolios', payload, {
-          headers: { Authorization: `Bearer ${token}` }
-        })
+        res = await api.post('/api/portfolios', payload)
       }
 
       const savedData = res.data
@@ -668,15 +664,10 @@ export default function CraftPreview() {
     setPublishing(true)
     setPublishStatus({ type: '', msg: '' })
     try {
-      const token = localStorage.getItem('token')
-      // 1. Save it first to get an ID (or update if ID exists)
       const portfolioId = await handleSaveToPortfolios()
       if (!portfolioId) return
 
-      // 2. Publish it
-      const { data } = await axios.post(`/api/portfolios/${portfolioId}/publish`, { slug }, {
-        headers: { Authorization: `Bearer ${token}` }
-      })
+      const { data } = await api.post(`/api/portfolios/${portfolioId}/publish`, { slug })
 
       setPublishStatus({
         type: 'success',
@@ -697,16 +688,10 @@ export default function CraftPreview() {
     setProfileGenerating(true)
     setProfileError(null)
     try {
-      const res = await fetch('http://localhost:5000/api/ai/generate-profile', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          name: portfolio.details?.name || 'Professional',
-          title: portfolio.details?.title || 'Professional',
-        }),
+      const { data } = await api.post('/api/ai/generate-profile', {
+        name: portfolio.details?.name || 'Professional',
+        title: portfolio.details?.title || 'Professional',
       })
-      const data = await res.json()
-      if (!res.ok) throw new Error(data.error || 'Generation failed')
       const existing = JSON.parse(sessionStorage.getItem('craft_portfolio') || '{}')
       const updated = { ...existing, details: { ...(existing.details || {}), profileImage: data.imageUrl } }
       sessionStorage.setItem('craft_portfolio', JSON.stringify(updated))
@@ -726,13 +711,7 @@ export default function CraftPreview() {
     setBgError(null)
     setBgMeta(null)
     try {
-      const res = await fetch('http://localhost:5000/api/ai/generate-bg', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ category: bgCategory }),
-      })
-      const data = await res.json()
-      if (!res.ok) throw new Error(data.error || 'Generation failed')
+      const { data } = await api.post('/api/ai/generate-bg', { category: bgCategory })
       const existing = JSON.parse(sessionStorage.getItem('craft_portfolio') || '{}')
       sessionStorage.setItem('craft_portfolio', JSON.stringify({ ...existing, futuristic_bg: data.imageUrl }))
       if (data.meta) setBgMeta(data.meta)

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { useParams } from 'react-router-dom'
-import axios from 'axios'
+import api from '../api/api'
 import TemplatePurple from '../templates/TemplatePurple'
 import TemplateFuturistic from '../templates/TemplateFuturistic'
 import TemplateMinimalist from '../templates/TemplateMinimalist'
@@ -44,7 +44,7 @@ export default function PublishedPortfolio() {
   useEffect(() => {
     const fetchPortfolio = async () => {
       try {
-        const { data } = await axios.get(`/api/portfolios/public/${slug}`)
+        const { data } = await api.get(`/api/portfolios/public/${slug}`)
         setPortfolio(data)
       } catch (err) {
         setError(err.response?.data?.message || 'Portfolio not found')

@@ -3,7 +3,7 @@ import React from 'react'
 const levelWidth = { Beginner: '35%', Intermediate: '65%', Expert: '90%' }
 
 export default function TemplateLight({ p }) {
-  const { details: d, skills, education, experience, projects, certifications = [], publications = [], awards = [] } = p
+  const { details: d, skills = [], education = [], experience = [], projects = [], certifications = [], publications = [], awards = [] } = p
   return (
     <div id="portfolio-render" style={{ fontFamily: "'Segoe UI', system-ui, sans-serif", background: '#f8fafc', color: '#1e293b', minHeight: '100vh' }}>
 

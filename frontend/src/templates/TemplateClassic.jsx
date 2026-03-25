@@ -3,7 +3,7 @@ import React from 'react'
 const levelWidth = { Beginner: '35%', Intermediate: '65%', Expert: '90%' }
 
 export default function TemplateClassic({ p }) {
-  const { details: d, skills, education, experience, projects, certifications = [], publications = [], awards = [] } = p
+  const { details: d, skills = [], education = [], experience = [], projects = [], certifications = [], publications = [], awards = [] } = p
   return (
     <div id="portfolio-render" style={{ fontFamily: "'Georgia', serif", background: '#0f172a', color: '#e2e8f0', minHeight: '100vh' }}>
 

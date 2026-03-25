@@ -88,7 +88,7 @@ function FooterBar({ name = '', year = '2025' }) {
 
 /* ══════════════════════════════════════════════════════ */
 export default function TemplateMinimalist({ p }) {
-  const { details: d, skills, education, experience, projects, certifications = [], publications = [], awards = [] } = p
+  const { details: d, skills = [], education = [], experience = [], projects = [], certifications = [], publications = [], awards = [] } = p
   const year = new Date().getFullYear()
 
   return (

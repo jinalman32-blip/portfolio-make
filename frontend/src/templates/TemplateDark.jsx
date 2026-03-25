@@ -4,7 +4,7 @@ const levelWidth = { Beginner: '35%', Intermediate: '65%', Expert: '90%' }
 const levelColor = { Beginner: '#22d3ee', Intermediate: '#a78bfa', Expert: '#22d3ee' }
 
 export default function TemplateDark({ p }) {
-  const { details: d, skills, education, experience, projects, certifications = [], publications = [], awards = [] } = p
+  const { details: d, skills = [], education = [], experience = [], projects = [], certifications = [], publications = [], awards = [] } = p
 
   return (
     <div id="portfolio-render" style={{ fontFamily: "'Segoe UI', system-ui, sans-serif", background: '#060d1a', color: '#e2e8f0', minHeight: '100vh' }}>

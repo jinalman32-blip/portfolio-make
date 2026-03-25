@@ -122,7 +122,7 @@ function H2({ children, dark = false }) {
 
 /* ──────────────────── Main Template ──────────────────── */
 export default function TemplatePurple({ p }) {
-  const { details: d, skills, education, experience, projects, certifications = [], publications = [], awards = [] } = p
+  const { details: d, skills = [], education = [], experience = [], projects = [], certifications = [], publications = [], awards = [] } = p
 
   return (
     <div id="portfolio-render" style={{ fontFamily: "'Nunito', 'Fredoka One', sans-serif", background: BG, color: TXT, minHeight: '100vh' }}>

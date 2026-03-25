@@ -768,17 +768,19 @@ export default function CraftPreview() {
     <div className="flex flex-col lg:flex-row h-screen bg-[#060d1a] overflow-hidden" style={{ fontFamily: 'system-ui' }}>
 
       {/* LEFT — Controls panel */}
-      <div className="w-full lg:w-80 flex-shrink-0 flex flex-col h-[40vh] lg:h-full"
-        style={{ background:'linear-gradient(180deg,#0d1526,#060e20)', borderRight:'1px solid rgba(34,211,238,0.1)', zIndex:10 }}>
+      <div className="w-full lg:w-80 flex-shrink-0 flex flex-col h-[35vh] sm:h-[40vh] lg:h-full"
+        style={{ background:'linear-gradient(180deg,#0d1526,#060e20)', borderRight:'1px solid rgba(34,211,238,0.1)', zIndex:100 }}>
 
         {/* Header */}
-        <div className="p-5 border-b border-cyan-500/10">
+        <div className="p-3 sm:p-5 border-b border-cyan-500/10 flex items-center lg:block gap-4">
           <button onClick={() => navigate('/craft')}
-            className="flex items-center gap-2 text-gray-400 hover:text-white transition-colors mb-4 text-sm">
-            <ArrowLeft size={16}/> Back to Edit
+            className="flex items-center gap-2 text-gray-400 hover:text-white transition-colors text-sm lg:mb-4">
+            <ArrowLeft size={16}/> <span className="hidden lg:inline">Back to Edit</span>
           </button>
-          <h2 className="text-white font-bold text-lg">Preview</h2>
-          <p className="text-gray-400 text-xs mt-1">Review, edit & download your portfolio</p>
+          <div className="flex-1">
+            <h2 className="text-white font-bold text-base lg:text-lg">Preview</h2>
+            <p className="hidden lg:block text-gray-400 text-xs mt-1">Review & download your portfolio</p>
+          </div>
         </div>
 
         {/* Scrollable middle content */}
@@ -1060,33 +1062,30 @@ export default function CraftPreview() {
       {/* RIGHT — Preview monitor */}
       <div className="flex-1 bg-[#040812] relative overflow-hidden flex flex-col">
         {/* Toolbar */}
-        <div className="px-4 sm:px-6 py-3 border-b border-white/5 flex items-center justify-between bg-[#060d1a]/50 backdrop-blur-md z-20">
-          <div className="flex items-center gap-3 sm:gap-4">
-            <div className="flex items-center bg-white/5 rounded-lg p-1 border border-white/10">
+        <div className="px-3 py-2 border-b border-white/5 flex items-center justify-between bg-[#060d1a]/50 backdrop-blur-md z-20 min-h-[44px]">
+          <div className="flex items-center gap-2">
+            <div className="hidden sm:flex items-center bg-white/5 rounded-lg p-1 border border-white/10">
               <button onClick={() => setMobile(false)}
                 className={`p-1.5 rounded-md transition-all ${!mobile ? 'bg-cyan-500/20 text-cyan-400 shadow-lg shadow-cyan-500/10' : 'text-gray-500 hover:text-gray-300'}`}>
-                <Monitor size={16}/>
+                <Monitor size={14}/>
               </button>
               <button onClick={() => setMobile(true)}
                 className={`p-1.5 rounded-md transition-all ${mobile ? 'bg-cyan-500/20 text-cyan-400 shadow-lg shadow-cyan-500/10' : 'text-gray-500 hover:text-gray-300'}`}>
-                <Smartphone size={16}/>
+                <Smartphone size={14}/>
               </button>
             </div>
-            <div className="h-4 w-px bg-white/10 hidden sm:block"/>
-            <div className="hidden sm:flex items-center gap-2 text-xs font-semibold text-gray-500 uppercase tracking-widest">
-              <Palette size={13} className="text-cyan-500/60"/> {tmpl.name}
+            <div className="text-[10px] font-bold text-gray-500 uppercase tracking-widest flex items-center gap-1">
+              <span className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse"/> PREVIEW
             </div>
           </div>
 
-          <div className="flex items-center gap-3">
-            <div className="flex-1 mx-3 h-6 rounded-lg flex items-center px-3 text-xs text-gray-500"
-              style={{ background:'rgba(255,255,255,0.04)', border:'1px solid rgba(255,255,255,0.06)' }}>
-              🔒 {portfolio.details?.name?.toLowerCase().replace(/\s+/g,'-') || 'your-portfolio'}.portfoliomaker.com
-            </div>
-            <button onClick={() => window.location.reload()} className="text-gray-500 hover:text-white transition-colors">
-              <RefreshCw size={14}/>
-            </button>
+          <div className="flex-1 max-w-[180px] lg:max-w-md mx-3 h-7 rounded-lg flex items-center px-3 text-[10px] sm:text-xs text-gray-500 bg-white/5 border border-white/10 truncate">
+            🔒 {portfolio.details?.name?.toLowerCase().replace(/\s+/g,'-') || 'your-portfolio'}.portfoliomaker.com
           </div>
+
+          <button onClick={() => window.location.reload()} className="text-gray-500 hover:text-white transition-colors p-1">
+            <RefreshCw size={14}/>
+          </button>
         </div>
 
         {/* Demo notice */}
@@ -1107,7 +1106,7 @@ export default function CraftPreview() {
               maxWidth: mobile ? 385 : 1000,
               minHeight: '100%',
               background: '#fff',
-              transform: `scale(${window.innerWidth < 1024 ? (mobile ? Math.min(0.9, (window.innerWidth - 40) / 385) : 1) : scale})`,
+              transform: `scale(${window.innerWidth < 1024 ? Math.min(0.95, (window.innerWidth - 30) / (mobile ? 385 : 1000)) : scale})`,
               borderRadius: mobile ? '32px' : '0px',
               border: mobile ? '10px solid #1a1a1a' : 'none',
               overflow: 'hidden'

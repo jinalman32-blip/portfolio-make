@@ -153,15 +153,6 @@ export default function ProfileSettings() {
                 </button>
               </div>
             </form>
-
-            {/* Danger zone */}
-            <div className="mt-12 p-6 rounded-2xl bg-red-500/5 border border-red-500/10">
-              <h3 className="text-red-400 font-bold text-lg mb-1">Danger Zone</h3>
-              <p className="text-gray-400 text-sm mb-6">Once you delete your account, there is no going back. Please be certain.</p>
-              <button className="px-6 py-2.5 rounded-lg border border-red-500/30 text-red-400 text-sm font-bold hover:bg-red-500/10 transition-all">
-                Delete My Account
-              </button>
-            </div>
           </div>
         </main>
       </div>

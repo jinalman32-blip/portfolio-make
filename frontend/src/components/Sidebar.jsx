@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
 import {
   Layers, FolderOpen, Settings,
-  Menu, X, Sparkles, ChevronRight, Home, LayoutTemplate, Wand2
+  Menu, X, Sparkles, ChevronRight, Home, LayoutTemplate, Wand2, LogOut
 } from 'lucide-react'
 
 const menuItems = [
@@ -162,6 +162,24 @@ export default function Sidebar({ mobileOpen, setMobileOpen }) {
             </div>
           );
         })()}
+      </div>
+
+      {/* Logout Button */}
+      <div className="px-3 py-4 border-t border-cyan-500/10">
+        <button
+          onClick={() => {
+            if (window.confirm("Are you sure you want to log out?")) {
+              localStorage.removeItem('token');
+              localStorage.removeItem('user');
+              navigate('/');
+            }
+          }}
+          className={`sidebar-item w-full text-red-400 hover:text-red-300 hover:bg-red-500/10 ${collapsed ? 'justify-center px-3' : ''}`}
+          title={collapsed ? 'Logout' : ''}
+        >
+          <LogOut size={18} className="flex-shrink-0" />
+          {!collapsed && <span className="text-sm font-medium">Log Out</span>}
+        </button>
       </div>
     </aside>
   )

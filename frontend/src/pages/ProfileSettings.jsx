@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import axios from 'axios'
-import { User, Mail, Lock, Save, Loader, AlertCircle } from 'lucide-react'
+import { User, Mail, Lock, Save, Loader, AlertCircle, LogOut } from 'lucide-react'
 import Sidebar from '../components/Sidebar'
 import Header from '../components/Header'
 import ParticleBackground from '../components/ParticleBackground'
@@ -23,9 +23,9 @@ export default function ProfileSettings() {
         headers: { Authorization: `Bearer ${token}` }
       })
       
-      const updatedUser = { ...user, ...data }
+      const updatedUser = { ...user, ...data.user }
       localStorage.setItem('user', JSON.stringify(updatedUser))
-      localStorage.setItem('token', data.token) // Update token if rotated
+      if (data.token) localStorage.setItem('token', data.token)
       setUser(updatedUser)
       setSaved(true)
       setTimeout(() => {
@@ -48,15 +48,15 @@ export default function ProfileSettings() {
         <Header setMobileOpen={setMobileOpen} title="Profile Settings" />
 
         <main className="flex-1 overflow-y-auto px-4 sm:px-8 py-6 sm:py-8">
-          <div className="max-w-lg">
+          <div className="max-w-lg mx-auto lg:mx-0">
             <h2 className="text-white text-2xl sm:text-3xl font-bold mb-1">Profile Settings</h2>
             <p className="text-gray-400 text-xs sm:text-sm mb-8">Update your account information</p>
 
             {/* Avatar */}
             <div className="flex items-center gap-5 mb-8">
               <div
-                className="w-20 h-20 rounded-2xl flex items-center justify-center text-3xl font-bold text-white"
-                style={{ background: 'linear-gradient(135deg, #22d3ee, #6366f1)' }}
+                className="w-20 h-20 rounded-2xl flex items-center justify-center text-3xl font-bold text-white shadow-xl"
+                style={{ background: 'linear-gradient(135deg, #22d3ee, #6366f1)', border: '1px solid rgba(255,255,255,0.1)' }}
               >
                 {(user.name || 'U')[0].toUpperCase()}
               </div>
@@ -68,9 +68,9 @@ export default function ProfileSettings() {
             </div>
 
             {/* Form */}
-            <form onSubmit={handleSave} className="space-y-5">
-              <div>
-                <label className="text-gray-300 text-sm font-medium flex items-center gap-2 mb-2">
+            <form onSubmit={handleSave} className="space-y-6">
+              <div className="space-y-2">
+                <label className="text-gray-300 text-sm font-medium flex items-center gap-2">
                   <User size={14} className="text-cyan-400" />
                   Full Name
                 </label>
@@ -78,12 +78,13 @@ export default function ProfileSettings() {
                   type="text"
                   value={form.name}
                   onChange={e => setForm({ ...form, name: e.target.value })}
-                  className="input-dark"
+                  placeholder="Enter your name"
+                  className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder:text-gray-600 focus:outline-none focus:ring-2 focus:ring-cyan-500/50 transition-all"
                 />
               </div>
 
-              <div>
-                <label className="text-gray-300 text-sm font-medium flex items-center gap-2 mb-2">
+              <div className="space-y-2">
+                <label className="text-gray-300 text-sm font-medium flex items-center gap-2">
                   <Mail size={14} className="text-cyan-400" />
                   Email Address
                 </label>
@@ -91,12 +92,13 @@ export default function ProfileSettings() {
                   type="email"
                   value={form.email}
                   onChange={e => setForm({ ...form, email: e.target.value })}
-                  className="input-dark"
+                  placeholder="Enter your email"
+                  className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder:text-gray-600 focus:outline-none focus:ring-2 focus:ring-cyan-500/50 transition-all"
                 />
               </div>
 
-              <div>
-                <label className="text-gray-300 text-sm font-medium flex items-center gap-2 mb-2">
+              <div className="space-y-2">
+                <label className="text-gray-300 text-sm font-medium flex items-center gap-2">
                   <Lock size={14} className="text-cyan-400" />
                   New Password
                 </label>
@@ -104,7 +106,7 @@ export default function ProfileSettings() {
                   type="password"
                   value={form.password}
                   onChange={e => setForm({ ...form, password: e.target.value })}
-                  className="input-dark"
+                  className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder:text-gray-600 focus:outline-none focus:ring-2 focus:ring-cyan-500/50 transition-all"
                   placeholder="Leave blank to keep current"
                 />
               </div>
@@ -116,34 +118,48 @@ export default function ProfileSettings() {
                 </div>
               )}
 
-              <button
-                type="submit"
-                disabled={saving}
-                className="btn-primary w-full sm:w-auto"
-                style={{
-                  background: saved
-                    ? 'linear-gradient(135deg, #22c55e, #16a34a)'
-                    : 'linear-gradient(135deg, #22d3ee, #0ea5e9)',
-                  boxShadow: saved ? '0 4px 15px rgba(34, 197, 94, 0.3)' : '0 4px 15px rgba(34, 211, 238, 0.3)'
-                }}
-              >
-                {saving ? <Loader size={18} className="animate-spin" /> : <Save size={18} />}
-                {saving ? 'Saving...' : saved ? 'Saved!' : 'Save Changes'}
-              </button>
+              <div className="flex flex-col sm:flex-row gap-4 pt-4">
+                <button
+                  type="submit"
+                  disabled={saving}
+                  className="flex-1 flex items-center justify-center gap-2 px-6 py-3 rounded-xl font-bold text-white transition-all transform active:scale-95 disabled:opacity-50"
+                  style={{
+                    background: saved
+                      ? 'linear-gradient(135deg, #22c55e, #16a34a)'
+                      : 'linear-gradient(135deg, #22d3ee, #0ea5e9)',
+                    boxShadow: saved ? '0 4px 15px rgba(34, 197, 94, 0.3)' : '0 4px 15px rgba(34, 211, 238, 0.3)'
+                  }}
+                >
+                  {saving ? <Loader size={18} className="animate-spin" /> : <Save size={18} />}
+                  {saving ? 'Saving...' : saved ? 'Saved!' : 'Save Changes'}
+                </button>
+              </div>
+
+              {/* Sign Out Action */}
+              <div className="mt-8 pt-8 border-t border-white/5">
+                <button
+                  type="button"
+                  onClick={() => {
+                    if (window.confirm("Are you sure you want to sign out?")) {
+                      localStorage.removeItem('token');
+                      localStorage.removeItem('user');
+                      window.location.href = '/';
+                    }
+                  }}
+                  className="flex items-center justify-center gap-2 w-full px-6 py-3 rounded-xl text-red-400 hover:text-red-300 hover:bg-red-500/10 transition-all font-semibold"
+                >
+                  <LogOut size={18} />
+                  Sign Out of Account
+                </button>
+              </div>
             </form>
 
             {/* Danger zone */}
-            <div
-              className="mt-10 p-5 rounded-2xl"
-              style={{
-                background: 'rgba(239, 68, 68, 0.05)',
-                border: '1px solid rgba(239, 68, 68, 0.15)'
-              }}
-            >
-              <h3 className="text-red-400 font-semibold mb-1">Danger Zone</h3>
-              <p className="text-gray-400 text-sm mb-4">Permanently delete your account and all data</p>
-              <button className="text-red-400 text-sm font-medium hover:text-red-300 transition-colors">
-                Delete Account
+            <div className="mt-12 p-6 rounded-2xl bg-red-500/5 border border-red-500/10">
+              <h3 className="text-red-400 font-bold text-lg mb-1">Danger Zone</h3>
+              <p className="text-gray-400 text-sm mb-6">Once you delete your account, there is no going back. Please be certain.</p>
+              <button className="px-6 py-2.5 rounded-lg border border-red-500/30 text-red-400 text-sm font-bold hover:bg-red-500/10 transition-all">
+                Delete My Account
               </button>
             </div>
           </div>

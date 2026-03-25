@@ -141,3 +141,53 @@
   -ms-overflow-style: none;  /* IE and Edge */
   scrollbar-width: none;  /* Firefox */
 }
+/* Portfolio Template Responsive Fixes */
+#portfolio-render, .portfolio-template {
+  width: 100% !important;
+  max-width: 100% !important;
+  overflow-x: hidden !important;
+}
+
+@media (max-width: 768px) {
+  /* Force vertical stacking for all flex/grid containers */
+  #portfolio-render div, 
+  #portfolio-render section, 
+  #portfolio-render header,
+  #portfolio-render footer {
+    /* Only target containers that are likely intended to be side-by-side but breaking mobile */
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    padding-left: 16px !important;
+    padding-right: 16px !important;
+    gap: 24px !important;
+  }
+
+  /* Override fixed paddings from inline styles */
+  #portfolio-render [style*="padding"] {
+    padding-left: 20px !important;
+    padding-right: 20px !important;
+    padding-top: 40px !important;
+    padding-bottom: 40px !important;
+  }
+
+  /* Fix for blobs and specific padding-heavy elements */
+  #portfolio-render div[style*="borderRadius"] {
+    max-width: 100% !important;
+    padding: 30px 20px !important;
+  }
+
+  /* Text & Image scaling */
+  #portfolio-render h1 { font-size: 32px !important; }
+  #portfolio-render h2 { font-size: 26px !important; }
+  #portfolio-render h3 { font-size: 20px !important; }
+  #portfolio-render p { font-size: 15px !important; }
+
+  #portfolio-render img {
+    margin: 0 auto !important;
+    max-width: 100% !important;
+    height: auto !important;
+  }
+}

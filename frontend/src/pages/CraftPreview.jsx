@@ -1098,15 +1098,16 @@ export default function CraftPreview() {
         )}
 
         {/* Preview Frame */}
-        <div className="flex-1 overflow-auto bg-[#040812] p-4 sm:p-8 flex justify-center items-start custom-scrollbar">
+        <div className="flex-1 overflow-auto bg-[#040812] p-2 sm:p-8 flex justify-center items-start custom-scrollbar">
           <div
-            className="transition-all duration-500 origin-top shadow-[0_30px_100px_rgba(0,0,0,0.6)]"
+            id="portfolio-container"
+            className="transition-all duration-500 origin-top shadow-[0_30px_100px_rgba(0,0,0,0.6)] portfolio-template"
             style={{
               width: mobile ? 385 : '100%',
               maxWidth: mobile ? 385 : 1000,
-              minHeight: '120%',
+              minHeight: '100%',
               background: '#fff',
-              transform: `scale(${window.innerWidth < 640 ? (mobile ? 0.7 : 0.8) : scale})`,
+              transform: `scale(${window.innerWidth < 1024 ? (mobile ? Math.min(0.9, (window.innerWidth - 40) / 385) : 1) : scale})`,
               borderRadius: mobile ? '32px' : '0px',
               border: mobile ? '10px solid #1a1a1a' : 'none',
               overflow: 'hidden'

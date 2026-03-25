@@ -2,7 +2,8 @@ import React, { useEffect, useRef, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import {
   Sparkles, Upload, PenLine, Zap, Star, Shield,
-  ArrowRight, Code2, Palette, Globe, ChevronRight, Play
+  ArrowRight, Code2, Palette, Globe, ChevronRight, Play,
+  Twitter, Linkedin, Github, ExternalLink
 } from 'lucide-react'
 import Sidebar from '../components/Sidebar'
 import Header from '../components/Header'
@@ -821,12 +822,78 @@ export default function HomePage() {
           </div>
         </section>
 
-        <footer className="px-4 sm:px-8 py-10 border-t border-white/5 text-center">
-          <p className="text-gray-600 text-sm mb-2">© 2026 PortfolioMaker · Built with AI · All rights reserved</p>
-          <div className="flex justify-center gap-6 text-gray-700 text-xs">
-            <a href="#" className="hover:text-cyan-400 transition-colors">Privacy Policy</a>
-            <a href="#" className="hover:text-cyan-400 transition-colors">Terms of Service</a>
-            <a href="#" className="hover:text-cyan-400 transition-colors">Support</a>
+        <footer className="px-6 py-16 sm:px-20 border-t border-white/5 bg-[#0d1526]/30 backdrop-blur-md relative overflow-hidden">
+          <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-cyan-500/20 to-transparent" />
+          
+          <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 sm:gap-20">
+            {/* Logo and About */}
+            <div className="col-span-1 lg:col-span-1">
+              <div className="flex items-center gap-2 mb-6">
+                <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-cyan-400 to-indigo-500 flex items-center justify-center shadow-lg shadow-cyan-500/20">
+                  <Sparkles size={20} className="text-white" />
+                </div>
+                <span className="text-white text-xl font-black tracking-tighter">PortfolioMaker<span className="text-cyan-400">.</span></span>
+              </div>
+              <p className="text-gray-400 text-sm leading-relaxed mb-8">
+                The AI-powered portfolio builder designed for the next generation of top talent. Create and publish in minutes.
+              </p>
+              <div className="flex gap-4">
+                {[Twitter, Linkedin, Github, Globe].map((Icon, idx) => (
+                  <a key={idx} href="#" className="w-9 h-9 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center text-gray-400 hover:text-cyan-400 hover:border-cyan-400/30 hover:bg-cyan-400/5 transition-all">
+                    <Icon size={18} />
+                  </a>
+                ))}
+              </div>
+            </div>
+
+            {/* Quick Links */}
+            <div>
+              <h4 className="text-white font-bold mb-6 text-sm uppercase tracking-widest">Product</h4>
+              <ul className="space-y-4">
+                {[
+                  { label: 'Templates', path: '/templates' },
+                  { label: 'AI Tools', path: '/ai-tools' },
+                  { label: 'Pricing', path: '/credits' },
+                  { label: 'Live Preview', path: '/craft/preview' }
+                ].map(link => (
+                  <li key={link.label}>
+                    <button onClick={() => navigate(link.path)} className="text-gray-400 hover:text-white transition-colors text-sm flex items-center gap-2">
+                       {link.label}
+                    </button>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            {/* Company */}
+            <div>
+              <h4 className="text-white font-bold mb-6 text-sm uppercase tracking-widest">Company</h4>
+              <ul className="space-y-4 text-sm">
+                <li><a href="#" className="text-gray-400 hover:text-white transition-colors">About Us</a></li>
+                <li><a href="#" className="text-gray-400 hover:text-white transition-colors">Careers</a></li>
+                <li><a href="#" className="text-gray-400 hover:text-white transition-colors">Privacy Policy</a></li>
+                <li><a href="#" className="text-gray-400 hover:text-white transition-colors">Terms of Service</a></li>
+              </ul>
+            </div>
+
+            {/* Support */}
+            <div>
+              <h4 className="text-white font-bold mb-6 text-sm uppercase tracking-widest">Support</h4>
+              <ul className="space-y-4 text-sm">
+                <li><a href="#" className="text-gray-400 hover:text-white transition-colors">Help Center</a></li>
+                <li><a href="#" className="text-gray-400 hover:text-white transition-colors">Documentation</a></li>
+                <li><a href="#" className="text-gray-400 hover:text-white transition-colors">Community</a></li>
+                <li><button onClick={() => navigate('/refer-earn')} className="text-cyan-400 hover:underline font-medium">Refer & Earn</button></li>
+              </ul>
+            </div>
+          </div>
+
+          <div className="mt-16 pt-8 border-t border-white/5 flex flex-col sm:flex-row justify-between items-center gap-4">
+            <p className="text-gray-600 text-xs">© 2026 PortfolioMaker. Built with precision and AI magic.</p>
+            <div className="flex items-center gap-2 text-gray-700 text-xs">
+              <div className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse" />
+              All Systems Operational
+            </div>
           </div>
         </footer>
 

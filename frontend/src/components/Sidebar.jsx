@@ -131,29 +131,37 @@ export default function Sidebar({ mobileOpen, setMobileOpen }) {
 
       {/* User Profile */}
       <div className="px-3 py-4 border-t border-cyan-500/10">
-        {!collapsed ? (
-          <div className="flex items-center gap-3 px-2">
-            <div
-              className="w-9 h-9 rounded-full flex items-center justify-center text-sm font-bold text-white flex-shrink-0"
-              style={{ background: 'linear-gradient(135deg, #22d3ee, #6366f1)' }}
-            >
-              U
+        {(() => {
+          const user = JSON.parse(localStorage.getItem('user') || '{}');
+          const initial = (user.name || 'U')[0].toUpperCase();
+          if (!collapsed) {
+            return (
+              <div className="flex items-center gap-3 px-2">
+                <div
+                  className="w-9 h-9 rounded-full flex items-center justify-center text-sm font-bold text-white flex-shrink-0"
+                  style={{ background: 'linear-gradient(135deg, #22d3ee, #6366f1)', boxShadow: '0 0 10px rgba(34,211,238,0.2)' }}
+                >
+                  {initial}
+                </div>
+                <div className="min-w-0">
+                  <p className="text-white text-sm font-medium truncate">{user.name || 'User'}</p>
+                  <p className="text-gray-500 text-xs truncate">{user.email || 'user@portfoliomaker.com'}</p>
+                </div>
+              </div>
+            );
+          }
+          return (
+            <div className="flex items-center justify-center">
+              <div
+                className="w-9 h-9 rounded-full flex items-center justify-center text-sm font-bold text-white shadow-lg"
+                style={{ background: 'linear-gradient(135deg, #22d3ee, #6366f1)', border: '1px solid rgba(255,255,255,0.1)' }}
+                title={user.name}
+              >
+                {initial}
+              </div>
             </div>
-            <div className="min-w-0">
-              <p className="text-white text-sm font-medium truncate">User</p>
-              <p className="text-gray-500 text-xs truncate">user@portfoliomaker.com</p>
-            </div>
-          </div>
-        ) : (
-          <div className="flex items-center justify-center">
-            <div
-              className="w-9 h-9 rounded-full flex items-center justify-center text-sm font-bold text-white"
-              style={{ background: 'linear-gradient(135deg, #22d3ee, #6366f1)' }}
-            >
-              U
-            </div>
-          </div>
-        )}
+          );
+        })()}
       </div>
     </aside>
   )

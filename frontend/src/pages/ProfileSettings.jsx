@@ -1,24 +1,42 @@
 import React, { useState } from 'react'
-import { User, Mail, Lock, Save, Loader } from 'lucide-react'
+import axios from 'axios'
+import { User, Mail, Lock, Save, Loader, AlertCircle } from 'lucide-react'
 import Sidebar from '../components/Sidebar'
 import Header from '../components/Header'
 import ParticleBackground from '../components/ParticleBackground'
 
 export default function ProfileSettings() {
-  const user = JSON.parse(localStorage.getItem('user') || '{}')
+  const [user, setUser] = useState(JSON.parse(localStorage.getItem('user') || '{}'))
   const [mobileOpen, setMobileOpen] = useState(false)
-  const [form, setForm] = useState({ name: user.name || '', email: user.email || '' })
+  const [form, setForm] = useState({ name: user.name || '', email: user.email || '', password: '' })
   const [saving, setSaving] = useState(false)
   const [saved, setSaved] = useState(false)
+  const [error, setError] = useState('')
 
   const handleSave = async (e) => {
     e.preventDefault()
     setSaving(true)
-    await new Promise(r => setTimeout(r, 1200))
-    localStorage.setItem('user', JSON.stringify({ ...user, ...form }))
-    setSaving(false)
-    setSaved(true)
-    setTimeout(() => setSaved(false), 3000)
+    setError('')
+    try {
+      const token = localStorage.getItem('token')
+      const { data } = await axios.put('/api/auth/profile', form, {
+        headers: { Authorization: `Bearer ${token}` }
+      })
+      
+      const updatedUser = { ...user, ...data }
+      localStorage.setItem('user', JSON.stringify(updatedUser))
+      localStorage.setItem('token', data.token) // Update token if rotated
+      setUser(updatedUser)
+      setSaved(true)
+      setTimeout(() => {
+        setSaved(false)
+        window.location.reload()
+      }, 1500)
+    } catch (err) {
+      setError(err.response?.data?.message || 'Failed to update profile')
+    } finally {
+      setSaving(false)
+    }
   }
 
   return (
@@ -84,10 +102,19 @@ export default function ProfileSettings() {
                 </label>
                 <input
                   type="password"
+                  value={form.password}
+                  onChange={e => setForm({ ...form, password: e.target.value })}
                   className="input-dark"
                   placeholder="Leave blank to keep current"
                 />
               </div>
+
+              {error && (
+                <div className="p-4 rounded-xl bg-red-500/10 border border-red-500/20 flex items-center gap-3 text-red-400 text-sm animate-shake">
+                  <AlertCircle size={18} />
+                  {error}
+                </div>
+              )}
 
               <button
                 type="submit"

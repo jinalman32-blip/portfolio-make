@@ -594,7 +594,7 @@ export default function HomePage() {
         <Header setMobileOpen={setMobileOpen} />
 
         {/* ══════════════ HERO SECTION ══════════════ */}
-        <section className="relative min-h-[90vh] flex flex-col lg:flex-row items-center justify-center lg:justify-start px-4 sm:px-12 lg:px-20 py-12 sm:py-24 lg:py-20 overflow-hidden gap-10 lg:gap-20">
+        <section className="relative min-h-[75vh] flex flex-col lg:flex-row items-center justify-center lg:justify-start px-4 sm:px-12 lg:px-20 py-10 sm:py-16 lg:py-14 overflow-hidden gap-10 lg:gap-20">
           <div style={{ position:'absolute', inset:0, pointerEvents:'none', overflow:'hidden' }}>
             <div style={{ position:'absolute', right:'35%', top:'35%', width:280, height:280, background:'radial-gradient(circle, rgba(99,102,241,0.07), transparent)', filter:'blur(80px)' }} />
             <div style={{ position:'absolute', left:'260px', top:'40%', width:200, height:200, background:'radial-gradient(circle, rgba(34,211,238,0.05), transparent)', filter:'blur(60px)' }} />
@@ -659,7 +659,7 @@ export default function HomePage() {
         </section>
 
         {/* ══════════════ FEATURES SECTION ══════════════ */}
-        <section className="px-3 sm:px-12 py-16 sm:py-20">
+        <section className="px-3 sm:px-12 py-10 sm:py-12">
           <div className="text-center mb-10 sm:mb-14 px-2">
             <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full mb-4"
               style={{ background: 'rgba(34,211,238,0.08)', border: '1px solid rgba(34,211,238,0.2)' }}>
@@ -667,7 +667,7 @@ export default function HomePage() {
               <span className="text-cyan-400 text-xs font-semibold uppercase tracking-wider">Powerful Features</span>
             </div>
             <h2 className="text-white text-2xl sm:text-4xl font-black mb-3">Everything You Need</h2>
-            <p className="text-gray-400 max-w-lg mx-auto">Tools designed to make your portfolio stand out in a competitive market</p>
+            <p className="text-gray-400 max-w-lg mx-auto">Tools designed to make your portfolio stand out</p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 max-w-5xl mx-auto">
             {features.map((f, i) => <FeatureCard key={i} {...f} />)}
@@ -675,7 +675,7 @@ export default function HomePage() {
         </section>
 
         {/* ══════════════ HOW IT WORKS ══════════════ */}
-        <section className="px-3 sm:px-12 py-16 sm:py-20">
+        <section className="px-3 sm:px-12 py-10 sm:py-12">
           <div className="max-w-5xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 sm:gap-16 items-center">
             <div>
               <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full mb-6"
@@ -745,7 +745,7 @@ export default function HomePage() {
         </section>
 
         {/* ══════════════ TEMPLATES SECTION ══════════════ */}
-        <section className="px-3 sm:px-12 py-16 sm:py-20">
+        <section className="px-3 sm:px-12 py-10 sm:py-12">
           <div className="max-w-5xl mx-auto">
             <div className="text-center mb-10 sm:mb-12">
               <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full mb-4"
@@ -780,7 +780,7 @@ export default function HomePage() {
         </section>
 
         {/* ══════════════ CTA SECTION ══════════════ */}
-        <section className="px-3 py-16 sm:py-20 overflow-hidden relative">
+        <section className="px-3 py-10 sm:py-12 overflow-hidden relative">
           <div className="max-w-4xl mx-auto">
             <TiltCard
               className="relative overflow-hidden rounded-[1.5rem] sm:rounded-[3rem] px-3 sm:px-12 py-10 sm:py-20 text-center w-full"
@@ -822,7 +822,7 @@ export default function HomePage() {
           </div>
         </section>
 
-        <footer className="px-6 py-16 sm:px-20 border-t border-white/5 bg-[#0d1526]/30 backdrop-blur-md relative overflow-hidden">
+        <footer className="px-6 py-10 sm:px-20 border-t border-white/5 bg-[#0d1526]/30 backdrop-blur-md relative overflow-hidden">
           <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-cyan-500/20 to-transparent" />
           
           <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 sm:gap-20">

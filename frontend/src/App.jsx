@@ -28,6 +28,7 @@ import Register from './pages/Register'
 import Credits from './pages/Credits'
 import ReferEarn from './pages/ReferEarn'
 import UploadResume from './pages/UploadResume'
+import PublishedPortfolio from './pages/PublishedPortfolio'
 
 export default function App() {
   return (
@@ -48,7 +49,8 @@ export default function App() {
         <Route path="/credits"        element={<Credits />} />
         <Route path="/refer-earn"     element={<ReferEarn />} />
         <Route path="/upload-resume"  element={<UploadResume />} />
-<Route path="*"               element={<Navigate to="/home" replace />} />
+        <Route path="/p/:slug"        element={<PublishedPortfolio />} />
+        <Route path="*"               element={<Navigate to="/home" replace />} />
       </Routes>
     </Router>
   )

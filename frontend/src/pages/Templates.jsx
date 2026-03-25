@@ -156,10 +156,66 @@ const templates = [
       { type: 'experience' },
     ],
   },
+  {
+    id: 'neon',
+    name: 'Neon Cyber',
+    description: 'High-energy cyberpunk theme with glowing violet and cyan accents. Perfect for developers and tech enthusiasts who want to stand out.',
+    accent: '#a78bfa',
+    accentRgb: '167,139,250',
+    bg: 'linear-gradient(135deg,#0c0a1a 0%,#130d2e 100%)',
+    tag: 'Trendy',
+    tagColor: '#a78bfa',
+    preview: [{ type: 'header', color: '#a78bfa' }, { type: 'skills' }, { type: 'experience' }],
+  },
+  {
+    id: 'light',
+    name: 'Clean Light',
+    description: 'Minimalist light theme with a professional blue header. Focused on readability and clean layouts.',
+    accent: '#0ea5e9',
+    accentRgb: '14,165,233',
+    bg: 'linear-gradient(135deg,#f8fafc 0%,#f1f5f9 100%)',
+    tag: 'Essential',
+    tagColor: '#0ea5e9',
+    preview: [{ type: 'header', color: '#0ea5e9' }, { type: 'skills' }, { type: 'experience' }],
+  },
+  {
+    id: 'dark',
+    name: 'Modern Dark',
+    description: 'Sleek dark interface with cyan accents and a modern card-based layout. Ideal for software engineers.',
+    accent: '#22d3ee',
+    accentRgb: '34,211,238',
+    bg: 'linear-gradient(135deg,#060d1a 0%,#0d1526 100%)',
+    tag: 'Popular',
+    tagColor: '#22d3ee',
+    preview: [{ type: 'header', color: '#22d3ee' }, { type: 'skills' }, { type: 'experience' }],
+  },
+  {
+    id: 'classic',
+    name: 'Classic Professional',
+    description: 'Elegant dark navy theme with golden amber accents and serif typography. Best for formal roles.',
+    accent: '#f59e0b',
+    accentRgb: '245,158,11',
+    bg: 'linear-gradient(135deg,#0f172a 0%,#1e293b 100%)',
+    tag: 'Formal',
+    tagColor: '#f59e0b',
+    preview: [{ type: 'header', color: '#f59e0b' }, { type: 'skills' }, { type: 'experience' }],
+  },
+  {
+    id: 'greenbeige',
+    name: 'Green Beige Creative',
+    description: 'Natural forest green accents on a warm beige background. A sophisticated choice for freelancers.',
+    accent: '#6b8c4e',
+    accentRgb: '107,140,78',
+    bg: 'linear-gradient(135deg,#f4ece8 0%,#e8dfd8 100%)',
+    tag: 'Artistic',
+    tagColor: '#6b8c4e',
+    preview: [{ type: 'header', color: '#6b8c4e' }, { type: 'skills' }, { type: 'experience' }],
+  },
 ]
 
 export default function Templates() {
   const navigate = useNavigate()
+  const [mobileOpen, setMobileOpen] = useState(false)
   const [selected, setSelected] = useState(null)
   const [hovering, setHovering] = useState(null)
 
@@ -250,15 +306,15 @@ Include 4-6 skills, 1-2 education entries, 2-3 experience entries, 2-3 projects.
 
   return (
     <div className="flex h-screen bg-[#060d1a] overflow-hidden">
-      <Sidebar />
+      <Sidebar mobileOpen={mobileOpen} setMobileOpen={setMobileOpen} />
       <ParticleBackground />
 
-      <div className="flex-1 flex flex-col ml-64 relative" style={{ zIndex: 1 }}>
-        <Header />
-        <main className="flex-1 overflow-y-auto px-8 py-10">
+      <div className="flex-1 flex flex-col lg:ml-64 relative" style={{ zIndex: 1 }}>
+        <Header setMobileOpen={setMobileOpen} />
+        <main className="flex-1 overflow-y-auto px-4 sm:px-8 py-6 sm:py-10">
 
           {/* Page header */}
-          <div className="mb-10">
+          <div className="mb-8 sm:mb-10">
             <div
               className="inline-flex items-center gap-2 px-4 py-2 rounded-full mb-4"
               style={{ background: 'rgba(34,211,238,0.08)', border: '1px solid rgba(34,211,238,0.2)' }}
@@ -266,10 +322,10 @@ Include 4-6 skills, 1-2 education entries, 2-3 experience entries, 2-3 projects.
               <LayoutTemplate size={14} className="text-cyan-400" />
               <span className="text-cyan-400 text-sm font-medium">Template Gallery</span>
             </div>
-            <h1 className="text-4xl font-extrabold text-white mb-2">
+            <h1 className="text-3xl sm:text-4xl font-extrabold text-white mb-2 leading-tight">
               Choose Your <span style={{ background: 'linear-gradient(135deg,#22d3ee,#6366f1)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>Template</span>
             </h1>
-            <p className="text-gray-400 text-base">
+            <p className="text-gray-400 text-sm sm:text-base max-w-2xl">
               Pick a design that matches your personal brand. All templates are fully customizable.
             </p>
           </div>
@@ -466,6 +522,97 @@ Include 4-6 skills, 1-2 education entries, 2-3 experience entries, 2-3 projects.
                     </div>
                   )}
 
+                  {/* Neon Cyber template: glowing orbs and lines */}
+                  {t.id === 'neon' && (
+                    <div style={{ position: 'absolute', inset: 0, padding: '14px 16px' }}>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 12 }}>
+                        <div style={{ width: 34, height: 34, borderRadius: '50%', background: '#a78bfa', boxShadow: '0 0 15px rgba(167,139,250,0.5)' }} />
+                        <div style={{ height: 10, width: 80, background: 'rgba(255,255,255,0.8)', borderRadius: 4 }} />
+                      </div>
+                      <div style={{ height: 2, width: '100%', background: 'linear-gradient(90deg,#a78bfa,transparent)', marginBottom: 8 }} />
+                      {[85, 65, 90].map((w,i)=>(
+                        <div key={i} style={{ height: 5, background: 'rgba(167,139,250,0.1)', borderRadius: 3, marginBottom: 6 }}>
+                          <div style={{ height: '100%', width: `${w}%`, background: '#a78bfa', borderRadius: 3, boxShadow: '0 0 8px #a78bfa' }} />
+                        </div>
+                      ))}
+                    </div>
+                  )}
+
+                  {/* Light template: blue header + white body */}
+                  {t.id === 'light' && (
+                    <div style={{ position: 'absolute', inset: 0, display: 'flex', flexDirection: 'column' }}>
+                      <div style={{ height: '35%', background: '#0ea5e9', padding: '10px 14px', display: 'flex', alignItems: 'center', gap: 8 }}>
+                        <div style={{ width: 30, height: 30, borderRadius: '50%', background: 'rgba(255,255,255,0.3)' }} />
+                        <div style={{ height: 8, width: 60, background: 'white', borderRadius: 2 }} />
+                      </div>
+                      <div style={{ flex: 1, padding: '10px 14px' }}>
+                        <div style={{ height: 6, width: 40, background: '#0ea5e9', borderRadius: 2, marginBottom: 8 }} />
+                        <div style={{ height: 2, width: '100%', background: '#f1f5f9', marginBottom: 10 }} />
+                        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 6 }}>
+                          <div style={{ height: 30, background: 'white', border: '1px solid #e2e8f0', borderRadius: 6 }} />
+                          <div style={{ height: 30, background: 'white', border: '1px solid #e2e8f0', borderRadius: 6 }} />
+                        </div>
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Classic Professional template: dark nave + gold amber */}
+                  {t.id === 'classic' && (
+                    <div style={{ position: 'absolute', inset: 0, display: 'flex', flexDirection: 'column' }}>
+                      <div style={{ height: '40%', background: '#1a1a2e', borderBottom: '2px solid #f59e0b', padding: '12px 16px', position: 'relative' }}>
+                        <div style={{ height: 2, position: 'absolute', top: 0, left: 0, right: 0, background: '#f59e0b' }} />
+                        <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+                          <div style={{ width: 32, height: 32, borderRadius: '50%', background: '#f59e0b' }} />
+                          <div style={{ height: 8, width: 70, background: 'white', borderRadius: 2 }} />
+                        </div>
+                      </div>
+                      <div style={{ flex: 1, padding: '12px 16px' }}>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: 10 }}>
+                          <div style={{ width: 6, height: 6, background: '#f59e0b', transform: 'rotate(45deg)' }} />
+                          <div style={{ height: 8, width: 50, background: 'white', borderRadius: 2 }} />
+                        </div>
+                        <div style={{ height: 40, background: 'rgba(245,158,11,0.05)', border: '1px solid rgba(245,158,11,0.2)', borderRadius: 8 }} />
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Modern Dark template: navy/black cards + cyan glow */}
+                  {t.id === 'dark' && (
+                    <div style={{ position: 'absolute', inset: 0, padding: '14px 16px', display: 'flex', gap: 10 }}>
+                      <div style={{ width: '35%', display: 'flex', flexDirection: 'column', gap: 6 }}>
+                        <div style={{ width: 30, height: 30, borderRadius: '50%', background: 'linear-gradient(135deg,#22d3ee,#6366f1)' }} />
+                        {[40, 60, 50].map((w,i)=>(
+                           <div key={i} style={{ height: 4, width: `${w}%`, background: 'rgba(255,255,255,0.1)', borderRadius: 2 }} />
+                        ))}
+                      </div>
+                      <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: 8 }}>
+                        <div style={{ height: 8, width: '40%', background: '#22d3ee', borderRadius: 2 }} />
+                        <div style={{ height: 45, background: 'rgba(34,211,238,0.05)', border: '1px solid rgba(34,211,238,0.15)', borderRadius: 8 }} />
+                        <div style={{ height: 45, background: 'rgba(34,211,238,0.05)', border: '1px solid rgba(34,211,238,0.15)', borderRadius: 8 }} />
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Green Beige Creative template: beige bg + forest green accents */}
+                  {t.id === 'greenbeige' && (
+                    <div style={{ position: 'absolute', inset: 0, padding: '14px 16px' }}>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 12 }}>
+                        <div style={{ width: 36, height: 36, borderRadius: 8, background: '#6b8c4e' }} />
+                        <div>
+                          <div style={{ height: 8, width: 80, background: '#333', borderRadius: 2, marginBottom: 4 }} />
+                          <div style={{ height: 5, width: 50, background: '#6b8c4e', borderRadius: 2 }} />
+                        </div>
+                      </div>
+                      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8 }}>
+                        {[1, 2].map(i => (
+                          <div key={i} style={{ height: 50, background: 'white', border: '1px solid #e8dfd8', borderRadius: 10, position: 'relative' }}>
+                            <div style={{ position: 'absolute', top: 6, left: 6, right: 6, height: 4, background: '#6b8c4e', opacity: 0.2, borderRadius: 2 }} />
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+
                   {/* Badge */}
                   <div
                     className="absolute top-3 right-3 text-xs font-bold px-2 py-1 rounded-full"
@@ -494,7 +641,7 @@ Include 4-6 skills, 1-2 education entries, 2-3 experience entries, 2-3 projects.
 
                   <button
                     onClick={(e) => { e.stopPropagation(); navigate('/craft/preview', { state: { previewTemplate: t.id } }) }}
-                    className="w-full flex items-center justify-center gap-2 py-2.5 rounded-xl text-sm font-semibold transition-all"
+                    className="w-full flex items-center justify-center gap-2 py-2.5 rounded-xl text-sm font-semibold transition-all active:scale-95"
                     style={{
                       background: `linear-gradient(135deg,rgba(${t.accentRgb},0.2),rgba(${t.accentRgb},0.08))`,
                       border: `1px solid rgba(${t.accentRgb},0.3)`,
@@ -513,7 +660,7 @@ Include 4-6 skills, 1-2 education entries, 2-3 experience entries, 2-3 projects.
 
           {/* Bottom CTA */}
           <div
-            className="mt-10 max-w-5xl p-6 rounded-2xl flex items-center justify-between"
+            className="mt-10 max-w-5xl p-6 rounded-2xl flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6"
             style={{ background: 'rgba(34,211,238,0.04)', border: '1px solid rgba(34,211,238,0.1)' }}
           >
             <div>
@@ -522,8 +669,7 @@ Include 4-6 skills, 1-2 education entries, 2-3 experience entries, 2-3 projects.
             </div>
             <button
               onClick={() => navigate('/craft')}
-              className="px-6 py-3 rounded-xl text-sm font-semibold text-white transition-all"
-              style={{ background: 'linear-gradient(135deg,#22d3ee,#0ea5e9)', boxShadow: '0 0 20px rgba(34,211,238,0.3)' }}
+              className="btn-primary w-full sm:w-auto"
             >
               Start Building
             </button>

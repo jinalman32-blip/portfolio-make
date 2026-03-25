@@ -2,7 +2,7 @@ import React, { useState, useRef } from 'react'
 import Sidebar from '../components/Sidebar'
 import Header from '../components/Header'
 import ParticleBackground from '../components/ParticleBackground'
-import { Wand2, Image, Volume2, Send, Loader2, AlertCircle, Copy, Check, RefreshCw } from 'lucide-react'
+import { Wand2, Image, Volume2, Send, Loader2, AlertCircle, Copy, Check, RefreshCw, Menu } from 'lucide-react'
 
 const API = 'http://localhost:5000/api/ai'
 
@@ -328,17 +328,18 @@ function VoiceGenerator() {
 
 /* ─── Main Page ─── */
 export default function AITools() {
+  const [mobileOpen, setMobileOpen] = useState(false)
   return (
     <div className="flex h-screen bg-[#060d1a] overflow-hidden">
-      <Sidebar />
+      <Sidebar mobileOpen={mobileOpen} setMobileOpen={setMobileOpen} />
       <ParticleBackground />
 
-      <div className="flex-1 flex flex-col ml-64 relative" style={{ zIndex: 1 }}>
-        <Header />
-        <main className="flex-1 overflow-y-auto px-8 py-10">
+      <div className="flex-1 flex flex-col lg:ml-64 relative" style={{ zIndex: 1 }}>
+        <Header setMobileOpen={setMobileOpen} />
+        <main className="flex-1 overflow-y-auto px-4 sm:px-8 py-6 sm:py-10">
 
           {/* Page header */}
-          <div className="mb-10">
+          <div className="mb-8 sm:mb-10">
             <div
               className="inline-flex items-center gap-2 px-4 py-2 rounded-full mb-4"
               style={{ background: 'rgba(99,102,241,0.08)', border: '1px solid rgba(99,102,241,0.2)' }}
@@ -346,10 +347,10 @@ export default function AITools() {
               <Wand2 size={14} className="text-indigo-400" />
               <span className="text-indigo-400 text-sm font-medium">AI-Powered Tools</span>
             </div>
-            <h1 className="text-4xl font-extrabold text-white mb-2">
+            <h1 className="text-3xl sm:text-4xl font-extrabold text-white mb-2">
               AI <span style={{ background: 'linear-gradient(135deg,#a78bfa,#22d3ee)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>Tools</span>
             </h1>
-            <p className="text-gray-400 text-base">
+            <p className="text-gray-400 text-sm sm:text-base max-w-2xl">
               Supercharge your portfolio with generative AI. Create text, images, and voice in seconds.
             </p>
           </div>
@@ -371,8 +372,8 @@ export default function AITools() {
             ))}
           </div>
 
-          {/* 3 tool cards */}
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 max-w-6xl">
+          {/* tool cards */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl">
             <TextGenerator />
             <ImageGenerator />
             <VoiceGenerator />

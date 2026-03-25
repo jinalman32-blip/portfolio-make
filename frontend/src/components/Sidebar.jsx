@@ -13,7 +13,7 @@ const menuItems = [
   { icon: Settings, label: 'Profile Settings', path: '/profile' },
 ]
 
-export default function Sidebar() {
+export default function Sidebar({ mobileOpen, setMobileOpen }) {
   const navigate = useNavigate()
   const location = useLocation()
   const [collapsed, setCollapsed] = useState(false)
@@ -21,8 +21,10 @@ export default function Sidebar() {
 
   return (
     <aside
-      className={`fixed left-0 top-0 h-full z-30 flex flex-col transition-all duration-300 ${
+      className={`fixed left-0 top-0 h-full z-40 flex flex-col transition-all duration-300 ${
         collapsed ? 'w-16' : 'w-64'
+      } ${
+        mobileOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'
       }`}
       style={{
         background: 'linear-gradient(180deg, #0d1526 0%, #060e20 50%, #040b18 100%)',
@@ -68,12 +70,26 @@ export default function Sidebar() {
           </div>
         )}
         <button
-          onClick={() => setCollapsed(!collapsed)}
+          onClick={() => {
+            if (window.innerWidth < 1024) {
+              setMobileOpen(false)
+            } else {
+              setCollapsed(!collapsed)
+            }
+          }}
           className="p-2 rounded-lg text-gray-400 hover:text-white hover:bg-white/5 transition-all"
         >
-          {collapsed ? <Menu size={18} /> : <X size={18} />}
+          {collapsed || (window.innerWidth < 1024 && !mobileOpen) ? <Menu size={18} /> : <X size={18} />}
         </button>
       </div>
+
+      {/* Mobile Overlay */}
+      {mobileOpen && (
+        <div
+          className="fixed inset-0 bg-black/50 z-[-1] lg:hidden"
+          onClick={() => setMobileOpen(false)}
+        />
+      )}
 
       {/* Navigation */}
       <nav className="flex-1 px-3 py-4 space-y-1 overflow-y-auto">
@@ -83,7 +99,10 @@ export default function Sidebar() {
           return (
             <button
               key={item.path}
-              onClick={() => navigate(item.path)}
+              onClick={() => {
+                navigate(item.path)
+                if (window.innerWidth < 1024) setMobileOpen(false)
+              }}
               onMouseEnter={() => setHoveredPath(item.path)}
               onMouseLeave={() => setHoveredPath(null)}
               className={`sidebar-item w-full ${isActive ? 'active' : ''} ${collapsed ? 'justify-center px-3' : ''}`}

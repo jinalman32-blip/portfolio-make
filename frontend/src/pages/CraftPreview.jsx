@@ -2,8 +2,9 @@ import React, { useState, useRef } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
 import {
   ArrowLeft, Download, Edit3, Check, Palette,
-  Monitor, Smartphone, RefreshCw, Printer, Sparkles, ImageIcon, User, Save, FolderOpen
+  Monitor, Smartphone, RefreshCw, Printer, Sparkles, ImageIcon, User, Save, FolderOpen, Globe, ExternalLink, X, Loader
 } from 'lucide-react'
+import axios from 'axios'
 import TemplatePurple      from '../templates/TemplatePurple'
 import TemplateFuturistic  from '../templates/TemplateFuturistic'
 import TemplateMinimalist  from '../templates/TemplateMinimalist'
@@ -15,6 +16,10 @@ import TemplateBoldBlack from '../templates/TemplateBoldBlack'
 import TemplateOrangeWhite from '../templates/TemplateOrangeWhite'
 import TemplateBlueGradientAesthetic from '../templates/TemplateBlueGradientAesthetic'
 import TemplateGreenBeige from '../templates/TemplateGreenBeige'
+import TemplateNeon from '../templates/TemplateNeon'
+import TemplateLight from '../templates/TemplateLight'
+import TemplateDark from '../templates/TemplateDark'
+import TemplateClassic from '../templates/TemplateClassic'
 
 const TEMPLATE_MAP = {
   browncream:         { component: TemplateBrownCream,         name: 'Brown & Cream',       accent: '#7B5B3A' },
@@ -28,6 +33,10 @@ const TEMPLATE_MAP = {
   orangewhite:           { component: TemplateOrangeWhite,              name: 'Orange & White',             accent: '#E85C26' },
   bluegradientaesthetic: { component: TemplateBlueGradientAesthetic,    name: 'Blue Gradient Aesthetic',    accent: '#4a90e8' },
   greenbeige:            { component: TemplateGreenBeige,               name: 'Green Beige Creative',        accent: '#6b8c4e' },
+  neon:                  { component: TemplateNeon,                    name: 'Neon Cyber',                  accent: '#39ff14' },
+  light:                 { component: TemplateLight,                   name: 'Clean Light',                 accent: '#3b82f6' },
+  dark:                  { component: TemplateDark,                    name: 'Modern Dark',                 accent: '#6366f1' },
+  classic:               { component: TemplateClassic,                 name: 'Classic Professional',        accent: '#2d3748' },
 }
 
 function generatePurpleHTML(portfolio) {
@@ -476,27 +485,24 @@ function generateHTML(portfolio, templateId) {
 </head>
 <body>
   <header>
-    <div class="header-inner">
-      <div class="avatar">${d.profileImage ? `<img src="${d.profileImage}" style="width:100%;height:100%;object-fit:cover;border-radius:50%">` : (d.name||'U')[0].toUpperCase()}</div>
-      <div>
-        <h1>${d.name||'Your Name'}</h1>
-        ${d.title?`<div class="title">${d.title}</div>`:''}
-        ${d.bio?`<p class="bio">${d.bio}</p>`:''}
-        <div class="contacts">
-          ${d.email?`<span>✉ ${d.email}</span>`:''}
-          ${d.phone?`<span>📞 ${d.phone}</span>`:''}
-          ${d.location?`<span>📍 ${d.location}</span>`:''}
-          ${d.website?`<a href="${d.website}">🌐 Website</a>`:''}
-          ${d.linkedin?`<a href="${d.linkedin}">LinkedIn</a>`:''}
-        </div>
-      </div>
+    <h1>${d.name || 'Your Name'}</h1>
+    ${d.title ? `<div class="title">${d.title}</div>` : ''}
+    ${d.bio ? `<p class="bio">${d.bio}</p>` : ''}
+    <div class="contacts">
+      ${d.email ? `<span>✉ ${d.email}</span>` : ''}
+      ${d.phone ? `<span>📞 ${d.phone}</span>` : ''}
+      ${d.location ? `<span>📍 ${d.location}</span>` : ''}
+      ${d.website ? `<a href="${d.website}">🌐 Website</a>` : ''}
+      ${d.linkedin ? `<a href="${d.linkedin}">LinkedIn</a>` : ''}
     </div>
   </header>
-  <main>
-    <div>${skillsHTML}${eduHTML}</div>
-    <div>${expHTML}${projHTML}</div>
+  <main style="gap:40px">
+    <div class="col-left">${skillsHTML}${eduHTML}</div>
+    <div class="col-right">${expHTML}${projHTML}</div>
   </main>
-  <div style="max-width:900px;margin:0 auto;padding:0 60px 40px">${certHTML}${pubHTML}${awardsHTML}</div>
+  <div style="max-width:1000px;margin:0 auto 40px;padding:0 40px">
+    ${certHTML}${pubHTML}${awardsHTML}
+  </div>
 </body>
 </html>`
 }
@@ -507,9 +513,18 @@ const DEMO_PORTFOLIO = {
   education: [{ degree: 'B.Sc.', field: 'Computer Science', institution: 'University of California', from: '2016', to: '2020', grade: '3.8 GPA' }],
   experience: [{ role: 'Frontend Developer', company: 'Acme Corp', location: 'San Francisco', from: 'Jan 2021', to: 'Present', current: true, description: 'Built responsive UIs with React and improved performance by 40%. Led a team of 3 developers on key product features.' }],
   projects: [{ name: 'Portfolio Builder', description: 'AI-powered portfolio creation tool with multiple templates and PDF export.', tech: 'React, Node.js, MongoDB', link: '', github: '' }, { name: 'Task Manager', description: 'Full-stack task management app with real-time collaboration features.', tech: 'Vue.js, Firebase', link: '', github: '' }],
-  certifications: [],
-  publications: [],
-  awards: [],
+  certifications: [
+    { name: 'Google Workspace Professional', issuer: 'Google', date: '2023', url: '', image: '' },
+    { name: 'AWS Solutions Architect', issuer: 'Amazon Web Services', date: '2022', url: '', image: '' }
+  ],
+  publications: [
+    { title: 'The Future of Web Development', publisher: 'Tech Journal', date: '2024', url: '' },
+    { title: 'Designing for Accessibility', publisher: 'Medium', date: '2023', url: '' }
+  ],
+  awards: [
+    { title: 'Best Portfolio 2024', organization: 'Design Awards', date: '2024', description: 'Awarded for exceptional design and user experience in personal branding.' },
+    { title: 'Innovation Lead', organization: 'Acme Corp', date: '2022', description: 'Recognized for leading the most innovative project of the year.' }
+  ],
 }
 
 export default function CraftPreview() {
@@ -528,6 +543,10 @@ export default function CraftPreview() {
   const [bgMeta, setBgMeta] = useState(null)
   const [profileGenerating, setProfileGenerating] = useState(false)
   const [profileError, setProfileError] = useState(null)
+  const [publishing, setPublishing] = useState(false)
+  const [publishModal, setPublishModal] = useState(false)
+  const [slug, setSlug] = useState('')
+  const [publishStatus, setPublishStatus] = useState({ type: '', msg: '', url: '' })
 
   const rawPortfolio = (() => {
     try { return JSON.parse(sessionStorage.getItem('craft_portfolio') || 'null') } catch { return null }
@@ -562,33 +581,84 @@ export default function CraftPreview() {
     setTimeout(() => win.print(), 600)
   }
 
-  const handleSaveToPortfolios = () => {
-    // Load existing saved portfolios from localStorage
-    const existing = JSON.parse(localStorage.getItem('my_portfolios') || '[]')
-    
-    // Check if this portfolio already exists (by name + template)
-    const portfolioName = portfolio.details?.name || 'Untitled'
-    const existingIdx = existing.findIndex(
-      p => p.details?.name === portfolioName && p.template === templateId
-    )
+  const handleSaveToPortfolios = async () => {
+    try {
+      setSaved(false)
+      const token = localStorage.getItem('token')
+      if (!token) {
+        alert('Please login to save your portfolio to the cloud.')
+        navigate('/login')
+        return
+      }
 
-    const record = {
-      ...portfolio,
-      id: existingIdx >= 0 ? existing[existingIdx].id : Date.now().toString(),
-      template: templateId,
-      savedAt: new Date().toISOString(),
-      status: 'draft',
+      const payload = {
+        title: portfolio.details?.name || 'My Portfolio',
+        template: templateId,
+        data: portfolio,
+      }
+
+      const portfolioId = portfolio._id || rawPortfolio?._id
+
+      let res;
+      if (portfolioId) {
+        res = await axios.put(`/api/portfolios/${portfolioId}`, payload, {
+          headers: { Authorization: `Bearer ${token}` }
+        })
+      } else {
+        res = await axios.post('/api/portfolios', payload, {
+          headers: { Authorization: `Bearer ${token}` }
+        })
+      }
+
+      const savedData = res.data
+
+      // Update sessionStorage so subsequent actions use the cloud ID
+      const updatedLocal = { ...portfolio, _id: savedData._id }
+      sessionStorage.setItem('craft_portfolio', JSON.stringify(updatedLocal))
+
+      // Also keep a local backup for legacy reasons
+      const existing = JSON.parse(localStorage.getItem('my_portfolios') || '[]')
+      const filtered = existing.filter(p => (p._id || p.id) !== savedData._id)
+      const record = { ...portfolio, _id: savedData._id, id: savedData._id, template: templateId, savedAt: new Date().toISOString(), status: savedData.status || 'draft' }
+      filtered.unshift(record)
+      localStorage.setItem('my_portfolios', JSON.stringify(filtered))
+
+      setSaved(true)
+      setTimeout(() => setSaved(false), 3000)
+      return savedData._id
+    } catch (err) {
+      alert('Error saving portfolio: ' + (err.response?.data?.message || err.message))
     }
+  }
 
-    if (existingIdx >= 0) {
-      existing[existingIdx] = record
-    } else {
-      existing.unshift(record)
+  const handlePublish = async () => {
+    if (!slug) return alert('Please enter a URL slug')
+    setPublishing(true)
+    setPublishStatus({ type: '', msg: '' })
+    try {
+      const token = localStorage.getItem('token')
+      // 1. Save it first to get an ID (or update if ID exists)
+      const portfolioId = await handleSaveToPortfolios()
+      if (!portfolioId) return
+
+      // 2. Publish it
+      const { data } = await axios.post(`/api/portfolios/${portfolioId}/publish`, { slug }, {
+        headers: { Authorization: `Bearer ${token}` }
+      })
+
+      setPublishStatus({
+        type: 'success',
+        msg: 'Your site is live!',
+        url: `${window.location.origin}/p/${slug}`
+      })
+    } catch (err) {
+      setPublishStatus({
+        type: 'error',
+        msg: err.response?.data?.message || 'Failed to publish'
+      })
+    } finally {
+      setPublishing(false)
     }
-
-    localStorage.setItem('my_portfolios', JSON.stringify(existing))
-    setSaved(true)
-    setTimeout(() => setSaved(false), 3000)
   }
 
   const handleGenerateProfile = async () => {
@@ -661,10 +731,10 @@ export default function CraftPreview() {
   }
 
   return (
-    <div className="flex h-screen bg-[#060d1a] overflow-hidden" style={{ fontFamily: 'system-ui' }}>
+    <div className="flex flex-col lg:flex-row h-screen bg-[#060d1a] overflow-hidden" style={{ fontFamily: 'system-ui' }}>
 
       {/* LEFT — Controls panel */}
-      <div className="w-72 flex-shrink-0 flex flex-col h-full overflow-y-auto"
+      <div className="w-full lg:w-80 flex-shrink-0 flex flex-col h-[40vh] lg:h-full overflow-y-auto"
         style={{ background:'linear-gradient(180deg,#0d1526,#060e20)', borderRight:'1px solid rgba(34,211,238,0.1)', zIndex:10 }}>
 
         {/* Header */}
@@ -823,26 +893,6 @@ export default function CraftPreview() {
           </div>
         )}
 
-        {/* View toggle */}
-        <div className="p-4 border-b border-cyan-500/10">
-          <p className="text-gray-400 text-xs font-semibold uppercase tracking-wider mb-3">View Mode</p>
-          <div className="flex gap-2">
-            {[
-              { icon: Monitor, label: 'Desktop', val: false },
-              { icon: Smartphone, label: 'Mobile', val: true },
-            ].map(v => (
-              <button key={v.label} onClick={() => setMobile(v.val)}
-                className="flex-1 flex items-center justify-center gap-1.5 py-2 rounded-xl text-xs font-medium transition-all"
-                style={{
-                  background: mobile === v.val ? 'rgba(34,211,238,0.15)' : 'rgba(255,255,255,0.04)',
-                  border: `1px solid ${mobile === v.val ? 'rgba(34,211,238,0.4)' : 'rgba(75,85,99,0.2)'}`,
-                  color: mobile === v.val ? '#22d3ee' : '#94a3b8'
-                }}>
-                <v.icon size={14}/> {v.label}
-              </button>
-            ))}
-          </div>
-        </div>
 
         {/* Summary */}
         <div className="p-4 flex-1">
@@ -866,61 +916,131 @@ export default function CraftPreview() {
         </div>
 
         {/* Action buttons */}
-        <div className="p-4 space-y-2 border-t border-cyan-500/10">
-          <button onClick={() => navigate('/craft')}
-            className="w-full flex items-center justify-center gap-2 py-3 rounded-xl text-sm font-semibold text-cyan-400 transition-all hover:bg-cyan-500/10"
-            style={{ border:'1px solid rgba(34,211,238,0.3)' }}>
-            <Edit3 size={16}/> Edit Portfolio
+        <div className="p-4 border-t border-cyan-500/10">
+          <p className="text-gray-400 text-xs font-semibold uppercase tracking-wider mb-2 flex items-center gap-1.5 px-1 py-1">
+            Actions
+          </p>
+
+          <button onClick={() => setPublishModal(true)}
+            className="w-full flex items-center justify-center gap-2 mb-3 py-3 rounded-xl font-bold transition-all hover:scale-[1.02] shadow-lg"
+            style={{ background: 'linear-gradient(135deg, #22d3ee, #0ea5e9)', color: 'white' }}>
+            <Globe size={18} /> Publish Site (Live URL)
           </button>
 
-          {/* Save to My Portfolios */}
-          <button onClick={handleSaveToPortfolios}
-            className="w-full flex items-center justify-center gap-2 py-3 rounded-xl text-sm font-bold text-white transition-all hover:scale-105 active:scale-95"
-            style={{
-              background: saved
-                ? 'linear-gradient(135deg,#22c55e,#16a34a)'
-                : 'linear-gradient(135deg,#6366f1,#8b5cf6)',
-              boxShadow: saved
-                ? '0 4px 15px rgba(34,197,94,0.35)'
-                : '0 4px 15px rgba(99,102,241,0.35)'
-            }}>
-            {saved
-              ? <><Check size={16}/> Saved to My Portfolios!</>
-              : <><FolderOpen size={16}/> Save to My Portfolios</>}
-          </button>
+          <div className="grid grid-cols-2 gap-3 mb-3">
+            <button onClick={handleSaveToPortfolios}
+              className="flex items-center justify-center gap-2 py-3 rounded-xl transition-all"
+              style={{ background: saved ? 'rgba(34,211,238,0.1)' : 'rgba(255,255,255,0.05)', border: `1px solid ${saved ? '#22d3ee' : 'rgba(255,255,255,0.1)'}`, color: saved ? '#22d3ee' : '#94a3b8' }}>
+              {saved ? <Check size={16}/> : <Save size={16}/>} {saved ? 'Saved' : 'Save'}
+            </button>
+            <button onClick={handleDownload}
+              className="flex items-center justify-center gap-2 py-3 rounded-xl transition-all"
+              style={{ background: downloaded ? 'rgba(34,211,238,0.1)' : 'rgba(255,255,255,0.05)', border: `1px solid ${downloaded ? '#22d3ee' : 'rgba(255,255,255,0.1)'}`, color: downloaded ? '#22d3ee' : '#94a3b8' }}>
+              {downloaded ? <Check size={16}/> : <Download size={16}/>} {downloaded ? 'Ready' : 'Download'}
+            </button>
+          </div>
 
-          {/* Download HTML */}
-          <button onClick={handleDownload}
-            className="w-full flex items-center justify-center gap-2 py-2.5 rounded-xl text-sm font-bold text-white transition-all hover:scale-105"
-            style={{
-              background: downloaded ? 'linear-gradient(135deg,#22c55e,#16a34a)' : 'linear-gradient(135deg,#22d3ee,#0ea5e9)',
-              boxShadow: downloaded ? '0 4px 15px rgba(34,197,94,0.3)' : '0 4px 15px rgba(34,211,238,0.3)'
-            }}>
-            {downloaded ? <><Check size={16}/> Downloaded!</> : <><Download size={16}/> Download HTML</>}
-          </button>
-
-          {/* Print */}
           <button onClick={handlePrint}
-            className="w-full flex items-center justify-center gap-2 py-2.5 rounded-xl text-xs font-medium text-gray-400 transition-all hover:text-white hover:bg-white/5"
-            style={{ border:'1px solid rgba(75,85,99,0.3)' }}>
-            <Printer size={14}/> Print / Save as PDF
+            className="w-full flex items-center justify-center gap-2 py-3 rounded-xl transition-all mb-3"
+            style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', color: '#94a3b8' }}>
+            <Printer size={16}/> Print to PDF
           </button>
         </div>
+
+        {/* --- PUBLISH MODAL --- */}
+        {publishModal && (
+          <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm">
+            <div className="bg-[#0d1526] border border-cyan-500/20 rounded-3xl p-8 max-w-md w-full shadow-2xl animate-scale-in">
+              <div className="flex justify-between items-center mb-6">
+                <h3 className="text-white text-xl font-bold flex items-center gap-2">
+                  <Globe size={20} className="text-cyan-400" /> Publish Your Portfolio
+                </h3>
+                <button onClick={() => setPublishModal(false)} className="text-gray-500 hover:text-white transition-colors">
+                  <X size={24} />
+                </button>
+              </div>
+
+              {!publishStatus.url ? (
+                <>
+                  <p className="text-gray-400 text-sm mb-6 leading-relaxed">
+                    Choose a unique URL for your portfolio. Your site will be publicly accessible at this link.
+                  </p>
+                  <div className="mb-6">
+                    <label className="text-gray-500 text-xs uppercase font-bold tracking-widest block mb-2">Custom URL Slug</label>
+                    <div className="flex items-center bg-black/30 border border-white/10 rounded-xl px-4 py-3 focus-within:border-cyan-500/50 transition-all">
+                      <span className="text-gray-600 text-sm select-none">.../p/</span>
+                      <input
+                        type="text"
+                        value={slug}
+                        onChange={(e) => setSlug(e.target.value.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, ''))}
+                        className="bg-transparent border-none outline-none text-white text-sm ml-0.5 flex-1"
+                        placeholder="john-doe-2026"
+                      />
+                    </div>
+                  </div>
+
+                  {publishStatus.type === 'error' && (
+                    <div className="p-3 rounded-xl bg-red-500/10 border border-red-500/20 text-red-400 text-xs mb-6">
+                      {publishStatus.msg}
+                    </div>
+                  )}
+
+                  <button
+                    onClick={handlePublish}
+                    disabled={publishing}
+                    className="btn-primary w-full"
+                  >
+                    {publishing ? <Loader className="animate-spin" size={18} /> : <Sparkles size={18} />}
+                    {publishing ? 'Publishing Site...' : 'Confirm & Go Live'}
+                  </button>
+                </>
+              ) : (
+                <div className="text-center">
+                  <div className="w-16 h-16 bg-green-500/10 rounded-full flex items-center justify-center mx-auto mb-6">
+                    <Check size={32} className="text-green-500" />
+                  </div>
+                  <h4 className="text-white text-2xl font-black mb-2 tracking-tight">Your site is live!</h4>
+                  <p className="text-gray-400 text-sm mb-6">Congratulations! Anyone can now view your portfolio using the link below.</p>
+                  
+                  <div className="bg-white/5 border border-white/10 rounded-xl p-3 flex items-center justify-between gap-3 mb-8">
+                    <span className="text-cyan-400 text-xs truncate font-mono">{publishStatus.url}</span>
+                    <button onClick={() => window.open(publishStatus.url, '_blank')} className="p-2 bg-cyan-400/10 hover:bg-cyan-400/20 text-cyan-400 rounded-lg transition-all flex-shrink-0">
+                      <ExternalLink size={14} />
+                    </button>
+                  </div>
+
+                  <button onClick={() => setPublishModal(false)} className="w-full py-4 text-gray-500 hover:text-white font-medium transition-all">
+                    Done
+                  </button>
+                </div>
+              )}
+            </div>
+          </div>
+        )}
       </div>
 
-      {/* RIGHT — Preview */}
-      <div className="flex-1 overflow-auto flex items-start justify-center py-8"
-        style={{ background:'radial-gradient(ellipse at 50% 20%,rgba(34,211,238,0.04),transparent 60%), #04080f' }}>
-
-        {/* Browser chrome */}
-        <div style={{ width: mobile ? 375 : 1000, transition:'width 0.3s ease' }}>
-          <div className="rounded-t-2xl px-4 py-3 flex items-center gap-2"
-            style={{ background:'rgba(13,21,38,0.9)', border:'1px solid rgba(34,211,238,0.15)', borderBottom:'none' }}>
-            <div className="flex gap-1.5">
-              <div className="w-2.5 h-2.5 rounded-full bg-red-500/70"/>
-              <div className="w-2.5 h-2.5 rounded-full bg-yellow-500/70"/>
-              <div className="w-2.5 h-2.5 rounded-full bg-green-500/70"/>
+      {/* RIGHT — Preview monitor */}
+      <div className="flex-1 bg-[#040812] relative overflow-hidden flex flex-col">
+        {/* Toolbar */}
+        <div className="px-4 sm:px-6 py-3 border-b border-white/5 flex items-center justify-between bg-[#060d1a]/50 backdrop-blur-md z-20">
+          <div className="flex items-center gap-3 sm:gap-4">
+            <div className="flex items-center bg-white/5 rounded-lg p-1 border border-white/10">
+              <button onClick={() => setMobile(false)}
+                className={`p-1.5 rounded-md transition-all ${!mobile ? 'bg-cyan-500/20 text-cyan-400 shadow-lg shadow-cyan-500/10' : 'text-gray-500 hover:text-gray-300'}`}>
+                <Monitor size={16}/>
+              </button>
+              <button onClick={() => setMobile(true)}
+                className={`p-1.5 rounded-md transition-all ${mobile ? 'bg-cyan-500/20 text-cyan-400 shadow-lg shadow-cyan-500/10' : 'text-gray-500 hover:text-gray-300'}`}>
+                <Smartphone size={16}/>
+              </button>
             </div>
+            <div className="h-4 w-px bg-white/10 hidden sm:block"/>
+            <div className="hidden sm:flex items-center gap-2 text-xs font-semibold text-gray-500 uppercase tracking-widest">
+              <Palette size={13} className="text-cyan-500/60"/> {tmpl.name}
+            </div>
+          </div>
+
+          <div className="flex items-center gap-3">
             <div className="flex-1 mx-3 h-6 rounded-lg flex items-center px-3 text-xs text-gray-500"
               style={{ background:'rgba(255,255,255,0.04)', border:'1px solid rgba(255,255,255,0.06)' }}>
               🔒 {portfolio.details?.name?.toLowerCase().replace(/\s+/g,'-') || 'your-portfolio'}.portfoliomaker.com
@@ -929,22 +1049,31 @@ export default function CraftPreview() {
               <RefreshCw size={14}/>
             </button>
           </div>
+        </div>
 
-          {/* Demo notice */}
-          {!hasRealData && (
-            <div className="flex items-center justify-between px-4 py-2 text-xs"
-              style={{ background:'rgba(234,179,8,0.08)', border:'1px solid rgba(234,179,8,0.2)', borderTop:'none' }}>
-              <span className="text-yellow-400">Demo preview — sample data shown. <button onClick={()=>navigate('/craft')} className="underline hover:text-yellow-300">Fill your details</button> to personalize.</span>
-            </div>
-          )}
-          {/* Template render */}
-          <div className="overflow-auto rounded-b-2xl"
+        {/* Demo notice */}
+        {!hasRealData && (
+          <div className="flex items-center justify-between px-4 py-2 text-xs"
+            style={{ background:'rgba(234,179,8,0.08)', border:'1px solid rgba(234,179,8,0.2)', borderTop:'none' }}>
+            <span className="text-yellow-400">Demo preview — sample data shown. <button onClick={()=>navigate('/craft')} className="underline hover:text-yellow-300">Fill your details</button> to personalize.</span>
+          </div>
+        )}
+
+        {/* Preview Frame */}
+        <div className="flex-1 overflow-auto bg-[#040812] p-4 sm:p-8 flex justify-center items-start custom-scrollbar">
+          <div
+            className="transition-all duration-500 origin-top shadow-[0_30px_100px_rgba(0,0,0,0.6)]"
             style={{
-              border:'1px solid rgba(34,211,238,0.15)',
-              borderTop: !hasRealData ? 'none' : undefined,
-              maxHeight:'80vh',
-              boxShadow:'0 30px 80px rgba(0,0,0,0.6), 0 0 40px rgba(34,211,238,0.05)'
-            }}>
+              width: mobile ? 385 : '100%',
+              maxWidth: mobile ? 385 : 1000,
+              minHeight: '120%',
+              background: '#fff',
+              transform: `scale(${window.innerWidth < 640 ? (mobile ? 0.7 : 0.8) : scale})`,
+              borderRadius: mobile ? '32px' : '0px',
+              border: mobile ? '10px solid #1a1a1a' : 'none',
+              overflow: 'hidden'
+            }}
+          >
             <TemplateComp p={portfolio} />
           </div>
         </div>

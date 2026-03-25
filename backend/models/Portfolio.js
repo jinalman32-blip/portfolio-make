@@ -24,34 +24,22 @@ const portfolioSchema = new mongoose.Schema({
     enum: ['draft', 'published', 'processing'],
     default: 'draft'
   },
+  slug: {
+    type: String,
+    unique: true,
+    sparse: true
+  },
+  isLive: {
+    type: Boolean,
+    default: false
+  },
+  views: {
+    type: Number,
+    default: 0
+  },
   data: {
-    name: String,
-    email: String,
-    phone: String,
-    summary: String,
-    skills: [String],
-    experience: [
-      {
-        company: String,
-        role: String,
-        duration: String,
-        description: String
-      }
-    ],
-    education: [
-      {
-        institution: String,
-        degree: String,
-        year: String
-      }
-    ],
-    projects: [
-      {
-        name: String,
-        description: String,
-        link: String
-      }
-    ]
+    type: mongoose.Schema.Types.Mixed,
+    required: true
   }
 }, { timestamps: true });
 

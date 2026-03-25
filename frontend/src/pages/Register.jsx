@@ -135,12 +135,8 @@ export default function Register() {
             <button
               type="submit"
               disabled={loading}
-              className="w-full flex items-center justify-center gap-2 py-3 rounded-xl font-semibold text-white transition-all duration-300 mt-2"
-              style={{
-                background: 'linear-gradient(135deg, #22d3ee, #0ea5e9)',
-                boxShadow: '0 4px 20px rgba(34, 211, 238, 0.3)',
-                opacity: loading ? 0.7 : 1
-              }}
+              className="btn-primary w-full mt-2"
+              style={{ opacity: loading ? 0.7 : 1 }}
             >
               {loading ? <Loader size={18} className="animate-spin" /> : <UserPlus size={18} />}
               {loading ? 'Creating account...' : 'Create Account'}

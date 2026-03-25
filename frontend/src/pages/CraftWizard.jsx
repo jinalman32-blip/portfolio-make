@@ -5,7 +5,7 @@ import {
   Palette, Plus, X, ChevronRight, ChevronLeft,
   ArrowRight, Check, Trash2, Globe, Phone, Mail,
   MapPin, Linkedin, Sparkles, Loader2,
-  Award, BookOpen, Trophy, Camera, Link2
+  Award, BookOpen, Trophy, Camera, Link2, Menu
 } from 'lucide-react'
 import Sidebar from '../components/Sidebar'
 import ParticleBackground from '../components/ParticleBackground'
@@ -217,15 +217,15 @@ Instructions:
         </div>
       </div>
 
-      <div className="grid grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <Input label="Full Name"     icon={User}    value={data.name}     onChange={set('name')}     placeholder="John Doe"           required />
         <Input label="Job Title"     icon={Briefcase} value={data.title}  onChange={set('title')}    placeholder="Full Stack Developer" />
       </div>
-      <div className="grid grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <Input label="Email"         icon={Mail}    value={data.email}    onChange={set('email')}    placeholder="john@example.com"   type="email" required />
         <Input label="Phone"         icon={Phone}   value={data.phone}    onChange={set('phone')}    placeholder="+91 9876543210" />
       </div>
-      <div className="grid grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <Input label="Location"      icon={MapPin}  value={data.location} onChange={set('location')} placeholder="Mumbai, India" />
         <Input label="Website / Portfolio URL" icon={Globe} value={data.website} onChange={set('website')} placeholder="https://yoursite.com" />
       </div>
@@ -325,7 +325,7 @@ function StepSkills({ data, onChange }) {
           No skills added yet. Type a skill above and press Enter or click +
         </div>
       ) : (
-        <div className="grid grid-cols-2 gap-3">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
           {data.map((s, i) => (
             <div key={i} className="group flex items-center gap-3 p-3 rounded-xl transition-all"
               style={{ background:`${levelColor[s.level]}0d`, border:`1px solid ${levelColor[s.level]}30` }}>
@@ -371,29 +371,29 @@ function StepEducation({ data, onChange }) {
               <div>
                 <label className="text-gray-400 text-xs mb-1 block">Institution *</label>
                 <input value={edu.institution} onChange={e => update(i,'institution',e.target.value)} placeholder="IIT Bombay"
-                  className="input-sm" style={{ background:'rgba(6,13,26,0.8)', border:'1px solid rgba(75,85,99,0.3)', borderRadius:'10px', padding:'8px 12px', color:'white', fontSize:'13px', width:'100%', outline:'none' }}/>
+                  className="input-sm" style={{ background:'rgba(6,13,26,0.8)', border:'1px solid rgba(75,85,99,0.3)', borderRadius:'12px', padding:'12px 16px', color:'white', fontSize:'14px', width:'100%', outline:'none' }}/>
               </div>
               <div>
                 <label className="text-gray-400 text-xs mb-1 block">Degree *</label>
                 <input value={edu.degree} onChange={e => update(i,'degree',e.target.value)} placeholder="B.Tech / B.Sc / MBA"
-                  className="input-sm" style={{ background:'rgba(6,13,26,0.8)', border:'1px solid rgba(75,85,99,0.3)', borderRadius:'10px', padding:'8px 12px', color:'white', fontSize:'13px', width:'100%', outline:'none' }}/>
+                  className="input-sm" style={{ background:'rgba(6,13,26,0.8)', border:'1px solid rgba(75,85,99,0.3)', borderRadius:'12px', padding:'12px 16px', color:'white', fontSize:'14px', width:'100%', outline:'none' }}/>
               </div>
             </div>
             <div className="grid grid-cols-3 gap-3">
               <div>
                 <label className="text-gray-400 text-xs mb-1 block">Field of Study</label>
                 <input value={edu.field} onChange={e => update(i,'field',e.target.value)} placeholder="Computer Science"
-                  style={{ background:'rgba(6,13,26,0.8)', border:'1px solid rgba(75,85,99,0.3)', borderRadius:'10px', padding:'8px 12px', color:'white', fontSize:'13px', width:'100%', outline:'none' }}/>
+                  style={{ background:'rgba(6,13,26,0.8)', border:'1px solid rgba(75,85,99,0.3)', borderRadius:'12px', padding:'12px 16px', color:'white', fontSize:'14px', width:'100%', outline:'none' }}/>
               </div>
               <div>
                 <label className="text-gray-400 text-xs mb-1 block">From Year</label>
                 <input value={edu.from} onChange={e => update(i,'from',e.target.value)} placeholder="2020"
-                  style={{ background:'rgba(6,13,26,0.8)', border:'1px solid rgba(75,85,99,0.3)', borderRadius:'10px', padding:'8px 12px', color:'white', fontSize:'13px', width:'100%', outline:'none' }}/>
+                  style={{ background:'rgba(6,13,26,0.8)', border:'1px solid rgba(75,85,99,0.3)', borderRadius:'12px', padding:'12px 16px', color:'white', fontSize:'14px', width:'100%', outline:'none' }}/>
               </div>
               <div>
                 <label className="text-gray-400 text-xs mb-1 block">To Year</label>
                 <input value={edu.to} onChange={e => update(i,'to',e.target.value)} placeholder="2024 / Present"
-                  style={{ background:'rgba(6,13,26,0.8)', border:'1px solid rgba(75,85,99,0.3)', borderRadius:'10px', padding:'8px 12px', color:'white', fontSize:'13px', width:'100%', outline:'none' }}/>
+                  style={{ background:'rgba(6,13,26,0.8)', border:'1px solid rgba(75,85,99,0.3)', borderRadius:'12px', padding:'12px 16px', color:'white', fontSize:'14px', width:'100%', outline:'none' }}/>
               </div>
             </div>
             <div>
@@ -405,8 +405,8 @@ function StepEducation({ data, onChange }) {
         </ItemCard>
       ))}
       <button onClick={add}
-        className="w-full flex items-center justify-center gap-2 py-3 rounded-xl text-cyan-400 text-sm font-medium transition-all hover:bg-cyan-500/10"
-        style={{ border:'1px dashed rgba(34,211,238,0.3)' }}>
+        className="w-full flex items-center justify-center gap-2 py-3 rounded-xl text-cyan-400 text-sm font-medium transition-all hover:bg-cyan-500/10 active:scale-95"
+        style={{ border:'1px dashed rgba(34,211,238,0.3)', minHeight:'48px' }}>
         <Plus size={16}/> Add Education
       </button>
     </div>
@@ -422,7 +422,7 @@ function StepExperience({ data, onChange }) {
   const update = (i, field, val) => onChange(data.map((e, idx) => idx === i ? { ...e, [field]: val } : e))
   const remove = (i) => onChange(data.filter((_, idx) => idx !== i))
 
-  const fieldStyle = { background:'rgba(6,13,26,0.8)', border:'1px solid rgba(75,85,99,0.3)', borderRadius:'10px', padding:'8px 12px', color:'white', fontSize:'13px', width:'100%', outline:'none' }
+  const fieldStyle = { background:'rgba(6,13,26,0.8)', border:'1px solid rgba(75,85,99,0.3)', borderRadius:'12px', padding:'12px 16px', color:'white', fontSize:'14px', width:'100%', outline:'none' }
 
   return (
     <div>
@@ -474,8 +474,8 @@ function StepExperience({ data, onChange }) {
         </ItemCard>
       ))}
       <button onClick={add}
-        className="w-full flex items-center justify-center gap-2 py-3 rounded-xl text-cyan-400 text-sm font-medium transition-all hover:bg-cyan-500/10"
-        style={{ border:'1px dashed rgba(34,211,238,0.3)' }}>
+        className="w-full flex items-center justify-center gap-2 py-3 rounded-xl text-cyan-400 text-sm font-medium transition-all hover:bg-cyan-500/10 active:scale-95"
+        style={{ border:'1px dashed rgba(34,211,238,0.3)', minHeight:'48px' }}>
         <Plus size={16}/> Add Experience
       </button>
     </div>
@@ -535,8 +535,8 @@ function StepProjects({ data, onChange }) {
         </ItemCard>
       ))}
       <button onClick={add}
-        className="w-full flex items-center justify-center gap-2 py-3 rounded-xl text-cyan-400 text-sm font-medium transition-all hover:bg-cyan-500/10"
-        style={{ border:'1px dashed rgba(34,211,238,0.3)' }}>
+        className="w-full flex items-center justify-center gap-2 py-3 rounded-xl text-cyan-400 text-sm font-medium transition-all hover:bg-cyan-500/10 active:scale-95"
+        style={{ border:'1px dashed rgba(34,211,238,0.3)', minHeight:'48px' }}>
         <Plus size={16}/> Add Project
       </button>
     </div>
@@ -787,6 +787,7 @@ function StepTemplate({ selected, onChange }) {
 ════════════════════════════════════════ */
 export default function CraftWizard() {
   const navigate = useNavigate()
+  const [mobileOpen, setMobileOpen] = useState(false)
   const [step, setStep] = useState(0)
   const [portfolio, setPortfolio] = useState(initPortfolio)
   const update = (key) => (val) => {
@@ -833,13 +834,23 @@ export default function CraftWizard() {
 
   return (
     <div className="flex h-screen bg-[#060d1a] overflow-hidden">
-      <Sidebar />
+      <Sidebar mobileOpen={mobileOpen} setMobileOpen={setMobileOpen} />
       <ParticleBackground />
 
-      <div className="flex-1 ml-64 flex flex-col overflow-hidden relative" style={{ zIndex:1 }}>
+      <div className="flex-1 lg:ml-64 flex flex-col overflow-hidden relative" style={{ zIndex:1 }}>
+        {/* Mobile Header Toggle */}
+        <div className="lg:hidden flex items-center justify-between px-6 pt-4 pb-0 flex-shrink-0">
+          <button
+            onClick={() => setMobileOpen(true)}
+            className="p-2 -ml-2 rounded-xl text-gray-400 hover:text-white transition-all bg-white/5"
+          >
+            <Menu size={24} />
+          </button>
+          <span className="text-white font-bold text-sm">Step {step + 1} of {STEPS.length}</span>
+        </div>
         {/* Top progress bar */}
-        <div className="px-8 pt-6 pb-0 flex-shrink-0">
-          <div className="flex items-center justify-between mb-2">
+        <div className="px-4 sm:px-8 pt-4 sm:pt-6 pb-2 flex-shrink-0 overflow-x-auto no-scrollbar">
+          <div className="flex items-center min-w-max sm:min-w-0 sm:justify-between px-2">
             {STEPS.map((s, i) => {
               const Icon = s.icon
               const done = i < step
@@ -877,7 +888,7 @@ export default function CraftWizard() {
         </div>
 
         {/* Form content */}
-        <div className="flex-1 overflow-y-auto px-8 py-6">
+        <div className="flex-1 overflow-y-auto px-4 sm:px-8 py-6">
           <div className="max-w-2xl mx-auto">
             {/* Step header */}
             <div className="mb-7">
@@ -904,39 +915,41 @@ export default function CraftWizard() {
         </div>
 
         {/* Bottom nav */}
-        <div className="flex-shrink-0 px-8 py-5 flex items-center justify-between"
+        <div className="flex-shrink-0 px-4 sm:px-8 py-4 sm:py-5 flex items-center justify-between"
           style={{ background:'rgba(10,15,30,0.9)', borderTop:'1px solid rgba(34,211,238,0.08)', backdropFilter:'blur(12px)' }}>
           <button
             onClick={prev} disabled={step === 0}
-            className="flex items-center gap-2 px-5 py-2.5 rounded-xl font-medium text-sm transition-all"
+            className="flex items-center gap-2 px-5 py-2.5 rounded-xl font-medium text-sm transition-all active:scale-95"
             style={{
               background: step === 0 ? 'rgba(75,85,99,0.1)' : 'rgba(255,255,255,0.05)',
               border: '1px solid rgba(75,85,99,0.3)',
               color: step === 0 ? '#4b5563' : '#d1d5db',
-              cursor: step === 0 ? 'not-allowed' : 'pointer'
+              cursor: step === 0 ? 'not-allowed' : 'pointer',
+              minHeight:'44px'
             }}
           >
             <ChevronLeft size={16}/> Back
           </button>
 
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-1.5 sm:gap-2">
             {STEPS.map((_, i) => (
               <div key={i} className="rounded-full transition-all duration-300"
-                style={{ width: i === step ? 20 : 6, height:6, background: i <= step ? '#22d3ee' : 'rgba(75,85,99,0.4)' }}/>
+                style={{ width: i === step ? (window.innerWidth < 640 ? 12 : 20) : 6, height:6, background: i <= step ? '#22d3ee' : 'rgba(75,85,99,0.4)' }}/>
             ))}
           </div>
 
           <button
             onClick={next} disabled={!canNext()}
-            className="flex items-center gap-2 px-6 py-2.5 rounded-xl font-semibold text-sm text-white transition-all hover:scale-105"
+            className="flex items-center gap-2 px-6 py-2.5 rounded-xl font-semibold text-sm text-white transition-all hover:scale-105 active:scale-95"
             style={{
               background: canNext() ? 'linear-gradient(135deg,#22d3ee,#0ea5e9)' : 'rgba(75,85,99,0.3)',
               boxShadow: canNext() ? '0 4px 15px rgba(34,211,238,0.3)' : 'none',
-              cursor: canNext() ? 'pointer' : 'not-allowed'
+              cursor: canNext() ? 'pointer' : 'not-allowed',
+              minHeight:'44px'
             }}
           >
             {step === 8 ? (
-              <><Palette size={16}/> Preview Portfolio <ArrowRight size={14}/></>
+              <><Check size={16}/> Finish & Preview <ArrowRight size={14}/></>
             ) : (
               <>Next <ChevronRight size={16}/></>
             )}

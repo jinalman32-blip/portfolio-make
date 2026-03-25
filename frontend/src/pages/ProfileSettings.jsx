@@ -6,6 +6,7 @@ import ParticleBackground from '../components/ParticleBackground'
 
 export default function ProfileSettings() {
   const user = JSON.parse(localStorage.getItem('user') || '{}')
+  const [mobileOpen, setMobileOpen] = useState(false)
   const [form, setForm] = useState({ name: user.name || '', email: user.email || '' })
   const [saving, setSaving] = useState(false)
   const [saved, setSaved] = useState(false)
@@ -22,16 +23,16 @@ export default function ProfileSettings() {
 
   return (
     <div className="flex h-screen bg-[#060d1a] overflow-hidden">
-      <Sidebar />
+      <Sidebar mobileOpen={mobileOpen} setMobileOpen={setMobileOpen} />
       <ParticleBackground />
 
-      <div className="flex-1 flex flex-col ml-64 relative" style={{ zIndex: 1 }}>
-        <Header title="Profile Settings" />
+      <div className="flex-1 flex flex-col lg:ml-64 relative" style={{ zIndex: 1 }}>
+        <Header setMobileOpen={setMobileOpen} title="Profile Settings" />
 
-        <main className="flex-1 overflow-y-auto p-6">
+        <main className="flex-1 overflow-y-auto px-4 sm:px-8 py-6 sm:py-8">
           <div className="max-w-lg">
-            <h2 className="text-white text-2xl font-bold mb-1">Profile Settings</h2>
-            <p className="text-gray-400 text-sm mb-8">Update your account information</p>
+            <h2 className="text-white text-2xl sm:text-3xl font-bold mb-1">Profile Settings</h2>
+            <p className="text-gray-400 text-xs sm:text-sm mb-8">Update your account information</p>
 
             {/* Avatar */}
             <div className="flex items-center gap-5 mb-8">
@@ -91,12 +92,12 @@ export default function ProfileSettings() {
               <button
                 type="submit"
                 disabled={saving}
-                className="flex items-center gap-2 px-6 py-3 rounded-xl font-semibold text-white transition-all hover:scale-105"
+                className="btn-primary w-full sm:w-auto"
                 style={{
                   background: saved
                     ? 'linear-gradient(135deg, #22c55e, #16a34a)'
                     : 'linear-gradient(135deg, #22d3ee, #0ea5e9)',
-                  boxShadow: '0 4px 15px rgba(34, 211, 238, 0.3)'
+                  boxShadow: saved ? '0 4px 15px rgba(34, 197, 94, 0.3)' : '0 4px 15px rgba(34, 211, 238, 0.3)'
                 }}
               >
                 {saving ? <Loader size={18} className="animate-spin" /> : <Save size={18} />}

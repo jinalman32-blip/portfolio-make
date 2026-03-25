@@ -1,5 +1,5 @@
-import React from 'react'
-import { Coins, Zap, Star, Crown, Check } from 'lucide-react'
+import React, { useState } from 'react'
+import { Coins, Zap, Star, Crown, Check, Menu } from 'lucide-react'
 import Sidebar from '../components/Sidebar'
 import Header from '../components/Header'
 import ParticleBackground from '../components/ParticleBackground'
@@ -35,20 +35,21 @@ const plans = [
 ]
 
 export default function Credits() {
+  const [mobileOpen, setMobileOpen] = useState(false)
   const user = JSON.parse(localStorage.getItem('user') || '{}')
 
   return (
     <div className="flex h-screen bg-[#060d1a] overflow-hidden">
-      <Sidebar />
+      <Sidebar mobileOpen={mobileOpen} setMobileOpen={setMobileOpen} />
       <ParticleBackground />
 
-      <div className="flex-1 flex flex-col ml-64 relative" style={{ zIndex: 1 }}>
-        <Header title="Credits" />
+      <div className="flex-1 flex flex-col lg:ml-64 relative" style={{ zIndex: 1 }}>
+        <Header setMobileOpen={setMobileOpen} title="Credits" />
 
-        <main className="flex-1 overflow-y-auto p-6">
+        <main className="flex-1 overflow-y-auto px-4 sm:px-8 py-6 sm:py-10">
           {/* Current balance */}
           <div
-            className="flex items-center justify-between p-6 rounded-2xl mb-8"
+            className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6 p-6 rounded-2xl mb-8"
             style={{
               background: 'linear-gradient(135deg, rgba(34, 211, 238, 0.1), rgba(99, 102, 241, 0.1))',
               border: '1px solid rgba(34, 211, 238, 0.2)'
@@ -62,13 +63,13 @@ export default function Credits() {
                 <span className="text-gray-400 text-lg">credits</span>
               </div>
             </div>
-            <div className="text-right">
+            <div className="sm:text-right">
               <p className="text-gray-400 text-sm">Each credit = 1 portfolio</p>
               <p className="text-cyan-400 text-sm mt-1">Earn more by referring friends!</p>
             </div>
           </div>
 
-          <h2 className="text-white text-xl font-bold mb-6">Buy Credits</h2>
+          <h2 className="text-white text-xl sm:text-2xl font-bold mb-6">Buy Credits</h2>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
             {plans.map((plan) => {

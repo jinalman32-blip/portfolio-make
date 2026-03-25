@@ -14,7 +14,7 @@ export default function Card({
   return (
     <div
       onClick={onClick}
-      className="group relative cursor-pointer rounded-2xl p-6 transition-all duration-300 hover:scale-105 hover:-translate-y-1"
+      className="group relative cursor-pointer rounded-2xl p-6 transition-all duration-300 hover:scale-105 hover:-translate-y-1 active:scale-95"
       style={{
         background: 'rgba(13, 21, 38, 0.6)',
         backdropFilter: 'blur(20px)',

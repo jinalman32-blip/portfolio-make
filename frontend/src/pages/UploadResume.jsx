@@ -59,6 +59,7 @@ const TEMPLATES = [
 ]
 
 export default function UploadResume() {
+  const [mobileOpen, setMobileOpen] = useState(false)
   const navigate = useNavigate()
   const fileRef = useRef()
 
@@ -137,13 +138,13 @@ export default function UploadResume() {
 
   return (
     <div className="flex h-screen bg-[#060d1a] overflow-hidden">
-      <Sidebar />
+      <Sidebar mobileOpen={mobileOpen} setMobileOpen={setMobileOpen} />
       <ParticleBackground />
 
-      <div className="flex-1 flex flex-col ml-64 relative" style={{ zIndex: 1 }}>
-        <Header />
+      <div className="flex-1 flex flex-col lg:ml-64 relative" style={{ zIndex: 1 }}>
+        <Header setMobileOpen={setMobileOpen} title="AI Resume Upload" />
 
-        <main className="flex-1 overflow-y-auto px-8 py-8">
+        <main className="flex-1 overflow-y-auto px-4 sm:px-8 py-6 sm:py-8">
 
           {/* ─── PHASE: UPLOAD ─── */}
           {(phase === 'upload' || phase === 'parsing') && (
@@ -246,15 +247,15 @@ export default function UploadResume() {
               {/* Personal Details */}
               <div style={cardStyle}>
                 {sectionTitle(User, 'Personal Details')}
-                <div className="grid grid-cols-2 gap-3 mb-3">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-3">
                   <Field label="Full Name" value={portfolio.details?.name||''} onChange={v => setD('name',v)} placeholder="Jane Smith" required />
                   <Field label="Job Title" value={portfolio.details?.title||''} onChange={v => setD('title',v)} placeholder="Full Stack Developer" required />
                 </div>
-                <div className="grid grid-cols-2 gap-3 mb-3">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-3">
                   <Field label="Email" value={portfolio.details?.email||''} onChange={v => setD('email',v)} placeholder="jane@example.com" />
                   <Field label="Phone" value={portfolio.details?.phone||''} onChange={v => setD('phone',v)} placeholder="+1 234 567 890" />
                 </div>
-                <div className="grid grid-cols-2 gap-3 mb-3">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-3">
                   <Field label="Location" value={portfolio.details?.location||''} onChange={v => setD('location',v)} placeholder="San Francisco, CA" />
                   <Field label="Website" value={portfolio.details?.website||''} onChange={v => setD('website',v)} placeholder="https://yoursite.com" />
                 </div>
@@ -289,13 +290,13 @@ export default function UploadResume() {
                       <span className="text-gray-400 text-xs">Entry {i+1}</span>
                       <button onClick={() => removeEdu(i)} className="text-gray-500 hover:text-red-400"><X size={14}/></button>
                     </div>
-                    <div className="grid grid-cols-2 gap-2 mb-2">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 mb-2">
                       <input value={e.degree} onChange={ev => setEdu(i,'degree',ev.target.value)} placeholder="Degree (e.g. B.Sc.)" style={fieldStyle}
                         onFocus={ev => ev.target.style.borderColor='rgba(34,211,238,0.5)'} onBlur={ev => ev.target.style.borderColor='rgba(75,85,99,0.4)'} />
                       <input value={e.field} onChange={ev => setEdu(i,'field',ev.target.value)} placeholder="Field (e.g. Computer Science)" style={fieldStyle}
                         onFocus={ev => ev.target.style.borderColor='rgba(34,211,238,0.5)'} onBlur={ev => ev.target.style.borderColor='rgba(75,85,99,0.4)'} />
                     </div>
-                    <div className="grid grid-cols-3 gap-2">
+                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
                       <input value={e.institution} onChange={ev => setEdu(i,'institution',ev.target.value)} placeholder="University" style={fieldStyle}
                         onFocus={ev => ev.target.style.borderColor='rgba(34,211,238,0.5)'} onBlur={ev => ev.target.style.borderColor='rgba(75,85,99,0.4)'} />
                       <input value={e.from} onChange={ev => setEdu(i,'from',ev.target.value)} placeholder="From Year" style={fieldStyle}
@@ -319,13 +320,13 @@ export default function UploadResume() {
                       <span className="text-gray-400 text-xs">Entry {i+1}</span>
                       <button onClick={() => removeExp(i)} className="text-gray-500 hover:text-red-400"><X size={14}/></button>
                     </div>
-                    <div className="grid grid-cols-2 gap-2 mb-2">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 mb-2">
                       <input value={e.role} onChange={ev => setExp(i,'role',ev.target.value)} placeholder="Job Title" style={fieldStyle}
                         onFocus={ev => ev.target.style.borderColor='rgba(34,211,238,0.5)'} onBlur={ev => ev.target.style.borderColor='rgba(75,85,99,0.4)'} />
                       <input value={e.company} onChange={ev => setExp(i,'company',ev.target.value)} placeholder="Company" style={fieldStyle}
                         onFocus={ev => ev.target.style.borderColor='rgba(34,211,238,0.5)'} onBlur={ev => ev.target.style.borderColor='rgba(75,85,99,0.4)'} />
                     </div>
-                    <div className="grid grid-cols-3 gap-2 mb-2">
+                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 mb-2">
                       <input value={e.location} onChange={ev => setExp(i,'location',ev.target.value)} placeholder="Location" style={fieldStyle}
                         onFocus={ev => ev.target.style.borderColor='rgba(34,211,238,0.5)'} onBlur={ev => ev.target.style.borderColor='rgba(75,85,99,0.4)'} />
                       <input value={e.from} onChange={ev => setExp(i,'from',ev.target.value)} placeholder="From (e.g. Jan 2022)" style={fieldStyle}
@@ -358,7 +359,7 @@ export default function UploadResume() {
                       <span className="text-gray-400 text-xs">Project {i+1}</span>
                       <button onClick={() => removeProj(i)} className="text-gray-500 hover:text-red-400"><X size={14}/></button>
                     </div>
-                    <div className="grid grid-cols-2 gap-2 mb-2">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 mb-2">
                       <input value={proj.name} onChange={ev => setProj(i,'name',ev.target.value)} placeholder="Project Name" style={fieldStyle}
                         onFocus={ev => ev.target.style.borderColor='rgba(34,211,238,0.5)'} onBlur={ev => ev.target.style.borderColor='rgba(75,85,99,0.4)'} />
                       <input value={proj.tech} onChange={ev => setProj(i,'tech',ev.target.value)} placeholder="Tech (React, Node.js, …)" style={fieldStyle}
@@ -367,7 +368,7 @@ export default function UploadResume() {
                     <textarea value={proj.description} onChange={ev => setProj(i,'description',ev.target.value)} placeholder="Describe this project…"
                       rows={2} style={{ ...fieldStyle, resize: 'none', padding: '10px 12px', marginBottom: 8 }}
                       onFocus={ev => ev.target.style.borderColor='rgba(34,211,238,0.5)'} onBlur={ev => ev.target.style.borderColor='rgba(75,85,99,0.4)'} />
-                    <div className="grid grid-cols-2 gap-2">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                       <input value={proj.link} onChange={ev => setProj(i,'link',ev.target.value)} placeholder="Live Link (optional)" style={fieldStyle}
                         onFocus={ev => ev.target.style.borderColor='rgba(34,211,238,0.5)'} onBlur={ev => ev.target.style.borderColor='rgba(75,85,99,0.4)'} />
                       <input value={proj.github} onChange={ev => setProj(i,'github',ev.target.value)} placeholder="GitHub URL (optional)" style={fieldStyle}
@@ -383,7 +384,7 @@ export default function UploadResume() {
               {/* Template picker */}
               <div style={cardStyle}>
                 {sectionTitle(Sparkles, 'Choose Template')}
-                <div className="grid grid-cols-5 gap-3">
+                <div className="grid grid-cols-2 sm:grid-cols-5 gap-3">
                   {TEMPLATES.map(t => (
                     <div key={t.id} onClick={() => setSelectedTemplate(t.id)}
                       style={{

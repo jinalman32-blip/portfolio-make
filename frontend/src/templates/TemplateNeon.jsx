@@ -3,7 +3,7 @@ import React from 'react'
 const levelWidth = { Beginner: '35%', Intermediate: '65%', Expert: '92%' }
 
 export default function TemplateNeon({ p }) {
-  const { details: d, skills, education, experience, projects } = p
+  const { details: d, skills, education, experience, projects, certifications = [], publications = [], awards = [] } = p
   return (
     <div id="portfolio-render" style={{ fontFamily: "'Segoe UI', system-ui, sans-serif", background: '#0c0a1a', color: '#e2e8f0', minHeight: '100vh' }}>
 
@@ -100,6 +100,55 @@ export default function TemplateNeon({ p }) {
                       ))}
                     </div>
                   )}
+                </div>
+              ))}
+            </NeonSection>
+          )}
+          {certifications.length > 0 && (
+            <NeonSection title="Certifications" accent="#22d3ee">
+              {certifications.map((cert, i) => (
+                <div key={i} style={{ marginBottom: 12, padding: 14, background: 'rgba(34,211,238,0.05)', borderRadius: 12, border: '1px solid rgba(34,211,238,0.15)', display: 'flex', gap: 10, alignItems: 'flex-start' }}>
+                  {cert.image && <img src={cert.image} alt={cert.name} style={{ width:40, height:40, objectFit:'cover', borderRadius:8, flexShrink:0 }} />}
+                  <div>
+                    <p style={{ fontWeight: 700, fontSize: 13, margin: 0, color: 'white' }}>{cert.name}</p>
+                    <p style={{ fontSize: 12, color: '#22d3ee', marginTop: 2 }}>{cert.issuer}</p>
+                    <div style={{ display: 'flex', gap: 10, marginTop: 4 }}>
+                      {cert.date && <span style={{ fontSize: 11, color: '#64748b' }}>{cert.date}</span>}
+                      {cert.url && <a href={cert.url} style={{ fontSize: 11, color: '#22d3ee' }}>Verify ↗</a>}
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </NeonSection>
+          )}
+          {publications.length > 0 && (
+            <NeonSection title="Publications" accent="#a78bfa">
+              {publications.map((pub, i) => (
+                <div key={i} style={{ marginBottom: 12, padding: 14, background: 'rgba(167,139,250,0.05)', borderRadius: 12, border: '1px solid rgba(167,139,250,0.15)', display: 'flex', gap: 10, alignItems: 'flex-start' }}>
+                  {pub.image && <img src={pub.image} alt={pub.title} style={{ width:40, height:40, objectFit:'cover', borderRadius:8, flexShrink:0 }} />}
+                  <div>
+                    <p style={{ fontWeight: 700, fontSize: 13, margin: 0, color: 'white' }}>{pub.title}</p>
+                    <p style={{ fontSize: 12, color: '#a78bfa', marginTop: 2 }}>{pub.publisher}</p>
+                    <div style={{ display: 'flex', gap: 10, marginTop: 4 }}>
+                      {pub.date && <span style={{ fontSize: 11, color: '#64748b' }}>{pub.date}</span>}
+                      {pub.url && <a href={pub.url} style={{ fontSize: 11, color: '#a78bfa' }}>Read ↗</a>}
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </NeonSection>
+          )}
+          {awards.length > 0 && (
+            <NeonSection title="Awards" accent="#22d3ee">
+              {awards.map((aw, i) => (
+                <div key={i} style={{ marginBottom: 12, padding: 14, background: 'rgba(34,211,238,0.05)', borderRadius: 12, border: '1px solid rgba(34,211,238,0.15)', display: 'flex', gap: 10, alignItems: 'flex-start' }}>
+                  {aw.image && <img src={aw.image} alt={aw.title} style={{ width:40, height:40, objectFit:'cover', borderRadius:8, flexShrink:0 }} />}
+                  <div>
+                    <p style={{ fontWeight: 700, fontSize: 13, margin: 0, color: 'white' }}>{aw.title}</p>
+                    <p style={{ fontSize: 12, color: '#22d3ee', marginTop: 2 }}>{aw.organization}</p>
+                    {aw.date && <p style={{ fontSize: 11, color: '#64748b', marginTop: 2 }}>{aw.date}</p>}
+                    {aw.description && <p style={{ fontSize: 12, color: '#94a3b8', marginTop: 5, lineHeight: 1.5 }}>{aw.description}</p>}
+                  </div>
                 </div>
               ))}
             </NeonSection>

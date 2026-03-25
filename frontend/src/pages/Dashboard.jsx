@@ -15,20 +15,21 @@ const features = [
 
 export default function Dashboard() {
   const navigate = useNavigate()
+  const [mobileOpen, setMobileOpen] = useState(false)
   const user = JSON.parse(localStorage.getItem('user') || '{}')
 
   return (
-    <div className="flex h-screen bg-[#060d1a] overflow-hidden">
-      <Sidebar />
+    <div className="flex min-h-screen bg-[#060d1a] overflow-x-hidden">
+      <Sidebar mobileOpen={mobileOpen} setMobileOpen={setMobileOpen} />
       <ParticleBackground />
       <FloatingIconsBackground />
 
       {/* Main content */}
-      <div className="flex-1 flex flex-col ml-64 relative" style={{ zIndex: 1 }}>
-        <Header />
+      <div className="flex-1 flex flex-col lg:ml-64 relative" style={{ zIndex: 1 }}>
+        <Header setMobileOpen={setMobileOpen} />
 
         <main className="flex-1 overflow-y-auto">
-          <div className="flex flex-col items-center justify-center min-h-full px-6 py-12">
+          <div className="flex flex-col items-center justify-center min-h-full px-4 sm:px-6 py-8 sm:py-12">
 
             {/* Welcome badge */}
             <div
@@ -43,8 +44,8 @@ export default function Dashboard() {
             </div>
 
             {/* Hero heading */}
-            <div className="text-center max-w-3xl mb-6 animate-slide-up">
-              <h1 className="text-5xl font-extrabold leading-tight mb-4 tracking-tight">
+            <div className="text-center max-w-3xl mb-6 animate-slide-up px-4">
+              <h1 className="text-3xl md:text-5xl font-extrabold leading-tight mb-4 tracking-tight">
                 Transform Your{' '}
                 <span
                   className="relative inline-block"
@@ -60,6 +61,7 @@ export default function Dashboard() {
                 </span>
                 {' '}Into a{' '}
                 <span
+                  className="block md:inline"
                   style={{
                     background: 'linear-gradient(135deg, #14b8a6, #22d3ee, #6366f1)',
                     WebkitBackgroundClip: 'text',
@@ -109,7 +111,7 @@ export default function Dashboard() {
 
             {/* Stats */}
             <div
-              className="flex items-center gap-8 mt-14 px-8 py-5 rounded-2xl"
+              className="flex flex-col md:flex-row items-center gap-6 md:gap-8 mt-14 px-8 py-5 rounded-2xl w-full max-w-lg md:max-w-none mb-10"
               style={{
                 background: 'rgba(13, 21, 38, 0.5)',
                 border: '1px solid rgba(34, 211, 238, 0.08)'
@@ -121,8 +123,8 @@ export default function Dashboard() {
                 { value: '2 min', label: 'Average Setup Time' },
               ].map((stat, i) => (
                 <React.Fragment key={i}>
-                  {i > 0 && <div className="w-px h-10 bg-gray-700/50" />}
-                  <div className="text-center">
+                  {i > 0 && <div className="hidden md:block w-px h-10 bg-gray-700/50" />}
+                  <div className="text-center flex-1">
                     <p
                       className="text-2xl font-bold"
                       style={{
@@ -142,8 +144,6 @@ export default function Dashboard() {
           </div>
         </main>
       </div>
-
-      {/* No modal needed for Craft Manually */}
     </div>
   )
 }

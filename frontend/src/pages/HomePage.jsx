@@ -5,6 +5,7 @@ import {
   ArrowRight, Code2, Palette, Globe, ChevronRight, Play
 } from 'lucide-react'
 import Sidebar from '../components/Sidebar'
+import Header from '../components/Header'
 import ParticleBackground from '../components/ParticleBackground'
 import FloatingIconsBackground from '../components/FloatingIconsBackground'
 
@@ -12,6 +13,7 @@ import FloatingIconsBackground from '../components/FloatingIconsBackground'
 function TiltCard({ children, className = '', style = {}, onClick }) {
   const ref = useRef()
   const handleMove = (e) => {
+    if (window.matchMedia("(pointer: coarse)").matches) return;
     const rect = ref.current.getBoundingClientRect()
     const x = e.clientX - rect.left
     const y = e.clientY - rect.top
@@ -22,6 +24,7 @@ function TiltCard({ children, className = '', style = {}, onClick }) {
     ref.current.style.transform = `perspective(800px) rotateX(${rotX}deg) rotateY(${rotY}deg) scale(1.03)`
   }
   const handleLeave = () => {
+    if (window.matchMedia("(pointer: coarse)").matches) return;
     ref.current.style.transform = 'perspective(800px) rotateX(0deg) rotateY(0deg) scale(1)'
   }
   return (
@@ -149,16 +152,16 @@ function TemplateCard({ name, tag, colors, accent = '#22d3ee', onClick }) {
    ══════════════════════════════════════════ */
 
 /* ── Mouse-Reactive Left-Side Orbs ── */
-function MouseOrbs() {
+function MouseOrbs({ isMobile }) {
   const [mouse, setMouse] = useState({ x: 0.5, y: 0.5 })
-
+ 
   useEffect(() => {
-    const handle = (e) => setMouse({
+    const handleMove = (e) => setMouse({
       x: e.clientX / window.innerWidth,
       y: e.clientY / window.innerHeight,
     })
-    window.addEventListener('mousemove', handle)
-    return () => window.removeEventListener('mousemove', handle)
+    window.addEventListener('mousemove', handleMove)
+    return () => window.removeEventListener('mousemove', handleMove)
   }, [])
 
   const glows = [
@@ -188,7 +191,9 @@ function MouseOrbs() {
   return (
     <div style={{
       position: 'absolute', left: 0, top: 0, bottom: 0,
-      width: '32%', pointerEvents: 'none', overflow: 'hidden', zIndex: 2,
+      width: isMobile ? '100%' : '32%', 
+      pointerEvents: 'none', overflow: 'hidden', zIndex: 2,
+      opacity: isMobile ? 0.4 : 1
     }}>
       {/* Glow blobs */}
       {glows.map((g, i) => (
@@ -524,6 +529,17 @@ const TEMPLATE_DELAYS    = ['0s', '0.7s', '1.3s', '0.4s']
 export default function HomePage() {
   const navigate = useNavigate()
   const [activeStep, setActiveStep] = useState(1)
+  const [mobileOpen, setMobileOpen] = useState(false)
+  const [windowWidth, setWindowWidth] = useState(typeof window !== 'undefined' ? window.innerWidth : 1200)
+
+  useEffect(() => {
+    const handleResize = () => setWindowWidth(window.innerWidth)
+    window.addEventListener('resize', handleResize)
+    return () => window.removeEventListener('resize', handleResize)
+  }, [])
+
+  const isMobile = windowWidth < 1024
+  const isXS = windowWidth < 400
 
   useEffect(() => {
     const interval = setInterval(() => setActiveStep(s => s === 3 ? 1 : s + 1), 2000)
@@ -531,7 +547,7 @@ export default function HomePage() {
   }, [])
 
   return (
-    <div className="flex h-screen bg-[#060d1a] overflow-hidden">
+    <div className="flex min-h-screen bg-[#060d1a]">
       <ParticleBackground />
       <FloatingIconsBackground />
       <style>{`
@@ -571,68 +587,54 @@ export default function HomePage() {
         @keyframes sway4 { 0%,100%{transform:translate(0px,0px) rotate(-0.7deg)} 45%{transform:translate(-5px,-16px) rotate(1deg)} 80%{transform:translate(3px,-5px) rotate(-0.3deg)} }
       `}</style>
 
-      <Sidebar />
+      <Sidebar mobileOpen={mobileOpen} setMobileOpen={setMobileOpen} />
 
-      <div className="flex-1 ml-64 overflow-y-auto relative" style={{ zIndex: 1 }}>
+      <div className="flex-1 lg:ml-64 overflow-y-auto relative custom-scrollbar" style={{ zIndex: 1 }}>
+        <Header setMobileOpen={setMobileOpen} />
 
         {/* ══════════════ HERO SECTION ══════════════ */}
-        <section style={{
-          position: 'relative', minHeight: '100vh',
-          display: 'flex', alignItems: 'center',
-          padding: '80px 60px 80px 50px',
-          overflow: 'hidden',
-          gap: 20,
-        }}>
+        <section className="relative min-h-[90vh] flex flex-col lg:flex-row items-center justify-center lg:justify-start px-4 sm:px-12 lg:px-20 py-12 sm:py-24 lg:py-20 overflow-hidden gap-10 lg:gap-20">
           <div style={{ position:'absolute', inset:0, pointerEvents:'none', overflow:'hidden' }}>
             <div style={{ position:'absolute', right:'35%', top:'35%', width:280, height:280, background:'radial-gradient(circle, rgba(99,102,241,0.07), transparent)', filter:'blur(80px)' }} />
             <div style={{ position:'absolute', left:'260px', top:'40%', width:200, height:200, background:'radial-gradient(circle, rgba(34,211,238,0.05), transparent)', filter:'blur(60px)' }} />
           </div>
 
-          <MouseOrbs />
+          <MouseOrbs isMobile={isMobile} />
 
-          <div style={{ flex:1, position:'relative', zIndex:10, maxWidth:520 }}>
+          <div style={{ flex:1, position:'relative', zIndex:10, maxWidth:520 }} className="text-center lg:text-left">
             <div style={{
               display:'inline-flex', alignItems:'center', gap:8,
-              padding:'6px 16px', borderRadius:9999, marginBottom:28,
+              padding:'6px 16px', borderRadius:9999, marginBottom:20,
               background:'rgba(34,211,238,0.08)',
               border:'1px solid rgba(34,211,238,0.28)',
             }}>
               <div style={{ width:8, height:8, borderRadius:'50%', background:'#22d3ee', animation:'pulse 2s ease-in-out infinite' }} />
-              <span style={{ color:'#22d3ee', fontSize:14, fontWeight:500 }}>AI-Powered · Free to Start</span>
+              <span className="text-cyan-400 text-xs sm:text-sm font-medium">AI-Powered · Free to Start</span>
             </div>
 
-            <h1 style={{ fontSize:60, fontWeight:900, lineHeight:1.06, marginBottom:24, letterSpacing:'-0.022em' }}>
-              <span style={{ display:'block', color:'white' }}>Build Your</span>
+            <h1 className="text-2xl xs:text-3xl sm:text-5xl lg:text-7xl font-black leading-[1.1] mb-6 tracking-tight">
+              <span className="block text-white">Build Your</span>
               <span style={{
                 display:'block',
                 background:'linear-gradient(135deg,#22d3ee,#0ea5e9,#6366f1)',
                 WebkitBackgroundClip:'text', WebkitTextFillColor:'transparent',
                 backgroundClip:'text', backgroundSize:'200% 200%',
                 animation:'gradientShift 4s ease infinite',
-                filter:'drop-shadow(0 0 28px rgba(34,211,238,0.3))',
+                filter:'drop-shadow(0 0 15px rgba(34,211,238,0.25))',
               }}>Dream Portfolio.</span>
-              <span style={{ display:'block', color:'white' }}>Get Hired Fast.</span>
+              <span className="block text-white">Get Hired Fast.</span>
             </h1>
 
-            <p style={{ color:'#9ca3af', fontSize:17, lineHeight:1.75, marginBottom:36 }}>
+            <p className="text-gray-400 text-base sm:text-lg leading-relaxed mb-8">
               Craft your professional journey and watch as we create a{' '}
               <span style={{ color:'#22d3ee', fontWeight:500 }}>stunning portfolio website</span>{' '}
               that gets you hired faster.
             </p>
 
-            <div style={{ display:'flex', alignItems:'center', gap:16 }}>
+            <div className="flex items-center justify-center lg:justify-start gap-4 mb-9">
               <button
                 onClick={() => navigate('/dashboard')}
-                style={{
-                  display:'flex', alignItems:'center', gap:8,
-                  padding:'14px 28px', borderRadius:12,
-                  background:'linear-gradient(135deg,#22d3ee,#0ea5e9)',
-                  boxShadow:'0 0 32px rgba(34,211,238,0.42), 0 4px 20px rgba(0,0,0,0.3)',
-                  border:'none', color:'white', fontWeight:700, fontSize:16,
-                  cursor:'pointer', transition:'transform 0.2s, box-shadow 0.2s',
-                }}
-                onMouseEnter={e => { e.currentTarget.style.transform='scale(1.05)'; e.currentTarget.style.boxShadow='0 0 48px rgba(34,211,238,0.65), 0 4px 20px rgba(0,0,0,0.3)'; }}
-                onMouseLeave={e => { e.currentTarget.style.transform='scale(1)'; e.currentTarget.style.boxShadow='0 0 32px rgba(34,211,238,0.42), 0 4px 20px rgba(0,0,0,0.3)'; }}
+                className="btn-primary w-full sm:w-auto"
               >
                 <Sparkles size={18} />
                 Get Started Free
@@ -640,28 +642,30 @@ export default function HomePage() {
               </button>
             </div>
 
-            <div style={{ display:'flex', gap:32, marginTop:40 }}>
-              {[['50K+','Portfolios Created'], ['4.9★','User Rating'], ['2 min','Setup Time']].map(([v, l]) => (
-                <div key={l}>
-                  <div style={{ color:'white', fontWeight:700, fontSize:20 }}>{v}</div>
-                  <div style={{ color:'#6b7280', fontSize:12, marginTop:2 }}>{l}</div>
+            <div className="flex flex-wrap justify-center lg:justify-start gap-x-8 gap-y-4 mt-8">
+              {[['50K+','Portfolios'], ['4.9★','Rating'], ['2 min','Setup']].map(([v, l]) => (
+                <div key={l} className="text-center lg:text-left">
+                  <div className="text-white font-black text-2xl sm:text-3xl tracking-tight">{v}</div>
+                  <div className="text-gray-500 text-[10px] uppercase font-bold tracking-widest mt-1">{l}</div>
                 </div>
               ))}
             </div>
           </div>
 
-          <HeroPhoneShowcase />
+          <div className="hidden lg:block">
+            <HeroPhoneShowcase />
+          </div>
         </section>
 
         {/* ══════════════ FEATURES SECTION ══════════════ */}
-        <section className="px-8 py-20">
-          <div className="text-center mb-14">
+        <section className="px-3 sm:px-12 py-16 sm:py-20">
+          <div className="text-center mb-10 sm:mb-14 px-2">
             <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full mb-4"
               style={{ background: 'rgba(34,211,238,0.08)', border: '1px solid rgba(34,211,238,0.2)' }}>
               <Zap size={13} className="text-cyan-400" />
               <span className="text-cyan-400 text-xs font-semibold uppercase tracking-wider">Powerful Features</span>
             </div>
-            <h2 className="text-white text-4xl font-black mb-3">Everything You Need</h2>
+            <h2 className="text-white text-2xl sm:text-4xl font-black mb-3">Everything You Need</h2>
             <p className="text-gray-400 max-w-lg mx-auto">Tools designed to make your portfolio stand out in a competitive market</p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 max-w-5xl mx-auto">
@@ -670,14 +674,14 @@ export default function HomePage() {
         </section>
 
         {/* ══════════════ HOW IT WORKS ══════════════ */}
-        <section className="px-8 py-20">
-          <div className="max-w-5xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+        <section className="px-3 sm:px-12 py-16 sm:py-20">
+          <div className="max-w-5xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 sm:gap-16 items-center">
             <div>
               <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full mb-6"
                 style={{ background: 'rgba(34,211,238,0.08)', border: '1px solid rgba(34,211,238,0.2)' }}>
                 <span className="text-cyan-400 text-xs font-semibold uppercase tracking-wider">How It Works</span>
               </div>
-              <h2 className="text-white text-4xl font-black mb-10">3 Simple Steps<br/>to Your Portfolio</h2>
+              <h2 className="text-white text-2xl sm:text-4xl font-black mb-10">3 Simple Steps<br/>to Your Portfolio</h2>
               <StepCard num={1} title="Craft Your Details" desc="Enter your skills, experience, and projects in our intuitive editor. Get real-time AI suggestions." active={activeStep === 1} />
               <StepCard num={2} title="Choose a Template" desc="Browse our collection of stunning templates and pick the one that matches your style." active={activeStep === 2} />
               <StepCard num={3} title="Publish & Share" desc="Go live with one click. Share your portfolio URL with recruiters and land your dream job." active={activeStep === 3} />
@@ -740,15 +744,15 @@ export default function HomePage() {
         </section>
 
         {/* ══════════════ TEMPLATES SECTION ══════════════ */}
-        <section className="px-8 py-20">
+        <section className="px-3 sm:px-12 py-16 sm:py-20">
           <div className="max-w-5xl mx-auto">
-            <div className="text-center mb-12">
+            <div className="text-center mb-10 sm:mb-12">
               <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full mb-4"
                 style={{ background: 'rgba(34,211,238,0.08)', border: '1px solid rgba(34,211,238,0.2)' }}>
                 <Palette size={13} className="text-cyan-400" />
                 <span className="text-cyan-400 text-xs font-semibold uppercase tracking-wider">Templates</span>
               </div>
-              <h2 className="text-white text-4xl font-black mb-3">Pick Your Style</h2>
+              <h2 className="text-white text-2xl sm:text-4xl font-black mb-3">Pick Your Style</h2>
               <p className="text-gray-400">15+ handcrafted templates. All fully customizable.</p>
             </div>
 
@@ -775,10 +779,10 @@ export default function HomePage() {
         </section>
 
         {/* ══════════════ CTA SECTION ══════════════ */}
-        <section className="px-8 py-20">
-          <div className="max-w-3xl mx-auto">
+        <section className="px-3 py-16 sm:py-20 overflow-hidden relative">
+          <div className="max-w-4xl mx-auto">
             <TiltCard
-              className="relative overflow-hidden rounded-[2.5rem] p-16 text-center"
+              className="relative overflow-hidden rounded-[1.5rem] sm:rounded-[3rem] px-3 sm:px-12 py-10 sm:py-20 text-center w-full"
               style={{
                 background: 'rgba(13,21,38,0.4)',
                 border: '1px solid rgba(255,255,255,0.05)',
@@ -791,25 +795,25 @@ export default function HomePage() {
                 style={{ background: 'radial-gradient(circle,#6366f1,transparent)', filter: 'blur(30px)' }} />
               
               <div className="relative z-10">
-                <div className="w-20 h-20 rounded-[1.5rem] mx-auto mb-8 flex items-center justify-center"
-                  style={{ background: 'linear-gradient(135deg,#22d3ee,#0ea5e9)', boxShadow: '0 0 40px rgba(34,211,238,0.4)' }}>
-                  <Sparkles size={36} className="text-white" />
+                <div className="w-12 h-12 xs:w-16 xs:h-16 sm:w-20 sm:h-20 rounded-[1.1rem] sm:rounded-[1.5rem] mx-auto mb-6 sm:mb-8 flex items-center justify-center"
+                  style={{ background: 'linear-gradient(135deg,#22d3ee,#0ea5e9)', boxShadow: '0 0 30px rgba(34,211,238,0.3)' }}>
+                  <Sparkles size={isXS ? 24 : 28} className="text-white" />
                 </div>
-                <h2 className="text-white text-5xl font-black mb-6 italic tracking-tighter uppercase">Ready to Shine?</h2>
-                <p className="text-gray-400 text-lg mb-12 max-w-md mx-auto leading-relaxed">
+                <h2 className="text-white text-xl xs:text-2xl sm:text-4xl lg:text-6xl font-black mb-4 sm:mb-6 italic tracking-tight uppercase leading-tight break-words">Ready to Shine?</h2>
+                <p className="text-gray-200 text-[13px] xs:text-sm sm:text-base mb-8 sm:mb-10 w-full max-w-[240px] xs:max-w-sm mx-auto leading-relaxed px-2">
                   Join 50,000+ top professionals who already built their dream portfolio with <span className="text-cyan-400 font-bold">PortfolioMaker</span>
                 </p>
                 <button
                   onClick={() => navigate('/dashboard')}
-                  className="group flex items-center gap-3 px-10 py-5 rounded-2xl font-black text-white transition-all duration-300 hover:scale-105 active:scale-95"
+                  className="group flex items-center gap-3 px-8 sm:px-10 py-4 sm:py-5 rounded-2xl font-black text-white transition-all duration-300 hover:scale-105 active:scale-95"
                   style={{ 
                     margin: '0 auto',
-                    background: 'linear-gradient(135deg,#22d3ee,#0ea5e9)', 
-                    boxShadow: '0 20px 40px rgba(34,211,238,0.25)' 
+                    background: 'linear-gradient(135deg,#22d3ee,#6366f1)',
+                    boxShadow: '0 10px 30px rgba(34,211,238,0.3)'
                   }}
                 >
-                  <PenLine size={20} />
-                  Start Creating Now
+                  <Sparkles size={18} />
+                  Start Your Journey
                   <ArrowRight size={18} className="transition-transform group-hover:translate-x-1" />
                 </button>
               </div>
@@ -817,7 +821,7 @@ export default function HomePage() {
           </div>
         </section>
 
-        <footer className="px-8 py-10 border-t border-white/5 text-center">
+        <footer className="px-4 sm:px-8 py-10 border-t border-white/5 text-center">
           <p className="text-gray-600 text-sm mb-2">© 2026 PortfolioMaker · Built with AI · All rights reserved</p>
           <div className="flex justify-center gap-6 text-gray-700 text-xs">
             <a href="#" className="hover:text-cyan-400 transition-colors">Privacy Policy</a>

@@ -48,7 +48,6 @@ export default function App() {
         <Route path="/login"          element={<Navigate to="/home" replace />} />
         <Route path="/register"       element={<Navigate to="/home" replace />} />
         <Route path="/credits"        element={<Credits />} />
-        <Route path="/refer-earn"     element={<ReferEarn />} />
         <Route path="/upload-resume"  element={<UploadResume />} />
         <Route path="/content/:type"  element={<StaticContent />} />
         <Route path="/p/:slug"        element={<PublishedPortfolio />} />

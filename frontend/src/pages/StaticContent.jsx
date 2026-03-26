@@ -159,19 +159,6 @@ export default function StaticContent() {
               </div>
             </div>
 
-            <div className="mt-12 p-6 rounded-2xl flex items-center justify-between gap-6"
-              style={{ background: 'rgba(34,211,238,0.05)', border: '1px solid rgba(34,211,238,0.1)' }}>
-              <div>
-                <p className="text-white font-bold">Still have questions?</p>
-                <p className="text-gray-400 text-sm">Our support team is always ready to help you.</p>
-              </div>
-              <button 
-                onClick={() => navigate('/refer-earn')}
-                className="px-6 py-3 rounded-xl font-bold bg-cyan-400 text-[#060d1a] hover:scale-105 transition-all"
-              >
-                Contact Support
-              </button>
-            </div>
           </div>
         </main>
       </div>

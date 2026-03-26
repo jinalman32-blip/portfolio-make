@@ -692,57 +692,52 @@ export default function HomePage() {
               <StepCard num={3} title="Publish & Share" desc="Go live with one click. Share your portfolio URL with recruiters and land your dream job." active={activeStep === 3} />
             </div>
 
-            <div className="relative flex justify-center items-center h-80">
-              <div className="absolute inset-0 flex items-center justify-center">
-                <div className="w-64 h-64 rounded-full opacity-20"
-                  style={{ background: 'radial-gradient(circle, #22d3ee, transparent)', filter: 'blur(40px)' }} />
-              </div>
-              <div
-                className="relative rounded-3xl overflow-hidden shadow-2xl"
-                style={{
-                  width: 260,
-                  background: 'linear-gradient(135deg,#0d1a33,#0a1220)',
-                  border: '1px solid rgba(34,211,238,0.3)',
-                  boxShadow: '0 30px 80px rgba(0,0,0,0.6), 0 0 40px rgba(34,211,238,0.15)',
-                  animation: 'float3d 5s ease-in-out infinite',
-                  transformStyle: 'preserve-3d',
-                  transform: 'perspective(600px) rotateY(-10deg) rotateX(5deg)'
-                }}
-              >
-                <div className="p-4">
-                  <div className="flex items-center gap-3 mb-4">
-                    <div className="w-10 h-10 rounded-full" style={{ background: 'linear-gradient(135deg,#22d3ee,#6366f1)' }} />
-                    <div>
-                      <div className="h-2.5 w-20 rounded-full mb-1.5" style={{ background: 'rgba(255,255,255,0.4)' }} />
-                      <div className="h-2 w-14 rounded-full" style={{ background: 'rgba(34,211,238,0.5)' }} />
-                    </div>
-                  </div>
-                  <div className="space-y-2 mb-4">
-                    <div className="h-2 rounded-full" style={{ background: 'rgba(255,255,255,0.12)' }} />
-                    <div className="h-2 w-4/5 rounded-full" style={{ background: 'rgba(255,255,255,0.08)' }} />
-                    <div className="h-2 w-3/5 rounded-full" style={{ background: 'rgba(255,255,255,0.06)' }} />
-                  </div>
-                  <div className="flex gap-2 mb-4">
-                    {['React','Node','UI'].map(t => (
-                      <span key={t} className="text-[9px] px-2 py-0.5 rounded-full" style={{ background: 'rgba(34,211,238,0.15)', color: '#22d3ee', border: '1px solid rgba(34,211,238,0.2)' }}>{t}</span>
-                    ))}
-                  </div>
-                  <div className="grid grid-cols-2 gap-2">
-                    {[0,1,2,3].map(i => (
-                      <div key={i} className="h-14 rounded-xl" style={{ background: `linear-gradient(135deg, rgba(${i%2===0?'34,211,238':'99,102,241'},0.12), rgba(${i%2===0?'14,165,233':'139,92,246'},0.06))`, border: '1px solid rgba(34,211,238,0.1)' }} />
-                    ))}
-                  </div>
+            <div className="relative flex justify-center items-center lg:h-auto min-h-[300px]">
+              {/* Glow effects behind the image */}
+              <div className="absolute inset-x-0 bottom-0 h-40 bg-cyan-500/10 blur-[60px] rounded-full" />
+              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-64 h-64 rounded-full opacity-30"
+                style={{ background: 'radial-gradient(circle, #6366f1, transparent)', filter: 'blur(40px)' }} />
+
+              <div className="relative z-10 animate-float w-full max-w-sm lg:max-w-md">
+                {/* Premium Image Container */}
+                <div 
+                  className="rounded-3xl overflow-hidden p-2 shadow-2xl shadow-cyan-500/10 group"
+                  style={{
+                    background: 'rgba(13,21,38,0.7)',
+                    border: '1px solid rgba(34,211,238,0.2)',
+                    backdropFilter: 'blur(20px)',
+                    transformStyle: 'preserve-3d',
+                  }}
+                >
+                  <img 
+                    src="/images/portfolio_mockup.png" 
+                    alt="Portfolio Preview"
+                    className="w-full h-auto rounded-2xl border border-white/5 group-hover:scale-105 transition-transform duration-700 ease-out"
+                  />
                 </div>
-                <div className="absolute inset-0 pointer-events-none"
-                  style={{ background: 'linear-gradient(135deg, rgba(255,255,255,0.05) 0%, transparent 50%, rgba(255,255,255,0.02) 100%)' }} />
-              </div>
-              <div className="absolute -top-4 -right-4 px-3 py-2 rounded-xl text-xs font-bold text-white"
-                style={{ background: 'linear-gradient(135deg,#22d3ee,#0ea5e9)', boxShadow: '0 0 20px rgba(34,211,238,0.5)', animation: 'float3d 3s ease-in-out infinite', animationDelay: '0.5s' }}>
-                ✓ AI Generated
-              </div>
-              <div className="absolute -bottom-2 -left-6 px-3 py-2 rounded-xl text-xs font-bold"
-                style={{ background: 'rgba(99,102,241,0.2)', border: '1px solid rgba(99,102,241,0.4)', color: '#a78bfa', animation: 'float3d 4s ease-in-out infinite', animationDelay: '1s' }}>
-                🚀 Live in 2 min
+
+                {/* Floating Badges */}
+                <div className="absolute -top-6 -right-4 lg:-right-10 px-4 py-2 rounded-xl text-xs font-bold text-white shadow-xl shadow-cyan-500/20"
+                  style={{ 
+                    background: 'linear-gradient(135deg,#22d3ee,#0ea5e9)', 
+                    animation: 'float3d 3.5s ease-in-out infinite', 
+                    animationDelay: '0.2s',
+                    border: '1px solid rgba(255,255,255,0.2)'
+                  }}>
+                  <div className="flex items-center gap-1.5"><Sparkles size={14}/> AI Generated</div>
+                </div>
+
+                <div className="absolute -bottom-4 -left-4 lg:-left-8 px-4 py-2 rounded-xl text-xs font-bold shadow-xl shadow-indigo-500/20"
+                  style={{ 
+                    background: 'rgba(13,21,38,0.9)', 
+                    border: '1px solid rgba(99,102,241,0.5)', 
+                    color: '#a78bfa', 
+                    backdropFilter: 'blur(10px)',
+                    animation: 'float3d 4.2s ease-in-out infinite', 
+                    animationDelay: '1.5s' 
+                  }}>
+                  🚀 Live in 2 mins
+                </div>
               </div>
             </div>
           </div>

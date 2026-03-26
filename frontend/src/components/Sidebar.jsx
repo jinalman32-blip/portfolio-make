@@ -20,10 +20,8 @@ export default function Sidebar({ mobileOpen, setMobileOpen }) {
 
   return (
     <aside
-      className={`fixed left-0 top-0 h-full z-40 flex flex-col transition-all duration-300 ${
-        collapsed ? 'w-16' : 'w-64'
-      } ${
-        mobileOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'
+      className={`fixed left-0 top-0 h-full z-[150] flex flex-col transition-all duration-300 w-72 ${
+        mobileOpen ? 'translate-x-0' : '-translate-x-full'
       }`}
       style={{
         background: 'linear-gradient(180deg, #0d1526 0%, #060e20 50%, #040b18 100%)',

@@ -118,7 +118,7 @@ export default function MyPortfolios() {
       <FloatingIconsBackground />
 
       {/* Mobile menu toggle */}
-      <div className="lg:hidden sticky top-0 z-[100] flex items-center justify-between p-3 bg-[#060d1a]/80 backdrop-blur-lg border-b border-white/10 w-full">
+      <div className="sticky top-0 z-[100] flex items-center justify-between p-3 bg-[#060d1a]/80 backdrop-blur-lg border-b border-white/10 w-full">
         <div className="flex items-center gap-2">
           <div className="w-7 h-7 rounded-lg bg-gradient-to-br from-cyan-400 to-indigo-500 flex items-center justify-center shadow-lg shadow-cyan-500/20">
             <Sparkles size={14} className="text-white" />
@@ -133,7 +133,7 @@ export default function MyPortfolios() {
         </button>
       </div>
 
-      <div className="flex-1 flex flex-col lg:ml-64 relative" style={{ zIndex: 1 }}>
+      <div className="flex-1 flex flex-col relative" style={{ zIndex: 1 }}>
 
         <main className="flex-1 overflow-y-auto px-4 sm:px-8 py-6 sm:py-8">
           {/* Top bar */}

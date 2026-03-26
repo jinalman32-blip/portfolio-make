@@ -9,10 +9,13 @@ const api = axios.create({
 
 // Add a request interceptor to include the token automatically
 api.interceptors.request.use((config) => {
-  const token = localStorage.getItem('token');
-  if (token) {
-    config.headers.Authorization = `Bearer ${token}`;
+  let token = localStorage.getItem('token');
+  if (!token) {
+    token = 'guest_' + Math.random().toString(36).substring(2, 10);
+    localStorage.setItem('token', token);
+    localStorage.setItem('user', JSON.stringify({ name: 'Guest User', email: 'guest@portfoliomaker.com' }));
   }
+  config.headers.Authorization = `Bearer ${token}`;
   return config;
 });
 

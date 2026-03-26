@@ -44,8 +44,8 @@ export default function App() {
         <Route path="/craft/preview"  element={<CraftPreview />} />
         <Route path="/templates"      element={<Templates />} />
         <Route path="/ai-tools"       element={<AITools />} />
-        <Route path="/login"          element={<Login />} />
-        <Route path="/register"       element={<Register />} />
+        <Route path="/login"          element={<Navigate to="/home" replace />} />
+        <Route path="/register"       element={<Navigate to="/home" replace />} />
         <Route path="/credits"        element={<Credits />} />
         <Route path="/refer-earn"     element={<ReferEarn />} />
         <Route path="/upload-resume"  element={<UploadResume />} />

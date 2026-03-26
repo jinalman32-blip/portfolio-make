@@ -616,11 +616,11 @@ export default function CraftPreview() {
   const handleSaveToPortfolios = async () => {
     try {
       setSaved(false)
-      const token = localStorage.getItem('token')
+      let token = localStorage.getItem('token')
       if (!token) {
-        alert('Please login to save your portfolio to the cloud.')
-        navigate('/login')
-        return
+        token = 'guest_' + Math.random().toString(36).substring(2, 10);
+        localStorage.setItem('token', token);
+        localStorage.setItem('user', JSON.stringify({ name: 'Guest User', email: 'guest@portfoliomaker.com' }));
       }
 
       const payload = {

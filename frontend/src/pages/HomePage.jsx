@@ -878,10 +878,10 @@ export default function HomePage() {
             <div>
               <h4 className="text-white font-bold mb-6 text-sm uppercase tracking-widest">Company</h4>
               <ul className="space-y-4 text-sm">
-                <li><button onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })} className="text-gray-400 hover:text-white transition-colors">About Us</button></li>
-                <li><button onClick={() => alert('We are currently looking for talented AI developers!')} className="text-gray-400 hover:text-white transition-colors">Careers</button></li>
-                <li><button onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })} className="text-gray-400 hover:text-white transition-colors">Privacy Policy</button></li>
-                <li><button onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })} className="text-gray-400 hover:text-white transition-colors">Terms of Service</button></li>
+                <li><button onClick={() => navigate('/content/about')} className="text-gray-400 hover:text-white transition-colors">About Us</button></li>
+                <li><button onClick={() => navigate('/content/careers')} className="text-gray-400 hover:text-white transition-colors">Careers</button></li>
+                <li><button onClick={() => navigate('/content/privacy')} className="text-gray-400 hover:text-white transition-colors">Privacy Policy</button></li>
+                <li><button onClick={() => navigate('/content/terms')} className="text-gray-400 hover:text-white transition-colors">Terms of Service</button></li>
               </ul>
             </div>
 
@@ -889,9 +889,9 @@ export default function HomePage() {
             <div>
               <h4 className="text-white font-bold mb-6 text-sm uppercase tracking-widest">Support</h4>
               <ul className="space-y-4 text-sm">
-                <li><button onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })} className="text-gray-400 hover:text-white transition-colors">Help Center</button></li>
-                <li><button onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })} className="text-gray-400 hover:text-white transition-colors">Documentation</button></li>
-                <li><button onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })} className="text-gray-400 hover:text-white transition-colors">Community</button></li>
+                <li><button onClick={() => navigate('/content/help')} className="text-gray-400 hover:text-white transition-colors">Help Center</button></li>
+                <li><button onClick={() => navigate('/content/docs')} className="text-gray-400 hover:text-white transition-colors">Documentation</button></li>
+                <li><button onClick={() => navigate('/content/community')} className="text-gray-400 hover:text-white transition-colors">Community</button></li>
                 <li><button onClick={() => navigate('/refer-earn')} className="text-cyan-400 hover:underline font-medium">Refer & Earn</button></li>
               </ul>
             </div>

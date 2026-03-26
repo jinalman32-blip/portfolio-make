@@ -579,9 +579,21 @@ export default function CraftPreview() {
     try { return JSON.parse(sessionStorage.getItem('craft_portfolio') || 'null') } catch { return null }
   })()
 
-  // Priority: rawPortfolio (from session) > DEMO_PORTFOLIO
-  // Ensure we don't fall back to demo data just because name is missing
-  const portfolio = rawPortfolio || { ...DEMO_PORTFOLIO, template: activeTemplate || 'purple' }
+  // Ensure portfolio always has the minimum required structure to prevent template crashes
+  const safeRaw = rawPortfolio || DEMO_PORTFOLIO
+  
+  const portfolio = {
+    ...safeRaw,
+    details: safeRaw.details || {},
+    skills: safeRaw.skills || [],
+    education: safeRaw.education || [],
+    experience: safeRaw.experience || [],
+    projects: safeRaw.projects || [],
+    certifications: safeRaw.certifications || [],
+    publications: safeRaw.publications || [],
+    awards: safeRaw.awards || [],
+    template: activeTemplate || safeRaw.template || 'purple'
+  }
 
   const templateId = activeTemplate || portfolio.template || 'purple'
   const tmpl = TEMPLATE_MAP[templateId] || TEMPLATE_MAP.browncream || TEMPLATE_MAP.purple

@@ -878,7 +878,6 @@ export default function HomePage() {
                 {[
                   { label: 'Templates', path: '/templates' },
                   { label: 'AI Tools', path: '/ai-tools' },
-                  { label: 'Pricing', path: '/credits' },
                   { label: 'Live Preview', path: '/craft/preview' }
                 ].map(link => (
                   <li key={link.label}>

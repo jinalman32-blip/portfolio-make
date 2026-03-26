@@ -10,7 +10,6 @@ const menuItems = [
   { icon: Sparkles, label: 'Portfolio Generator', path: '/dashboard' },
   { icon: FolderOpen, label: 'My Portfolios', path: '/portfolios' },
   { icon: LayoutTemplate, label: 'Templates', path: '/templates' },
-  { icon: Settings, label: 'Profile Settings', path: '/profile' },
 ]
 
 export default function Sidebar({ mobileOpen, setMobileOpen }) {

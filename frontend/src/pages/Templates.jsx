@@ -1,8 +1,10 @@
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { AI_API_BASE } from '../api/paths'
 import Sidebar from '../components/Sidebar'
+import MobileTopBar from '../components/MobileTopBar'
 import ParticleBackground from '../components/ParticleBackground'
-import { LayoutTemplate, Eye, Wand2, Check, Sparkles, X, Loader2, User, Briefcase, Code2, Clock, Menu } from 'lucide-react'
+import { LayoutTemplate, Eye, Wand2, Check, X, Loader2, User, Briefcase, Code2, Clock } from 'lucide-react'
 
 import TemplatePurple      from '../templates/TemplatePurple'
 import TemplateFuturistic  from '../templates/TemplateFuturistic'
@@ -319,7 +321,7 @@ Return ONLY valid JSON (no markdown, no explanation) with this exact structure:
 
 Include 4-6 skills, 1-2 education entries, 2-3 experience entries, 2-3 projects. Make everything realistic and relevant to the role.`
 
-      const res = await fetch('http://localhost:5000/api/ai/generate-text', {
+      const res = await fetch(`${AI_API_BASE}/generate-text`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ prompt }),
@@ -337,7 +339,7 @@ Include 4-6 skills, 1-2 education entries, 2-3 experience entries, 2-3 projects.
       sessionStorage.setItem('craft_portfolio', JSON.stringify({ ...portfolio, template: id }))
 
       setGenStep('Done!')
-      setTimeout(() => navigate('/craft/preview'), 400)
+      setTimeout(() => navigate(`/craft/preview/${id}`), 400)
     } catch (err) {
       setGenError(err.message.includes('JSON') ? 'AI returned unexpected format. Please try again.' : err.message)
     } finally {
@@ -346,27 +348,13 @@ Include 4-6 skills, 1-2 education entries, 2-3 experience entries, 2-3 projects.
   }
 
   return (
-    <div className="flex h-screen bg-[#060d1a] overflow-hidden">
+    <div className="flex min-h-screen bg-[#060d1a] overflow-x-hidden">
       <Sidebar mobileOpen={mobileOpen} setMobileOpen={setMobileOpen} />
       <ParticleBackground />
 
-      {/* Mobile menu toggle */}
-      <div className="sticky top-0 z-[100] flex items-center justify-between p-3 bg-[#060d1a]/80 backdrop-blur-lg border-b border-white/10 w-full">
-        <div className="flex items-center gap-2">
-          <div className="w-7 h-7 rounded-lg bg-gradient-to-br from-cyan-400 to-indigo-500 flex items-center justify-center shadow-lg shadow-cyan-500/20">
-            <Sparkles size={14} className="text-white" />
-          </div>
-          <span className="text-white font-black text-sm tracking-tight uppercase">PortfolioMaker</span>
-        </div>
-        <button
-          onClick={() => setMobileOpen(true)}
-          className="p-2 rounded-lg bg-white/5 border border-white/10 text-gray-400 hover:text-white transition-all"
-        >
-          <Menu size={18} />
-        </button>
-      </div>
+      <div className="flex-1 min-w-0 flex flex-col relative" style={{ zIndex: 1 }}>
+        <MobileTopBar setMobileOpen={setMobileOpen} />
 
-      <div className="flex-1 flex flex-col relative" style={{ zIndex: 1 }}>
         <main className="flex-1 overflow-y-auto px-4 sm:px-8 py-6 sm:py-10">
 
           {/* Page header */}
@@ -451,7 +439,7 @@ Include 4-6 skills, 1-2 education entries, 2-3 experience entries, 2-3 projects.
                   <p className="text-gray-400 text-sm leading-relaxed mb-4">{t.description}</p>
 
                   <button
-                    onClick={(e) => { e.stopPropagation(); navigate('/craft/preview', { state: { previewTemplate: t.id } }) }}
+                    onClick={(e) => { e.stopPropagation(); navigate(`/craft/preview/${t.id}`, { state: { previewTemplate: t.id } }) }}
                     className="w-full flex items-center justify-center gap-2 py-2.5 rounded-xl text-sm font-semibold transition-all active:scale-95"
                     style={{
                       background: `linear-gradient(135deg,rgba(${t.accentRgb},0.2),rgba(${t.accentRgb},0.08))`,

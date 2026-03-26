@@ -3,13 +3,12 @@ import { useNavigate } from 'react-router-dom'
 import Sidebar from '../components/Sidebar'
 import Header from '../components/Header'
 import ParticleBackground from '../components/ParticleBackground'
+import { AI_API_BASE } from '../api/paths'
 import {
   Upload, FileText, Loader2, AlertCircle, Check, ChevronRight,
   User, Mail, Phone, MapPin, Globe, Linkedin, Briefcase, GraduationCap,
   Code2, FolderGit2, Plus, X, Sparkles
 } from 'lucide-react'
-
-const API = 'http://localhost:5000/api/ai'
 const SKILL_LEVELS = ['Beginner', 'Intermediate', 'Expert']
 
 const fieldStyle = {
@@ -78,7 +77,7 @@ export default function UploadResume() {
     try {
       const form = new FormData()
       form.append('resume', file)
-      const res = await fetch(`${API}/parse-resume`, { method: 'POST', body: form })
+      const res = await fetch(`${AI_API_BASE}/parse-resume`, { method: 'POST', body: form })
       const data = await res.json()
       if (!res.ok) throw new Error(data.error || 'Parsing failed')
       setPortfolio({ ...data.portfolio, template: selectedTemplate })
@@ -110,7 +109,7 @@ export default function UploadResume() {
   function handleGeneratePortfolio() {
     const final = { ...portfolio, template: selectedTemplate }
     localStorage.setItem('craft_portfolio', JSON.stringify(final))
-    navigate('/craft/preview', { state: { previewTemplate: selectedTemplate } })
+    navigate(`/craft/preview/${selectedTemplate}`, { state: { previewTemplate: selectedTemplate } })
   }
 
   /* ── DRAG DROP ── */

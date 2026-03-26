@@ -156,6 +156,16 @@ export default function TemplatePresentationStyle({ p = {} }) {
         minWidth: 820,
       }}
     >
+      <style>{`
+        @media (max-width: 640px) {
+          #portfolio-render { min-width: unset !important; font-size: 15px; }
+          #portfolio-render > div { padding: 20px !important; min-height: auto !important; }
+          #portfolio-render img { max-width: 100% !important; height: auto !important; display: block; }
+          #portfolio-render [style*="display: flex"] { flex-direction: column !important; align-items: stretch !important; }
+          #portfolio-render [style*="gridTemplateColumns"], #portfolio-render [style*="grid-template-columns"] { grid-template-columns: 1fr !important; }
+          #portfolio-render .TopBadge, #portfolio-render .PageNum { display: none !important; }
+        }
+      `}</style>
       {/* ── 1. COVER ── */}
       <div style={{
         ...sectionStyle,

@@ -2,9 +2,8 @@ import React, { useState, useRef } from 'react'
 import Sidebar from '../components/Sidebar'
 import Header from '../components/Header'
 import ParticleBackground from '../components/ParticleBackground'
+import { AI_API_BASE } from '../api/paths'
 import { Wand2, Image, Volume2, Send, Loader2, AlertCircle, Copy, Check, RefreshCw, Menu } from 'lucide-react'
-
-const API = 'http://localhost:5000/api/ai'
 
 /* ─── Reusable card shell ─── */
 function ToolCard({ icon: Icon, title, description, accentColor, accentRgb, children }) {
@@ -47,7 +46,7 @@ function TextGenerator() {
     if (!prompt.trim()) return
     setLoading(true); setError(''); setResult('')
     try {
-      const res = await fetch(`${API}/generate-text`, {
+      const res = await fetch(`${AI_API_BASE}/generate-text`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ prompt }),
@@ -140,7 +139,7 @@ function ImageGenerator() {
     if (!prompt.trim()) return
     setLoading(true); setError(''); setImageUrl('')
     try {
-      const res = await fetch(`${API}/generate-image`, {
+      const res = await fetch(`${AI_API_BASE}/generate-image`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ prompt }),
@@ -243,7 +242,7 @@ function VoiceGenerator() {
     if (audioUrl) URL.revokeObjectURL(audioUrl)
     setAudioUrl('')
     try {
-      const res = await fetch(`${API}/generate-audio`, {
+      const res = await fetch(`${AI_API_BASE}/generate-audio`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ text }),

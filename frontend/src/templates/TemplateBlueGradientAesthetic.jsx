@@ -199,7 +199,18 @@ export default function TemplateBlueGradientAesthetic({ p = {} }) {
   const bodyFont = "'Segoe UI', 'Helvetica Neue', Arial, sans-serif"
 
   return (
-    <div style={{ fontFamily: bodyFont, color: WHITE, background: NAVY, overflowX: 'hidden' }}>
+    <div id="portfolio-render" style={{ fontFamily: bodyFont, color: WHITE, background: NAVY, overflowX: 'hidden' }}>
+      <style>{`
+        @media (max-width: 640px) {
+          #portfolio-render { font-size: 15px; }
+          #portfolio-render [style*="padding: '80px"], #portfolio-render [style*="padding: '60px"], #portfolio-render [style*="padding: '40px"] { padding: 16px !important; }
+          #portfolio-render [style*="flexDirection: 'row'"], #portfolio-render [style*="flexDirection: 'row'"] { flex-direction: column !important; align-items: stretch !important; gap: 16px !important; }
+          #portfolio-render img { max-width: 100% !important; height: auto !important; display: block; }
+          #portfolio-render .bga-heading { font-size: 1.6rem !important; }
+          #portfolio-render [style*="position: 'absolute'][style*='rotate'] { display: none !important; }
+          #portfolio-render [style*="width: 300"], #portfolio-render [style*="width: 360"], #portfolio-render [style*="width: 260"] { width: 100% !important; max-width: 100% !important; }
+        }
+      `}</style>
       <FontStyle />
 
       {/* ══════════════════════════════

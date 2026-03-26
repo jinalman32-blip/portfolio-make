@@ -148,6 +148,17 @@ export default function TemplateOrangeWhite({ p = {} }) {
         minWidth: 820,
       }}
     >
+      <style>{`
+        @media (max-width: 640px) {
+          #portfolio-render { min-width: unset !important; font-size: 15px; }
+          #portfolio-render [style*="margin-left: 88"] { margin-left: 12px !important; padding: 16px !important; }
+          #portfolio-render [style*="position: absolute"][style*="left: 0"] { display: none !important; }
+          #portfolio-render img { max-width: 100% !important; height: auto !important; display: block; }
+          #portfolio-render [style*="display: flex"] { flex-direction: column !important; align-items: stretch !important; gap: 12px !important; }
+          #portfolio-render [style*="gridTemplateColumns"], #portfolio-render [style*="grid-template-columns"] { grid-template-columns: 1fr !important; }
+          #portfolio-render h1, #portfolio-render h2 { font-size: 1.6em !important; }
+        }
+      `}</style>
 
       {/* ══ 1. COVER ══ */}
       <div style={{

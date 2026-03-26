@@ -124,7 +124,40 @@ export default function TemplateDarkBlue({ p = {} }) {
 
   /* ══════════════════════════════════════════════════════════ */
   return (
-    <div style={{ background: BG, color: W, fontFamily: font, lineHeight: 1.6, overflowX: 'hidden' }}>
+    <div id="portfolio-render" style={{ background: BG, color: W, fontFamily: font, lineHeight: 1.6, overflowX: 'hidden' }}>
+      <style>{`
+        @media (max-width: 768px) {
+          #portfolio-render section { padding: 40px 20px !important; min-height: auto !important; }
+          #portfolio-render section > div { padding: 24px 20px !important; }
+          /* Reset giant fonts */
+          #portfolio-render div[style*="clamp(72px"] { font-size: 3rem !important; letter-spacing: 0px !important; line-height: 1.1 !important; margin-bottom: 24px !important; }
+          #portfolio-render h2[style*="clamp(48px"] { font-size: 2.5rem !important; letter-spacing: 0px !important; }
+          #portfolio-render h2[style*="clamp(80px"] { font-size: 3.5rem !important; letter-spacing: 0px !important; }
+          #portfolio-render h2[style*="clamp"] { font-size: 2.2rem !important; }
+          #portfolio-render h3[style*="clamp"] { font-size: 1.8rem !important; }
+          
+          /* Cover page inner box */
+          #portfolio-render section:first-of-type > div { padding: 40px 20px !important; }
+          /* Hide pill tags on mobile cover to avoid overlapping */
+          #portfolio-render section:first-of-type > div > div:first-child { display: none !important; }
+          
+          /* Stack flex containers that are main layout wrappers */
+          #portfolio-render section[style*="display: flex"][style*="gap: 60px"] { flex-direction: column !important; gap: 30px !important; }
+          
+          /* Photo blocks and containers */
+          #portfolio-render div[style*="width: 260px"], #portfolio-render div[style*="width: 300px"] { width: 100% !important; max-width: 300px !important; margin: 0 auto !important; height: auto !important; aspect-ratio: 4/5; }
+          
+          /* Images */
+          #portfolio-render img { max-width: 100% !important; height: auto !important; }
+          
+          /* Grids */
+          #portfolio-render div[style*="grid-template-columns"] { grid-template-columns: 1fr !important; }
+          
+          /* Bottom row of Cover */
+          #portfolio-render section:first-of-type > div > div[style*="border-top"] { flex-direction: column !important; gap: 8px !important; }
+          #portfolio-render section:first-of-type > div > div[style*="border-top"] > div { display: none !important; /* Hide separator line on mobile */ }
+        }
+      `}</style>
 
       {/* ── PAGE 1: COVER ── */}
       <section style={{ minHeight: '100vh', background: `radial-gradient(ellipse at 60% 40%, #111830 0%, ${BG} 70%)`, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '60px 40px' }}>

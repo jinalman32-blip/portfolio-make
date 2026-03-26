@@ -3,9 +3,10 @@ import { useNavigate } from 'react-router-dom'
 import {
   Sparkles, Upload, PenLine, Zap, Star, Shield,
   ArrowRight, Code2, Palette, Globe, ChevronRight, Play,
-  Twitter, Linkedin, Github, ExternalLink, Menu
+  Twitter, Linkedin, Github, ExternalLink
 } from 'lucide-react'
 import Sidebar from '../components/Sidebar'
+import MobileTopBar from '../components/MobileTopBar'
 import ParticleBackground from '../components/ParticleBackground'
 import FloatingIconsBackground from '../components/FloatingIconsBackground'
 
@@ -590,23 +591,8 @@ export default function HomePage() {
 
       <Sidebar mobileOpen={mobileOpen} setMobileOpen={setMobileOpen} />
 
-      <div className="flex-1 overflow-y-auto relative custom-scrollbar" style={{ zIndex: 1 }}>
-
-        {/* Mobile menu toggle */}
-        <div className="sticky top-0 z-[100] flex items-center justify-between p-3 bg-[#060d1a]/80 backdrop-blur-lg border-b border-white/10">
-          <div className="flex items-center gap-2">
-            <div className="w-7 h-7 rounded-lg bg-gradient-to-br from-cyan-400 to-indigo-500 flex items-center justify-center shadow-lg shadow-cyan-500/20">
-              <Sparkles size={14} className="text-white" />
-            </div>
-            <span className="text-white font-black text-sm tracking-tight uppercase">PortfolioMaker</span>
-          </div>
-          <button
-            onClick={() => setMobileOpen(true)}
-            className="p-2 rounded-lg bg-white/5 border border-white/10 text-gray-400 hover:text-white transition-all"
-          >
-            <Menu size={18} />
-          </button>
-        </div>
+      <div className="flex-1 min-w-0 overflow-y-auto relative custom-scrollbar" style={{ zIndex: 1 }}>
+        <MobileTopBar setMobileOpen={setMobileOpen} />
 
         {/* ══════════════ HERO SECTION ══════════════ */}
         <section className="relative min-h-[75vh] flex flex-col lg:flex-row items-center justify-center lg:justify-start px-4 sm:px-12 lg:px-20 py-10 sm:py-16 lg:py-14 overflow-hidden gap-10 lg:gap-20">

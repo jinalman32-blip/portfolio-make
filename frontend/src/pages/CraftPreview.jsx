@@ -1,5 +1,5 @@
-import React, { useState, useRef, Component } from 'react'
-import { useNavigate, useLocation } from 'react-router-dom'
+import React, { useState, useRef, Component, useEffect } from 'react'
+import { useNavigate, useLocation, useParams } from 'react-router-dom'
 
 class PreviewErrorBoundary extends Component {
   constructor(props) {
@@ -556,14 +556,16 @@ const DEMO_PORTFOLIO = {
 export default function CraftPreview() {
   const navigate = useNavigate()
   const location = useLocation()
+  const { templateId: templateIdParam } = useParams()
   const query = new URLSearchParams(location.search)
   const isFullScreen = query.get('full') === 'true'
+  const previewStateTemplate = location.state?.previewTemplate || null
   
   const [scale] = useState(0.7)
   const [mobile, setMobile] = useState(false)
   const [downloaded, setDownloaded] = useState(false)
   const [saved, setSaved] = useState(false)
-  const [activeTemplate, setActiveTemplate] = useState(location.state?.previewTemplate || null)
+  const [activeTemplate, setActiveTemplate] = useState(templateIdParam || previewStateTemplate || null)
   const [bgGenerating, setBgGenerating] = useState(false)
   const [bgError, setBgError] = useState(null)
   const [bgCategory, setBgCategory] = useState('IT & Software')
@@ -574,6 +576,10 @@ export default function CraftPreview() {
   const [publishModal, setPublishModal] = useState(false)
   const [slug, setSlug] = useState('')
   const [publishStatus, setPublishStatus] = useState({ type: '', msg: '', url: '' })
+
+  useEffect(() => {
+    setActiveTemplate(templateIdParam || previewStateTemplate || null)
+  }, [templateIdParam, previewStateTemplate])
 
   const rawPortfolio = (() => {
     try { return JSON.parse(sessionStorage.getItem('craft_portfolio') || 'null') } catch { return null }
@@ -792,7 +798,10 @@ export default function CraftPreview() {
           </p>
           <div className="space-y-2">
             {Object.entries(TEMPLATE_MAP).map(([id, t]) => (
-              <button key={id} onClick={() => setActiveTemplate(id)}
+              <button key={id} onClick={() => {
+                setActiveTemplate(id)
+                navigate(`/craft/preview/${id}`, { replace: true })
+              }}
                 className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl transition-all text-left"
                 style={{
                   background: templateId === id ? `${t.accent}15` : 'rgba(255,255,255,0.03)',
@@ -1121,18 +1130,34 @@ export default function CraftPreview() {
 
         {/* Preview Frame */}
         <div className="flex-1 overflow-auto bg-[#040812] p-2 sm:p-8 flex justify-center items-start custom-scrollbar">
+          {/* Simple debug / status — shows which template is selected */}
+          <div className="absolute top-16 right-6 z-30 hidden lg:flex items-center gap-2 px-3 py-1 rounded-md bg-black/50 text-xs text-gray-300">
+            <span className="font-medium">Template:</span>
+            <span className="font-mono text-[12px] text-cyan-300 truncate max-w-[120px]">{templateId}</span>
+            <span className="px-2 text-[11px] bg-white/5 rounded">{hasRealData ? 'real data' : 'demo'}</span>
+            <button
+              type="button"
+              onClick={() => {
+                const cur = templateId
+                setActiveTemplate(null)
+                setTimeout(() => setActiveTemplate(cur), 30)
+              }}
+              className="ml-2 px-2 py-1 rounded bg-white/5 hover:bg-white/10 text-[11px]">
+              Force render
+            </button>
+          </div>
           <div
             id="portfolio-container"
             className="transition-all duration-500 origin-top shadow-[0_30px_100px_rgba(0,0,0,0.6)] portfolio-template"
             style={{
-              width: mobile ? 385 : '100%',
-              maxWidth: mobile ? 385 : 1000,
-              minHeight: '100%',
+              width: '100%',
+              maxWidth: mobile ? 390 : 1000,
+              minHeight: mobile ? '844px' : '100%',
               background: '#fff',
-              transform: `scale(${window.innerWidth < 1024 ? Math.min(0.95, (window.innerWidth - 30) / (mobile ? 385 : 1000)) : scale})`,
+              transform: 'none',
               borderRadius: mobile ? '32px' : '0px',
               border: mobile ? '10px solid #1a1a1a' : 'none',
-              overflow: 'hidden'
+              overflow: 'visible'
             }}
           >
             <PreviewErrorBoundary key={portfolio.template || templateId}>

@@ -168,6 +168,17 @@ export default function TemplateBoldBlack({ p = {} }) {
         minWidth: 840,
       }}
     >
+      <style>{`
+        @media (max-width: 640px) {
+          #portfolio-render { min-width: unset !important; font-size: 15px; }
+          #portfolio-render [style*="padding: '40px 48px'"], #portfolio-render [style*="padding: '48px 48px'"] { padding: 16px !important; }
+          #portfolio-render [style*="display: flex"] { flex-direction: column !important; align-items: stretch !important; gap: 12px !important; }
+          #portfolio-render [style*="gridTemplateColumns"], #portfolio-render [style*="grid-template-columns"] { grid-template-columns: 1fr !important; }
+          #portfolio-render img { max-width: 100% !important; height: auto !important; display: block; }
+          #portfolio-render .Massive { font-size: 2rem !important; }
+          #portfolio-render [style*="padding: '18px 48px'"] { padding: 12px !important; }
+        }
+      `}</style>
 
       {/* ── SLIDE 1: COVER ── */}
       <Slide style={{ minHeight: 520 }}>

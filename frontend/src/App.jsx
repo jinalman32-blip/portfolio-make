@@ -7,7 +7,7 @@ function RefreshGuard() {
   useEffect(() => {
     const nav = performance.getEntriesByType?.('navigation')?.[0]
     if (nav?.type === 'reload') {
-      const safe = ['/home', '/login', '/register']
+      const safe = ['/home', '/login', '/register', '/craft', '/craft/preview', '/templates']
       if (!safe.some(p => location.pathname === p || location.pathname.startsWith(p + '/'))) {
         navigate('/home', { replace: true })
       }
@@ -42,6 +42,7 @@ export default function App() {
         <Route path="/profile"        element={<ProfileSettings />} />
         <Route path="/craft"          element={<CraftWizard />} />
         <Route path="/craft/preview"  element={<CraftPreview />} />
+        <Route path="/craft/preview/:templateId" element={<CraftPreview />} />
         <Route path="/templates"      element={<Templates />} />
         <Route path="/ai-tools"       element={<AITools />} />
         <Route path="/login"          element={<Navigate to="/home" replace />} />

@@ -119,7 +119,18 @@ export default function TemplateGreenBeige(p) {
   const displayName = d.name || 'Your Name'
 
   return (
-    <div style={{ background:BG, minHeight:'100vh', fontFamily:"'Arial','Helvetica',sans-serif", color:BLACK }}>
+    <div id="portfolio-render" style={{ background:BG, minHeight:'100vh', fontFamily:"'Arial','Helvetica',sans-serif", color:BLACK }}>
+      <style>{`
+        @media (max-width: 640px) {
+          #portfolio-render { font-size: 15px; }
+          #portfolio-render [style*="padding:'60px"], #portfolio-render [style*="padding:'72px"], #portfolio-render [style*="padding:'80px"], #portfolio-render [style*="padding: 72px"] { padding: 16px !important; }
+          #portfolio-render [style*="display: grid"][style*="gridTemplateColumns"], #portfolio-render [style*="grid-template-columns"] { grid-template-columns: 1fr !important; }
+          #portfolio-render img { max-width: 100% !important; height: auto !important; display: block; }
+          #portfolio-render h1, #portfolio-render h2, #portfolio-render h4 { font-size: 1.4rem !important; }
+          #portfolio-render [style*="position: absolute"][style*="left:"] { display: none !important; }
+          #portfolio-render [style*="width: 300"], #portfolio-render [style*="width: 260"], #portfolio-render [style*="width: 220"] { width: 100% !important; max-width: 100% !important; }
+        }
+      `}</style>
 
       {/* ══════════ PAGE 1 – HERO ══════════ */}
       <Header name={displayName} handle={handle}/>

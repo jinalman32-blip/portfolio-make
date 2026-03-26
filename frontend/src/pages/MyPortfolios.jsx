@@ -2,10 +2,11 @@ import React, { useState, useEffect } from 'react'
 import { FolderOpen, Plus, Trash2, Eye, Edit3, Calendar, Layers, CheckCircle2 } from 'lucide-react'
 import { useNavigate } from 'react-router-dom'
 import Sidebar from '../components/Sidebar'
+import MobileTopBar from '../components/MobileTopBar'
 import ParticleBackground from '../components/ParticleBackground'
 import FloatingIconsBackground from '../components/FloatingIconsBackground'
 import api from '../api/api'
-import { Globe, Lock, ExternalLink, Loader2, Menu, Sparkles } from 'lucide-react'
+import { Globe, Lock, ExternalLink, Loader2 } from 'lucide-react'
 
 const TEMPLATE_COLORS = {
   browncream:         { accent: '#7B5B3A', label: 'Brown & Cream' },
@@ -106,7 +107,7 @@ export default function MyPortfolios() {
   }
 
   return (
-    <div className="flex h-screen bg-[#060d1a] overflow-hidden" style={{ 
+    <div className="flex min-h-screen bg-[#060d1a] overflow-x-hidden" style={{ 
       backgroundImage: 'url("/images/bg_main.png")',
       backgroundSize: 'cover',
       backgroundAttachment: 'fixed',
@@ -117,23 +118,8 @@ export default function MyPortfolios() {
       <ParticleBackground />
       <FloatingIconsBackground />
 
-      {/* Mobile menu toggle */}
-      <div className="sticky top-0 z-[100] flex items-center justify-between p-3 bg-[#060d1a]/80 backdrop-blur-lg border-b border-white/10 w-full">
-        <div className="flex items-center gap-2">
-          <div className="w-7 h-7 rounded-lg bg-gradient-to-br from-cyan-400 to-indigo-500 flex items-center justify-center shadow-lg shadow-cyan-500/20">
-            <Sparkles size={14} className="text-white" />
-          </div>
-          <span className="text-white font-black text-sm tracking-tight uppercase">PortfolioMaker</span>
-        </div>
-        <button
-          onClick={() => setMobileOpen(true)}
-          className="p-2 rounded-lg bg-white/5 border border-white/10 text-gray-400 hover:text-white transition-all"
-        >
-          <Menu size={18} />
-        </button>
-      </div>
-
-      <div className="flex-1 flex flex-col relative" style={{ zIndex: 1 }}>
+      <div className="flex-1 min-w-0 flex flex-col relative" style={{ zIndex: 1 }}>
+        <MobileTopBar setMobileOpen={setMobileOpen} />
 
         <main className="flex-1 overflow-y-auto px-4 sm:px-8 py-6 sm:py-8">
           {/* Top bar */}

@@ -835,7 +835,7 @@ export default function CraftWizard() {
   const next = () => {
     if (step === 8) {
       save(portfolio)
-      navigate('/craft/preview')
+      navigate(`/craft/preview/${portfolio.template || 'purple'}`)
     } else setStep(s => s + 1)
   }
   const prev = () => setStep(s => s - 1)

@@ -15,7 +15,9 @@ api.interceptors.request.use((config) => {
     localStorage.setItem('token', token);
     localStorage.setItem('user', JSON.stringify({ name: 'Guest User', email: 'guest@portfoliomaker.com' }));
   }
-  config.headers.Authorization = `Bearer ${token}`;
+  // Sanitize token to avoid "Invalid character in header content" errors
+  const cleanToken = token.trim().replace(/[\n\r]/g, '');
+  config.headers.Authorization = `Bearer ${cleanToken}`;
   return config;
 });
 

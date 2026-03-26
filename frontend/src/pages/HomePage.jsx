@@ -842,9 +842,14 @@ export default function HomePage() {
                 The AI-powered portfolio builder designed for the next generation of top talent. Create and publish in minutes.
               </p>
               <div className="flex gap-4">
-                {[Twitter, Linkedin, Github, Globe].map((Icon, idx) => (
-                  <a key={idx} href="#" className="w-9 h-9 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center text-gray-400 hover:text-cyan-400 hover:border-cyan-400/30 hover:bg-cyan-400/5 transition-all">
-                    <Icon size={18} />
+                {[
+                  { Icon: Twitter,  url: 'https://twitter.com' },
+                  { Icon: Linkedin, url: 'https://linkedin.com' },
+                  { Icon: Github,   url: 'https://github.com' },
+                  { Icon: Globe,    url: 'https://portfoliomaker.com' }
+                ].map((social, idx) => (
+                  <a key={idx} href={social.url} target="_blank" rel="noopener noreferrer" className="w-9 h-9 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center text-gray-400 hover:text-cyan-400 hover:border-cyan-400/30 hover:bg-cyan-400/5 transition-all">
+                    <social.Icon size={18} />
                   </a>
                 ))}
               </div>
@@ -873,10 +878,10 @@ export default function HomePage() {
             <div>
               <h4 className="text-white font-bold mb-6 text-sm uppercase tracking-widest">Company</h4>
               <ul className="space-y-4 text-sm">
-                <li><a href="#" className="text-gray-400 hover:text-white transition-colors">About Us</a></li>
-                <li><a href="#" className="text-gray-400 hover:text-white transition-colors">Careers</a></li>
-                <li><a href="#" className="text-gray-400 hover:text-white transition-colors">Privacy Policy</a></li>
-                <li><a href="#" className="text-gray-400 hover:text-white transition-colors">Terms of Service</a></li>
+                <li><button onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })} className="text-gray-400 hover:text-white transition-colors">About Us</button></li>
+                <li><button onClick={() => alert('We are currently looking for talented AI developers!')} className="text-gray-400 hover:text-white transition-colors">Careers</button></li>
+                <li><button onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })} className="text-gray-400 hover:text-white transition-colors">Privacy Policy</button></li>
+                <li><button onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })} className="text-gray-400 hover:text-white transition-colors">Terms of Service</button></li>
               </ul>
             </div>
 
@@ -884,9 +889,9 @@ export default function HomePage() {
             <div>
               <h4 className="text-white font-bold mb-6 text-sm uppercase tracking-widest">Support</h4>
               <ul className="space-y-4 text-sm">
-                <li><a href="#" className="text-gray-400 hover:text-white transition-colors">Help Center</a></li>
-                <li><a href="#" className="text-gray-400 hover:text-white transition-colors">Documentation</a></li>
-                <li><a href="#" className="text-gray-400 hover:text-white transition-colors">Community</a></li>
+                <li><button onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })} className="text-gray-400 hover:text-white transition-colors">Help Center</button></li>
+                <li><button onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })} className="text-gray-400 hover:text-white transition-colors">Documentation</button></li>
+                <li><button onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })} className="text-gray-400 hover:text-white transition-colors">Community</button></li>
                 <li><button onClick={() => navigate('/refer-earn')} className="text-cyan-400 hover:underline font-medium">Refer & Earn</button></li>
               </ul>
             </div>

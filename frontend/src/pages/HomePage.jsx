@@ -787,58 +787,50 @@ export default function HomePage() {
         <section className="px-3 py-10 sm:py-12 overflow-hidden relative">
           <div className="max-w-4xl mx-auto">
             <TiltCard
-              className="relative overflow-hidden rounded-[1.5rem] sm:rounded-[3rem] px-6 sm:px-12 py-10 sm:py-20 text-left md:text-left w-full group"
+              className="relative overflow-hidden rounded-[1.5rem] sm:rounded-[3rem] px-3 sm:px-12 py-10 sm:py-20 text-center w-full group"
               style={{
-                background: 'rgba(13,21,38,0.85)',
-                border: '1px solid rgba(255,255,255,0.15)',
-                backdropFilter: 'blur(40px)'
+                background: 'rgba(13,21,38,0.7)',
+                border: '1px solid rgba(255,255,255,0.1)',
+                backdropFilter: 'blur(30px)'
               }}
             >
               <div 
-                className="absolute inset-0 z-0 opacity-50 transition-transform duration-[2s] ease-out group-hover:scale-110"
+                className="absolute inset-0 z-0 opacity-40 transition-transform duration-[2s] ease-out group-hover:scale-110"
                 style={{
                   backgroundImage: 'url("/images/cta_bg.png")',
                   backgroundSize: 'cover',
                   backgroundPosition: 'center',
                 }}
               />
-              <div className="absolute inset-0 z-[1] bg-gradient-to-r from-[#060d1a] via-[#060d1a]/80 to-transparent" />
+              <div className="absolute inset-0 z-[1] bg-gradient-to-t from-[#060d1a] via-transparent to-[#060d1a]/60" />
 
-              <div className="relative z-10 flex flex-col md:flex-row items-center gap-10 md:gap-16">
-                <div className="flex-1 text-center md:text-left">
-                  <div className="w-12 h-12 xs:w-16 xs:h-16 sm:w-20 sm:h-20 rounded-[1.1rem] sm:rounded-[1.5rem] mb-6 sm:mb-8 flex items-center justify-center mx-auto md:mx-0"
-                    style={{ background: 'linear-gradient(135deg,#22d3ee,#0ea5e9)', boxShadow: '0 0 30px rgba(34,211,238,0.3)' }}>
-                    <Sparkles size={isXS ? 24 : 28} className="text-white" />
-                  </div>
-                  <h2 className="text-white text-3xl sm:text-4xl lg:text-7xl font-black mb-4 sm:mb-6 italic tracking-tight uppercase leading-tight break-words">Ready to Shine?</h2>
-                  <p className="text-gray-200 text-[13px] xs:text-sm sm:text-lg mb-8 sm:mb-10 w-full max-w-xl leading-relaxed">
-                    Join 50,000+ top professionals who already built their dream portfolio with <span className="text-cyan-400 font-bold">PortfolioMaker</span>
-                  </p>
-                  <button
-                    onClick={() => navigate('/dashboard')}
-                    className="group flex items-center gap-3 px-8 sm:px-10 py-4 sm:py-5 rounded-2xl font-black text-white transition-all duration-300 hover:scale-105 active:scale-95"
-                    style={{ 
-                      background: 'linear-gradient(135deg,#22d3ee,#6366f1)',
-                      boxShadow: '0 10px 30px rgba(34,211,238,0.3)'
-                    }}
-                  >
-                    <Sparkles size={18} />
-                    Start Your Journey
-                    <ArrowRight size={18} className="transition-transform group-hover:translate-x-1" />
-                  </button>
+              <div className="absolute -top-10 -left-10 w-40 h-40 rounded-full opacity-20"
+                style={{ background: 'radial-gradient(circle,#22d3ee,transparent)', filter: 'blur(30px)' }} />
+              <div className="absolute -bottom-10 -right-10 w-40 h-40 rounded-full opacity-20"
+                style={{ background: 'radial-gradient(circle,#6366f1,transparent)', filter: 'blur(30px)' }} />
+              
+              <div className="relative z-10">
+                <div className="w-12 h-12 xs:w-16 xs:h-16 sm:w-20 sm:h-20 rounded-[1.1rem] sm:rounded-[1.5rem] mx-auto mb-6 sm:mb-8 flex items-center justify-center"
+                  style={{ background: 'linear-gradient(135deg,#22d3ee,#0ea5e9)', boxShadow: '0 0 30px rgba(34,211,238,0.3)' }}>
+                  <Sparkles size={isXS ? 24 : 28} className="text-white" />
                 </div>
-                
-                <div className="hidden md:block flex-1 relative">
-                  <div className="relative z-20 animate-float">
-                    <img 
-                      src="/images/cta_illustration.png" 
-                      alt="Success" 
-                      className="w-full h-auto rounded-3xl shadow-2xl shadow-cyan-500/20"
-                      style={{ border: '1px solid rgba(255,255,255,0.1)' }}
-                    />
-                  </div>
-                  <div className="absolute -inset-10 bg-cyan-500/10 blur-[60px] rounded-full z-10" />
-                </div>
+                <h2 className="text-white text-xl xs:text-2xl sm:text-4xl lg:text-6xl font-black mb-4 sm:mb-6 italic tracking-tight uppercase leading-tight break-words">Ready to Shine?</h2>
+                <p className="text-gray-200 text-[13px] xs:text-sm sm:text-base mb-8 sm:mb-10 w-full max-w-[240px] xs:max-w-sm mx-auto leading-relaxed px-2">
+                  Join 50,000+ top professionals who already built their dream portfolio with <span className="text-cyan-400 font-bold">PortfolioMaker</span>
+                </p>
+                <button
+                  onClick={() => navigate('/dashboard')}
+                  className="group flex items-center gap-3 px-8 sm:px-10 py-4 sm:py-5 rounded-2xl font-black text-white transition-all duration-300 hover:scale-105 active:scale-95"
+                  style={{ 
+                    margin: '0 auto',
+                    background: 'linear-gradient(135deg,#22d3ee,#6366f1)',
+                    boxShadow: '0 10px 30px rgba(34,211,238,0.3)'
+                  }}
+                >
+                  <Sparkles size={18} />
+                  Start Your Journey
+                  <ArrowRight size={18} className="transition-transform group-hover:translate-x-1" />
+                </button>
               </div>
             </TiltCard>
           </div>

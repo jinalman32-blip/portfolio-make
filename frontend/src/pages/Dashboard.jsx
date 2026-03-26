@@ -106,9 +106,9 @@ export default function Dashboard() {
             <div className="w-full max-w-xl animate-slide-up">
               <Card
                 icon={PenLine}
-                title="Craft Your Portfolio"
-                description="Build your professional portfolio from scratch with our intuitive editor. Full control over every section, from experience to projects, with real-time AI assistance."
-                badge="Primary Action"
+                title="Resume & Portfolio Builder"
+                description="Create a professional resume and transform it into a stunning live portfolio. Use our direct-edit form to update your details in real-time."
+                badge="Main Form"
                 onClick={() => navigate('/craft')}
                 gradient="linear-gradient(135deg, rgba(34, 211, 238, 0.2), rgba(99, 102, 241, 0.15))"
                 glowColor="rgba(34, 211, 238, 0.4)"

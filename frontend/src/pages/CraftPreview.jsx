@@ -775,7 +775,7 @@ export default function CraftPreview() {
         <div className="p-2 sm:p-5 border-b border-cyan-500/10 flex items-center lg:block gap-3">
           <button onClick={() => navigate('/craft')}
             className="flex items-center gap-1.5 text-gray-400 hover:text-white transition-colors text-xs lg:text-sm lg:mb-4">
-            <ArrowLeft size={16}/> <span className="hidden sm:inline lg:hidden">Back</span><span className="hidden lg:inline">Back to Edit</span>
+            <ArrowLeft size={16}/> <span className="hidden sm:inline lg:hidden">Form</span><span className="hidden lg:inline">Back to Resume Form</span>
           </button>
           <div className="flex-1 lg:block">
             <h2 className="text-white font-bold text-sm lg:text-lg">Preview</h2>
@@ -933,21 +933,27 @@ export default function CraftPreview() {
 
 
         {/* Summary */}
-        <div className="p-4 flex-1 hidden lg:block">
-          <p className="text-gray-400 text-xs font-semibold uppercase tracking-wider mb-3">Portfolio Summary</p>
+        <div className="p-4 flex-1 hidden lg:block overflow-y-auto">
+          <p className="text-gray-400 text-xs font-semibold uppercase tracking-wider mb-3">Resume Data Summary</p>
           {[
-            ['Name', portfolio.details?.name || '—'],
-            ['Title', portfolio.details?.title || '—'],
-            ['Skills', `${portfolio.skills?.length || 0} added`],
-            ['Education', `${portfolio.education?.length || 0} entries`],
-            ['Experience', `${portfolio.experience?.length || 0} entries`],
-            ['Projects', `${portfolio.projects?.length || 0} added`],
-            ['Certifications', `${portfolio.certifications?.length || 0} added`],
-            ['Publications', `${portfolio.publications?.length || 0} added`],
-            ['Awards', `${portfolio.awards?.length || 0} added`],
-          ].map(([label, val]) => (
-            <div key={label} className="flex justify-between py-1.5 border-b border-white/5 text-xs">
-              <span className="text-gray-500">{label}</span>
+            ['Name', portfolio.details?.name || '—', 0],
+            ['Title', portfolio.details?.title || '—', 0],
+            ['Skills', `${portfolio.skills?.length || 0} added`, 1],
+            ['Education', `${portfolio.education?.length || 0} entries`, 2],
+            ['Experience', `${portfolio.experience?.length || 0} entries`, 3],
+            ['Projects', `${portfolio.projects?.length || 0} added`, 4],
+            ['Certifications', `${portfolio.certifications?.length || 0} added`, 5],
+            ['Publications', `${portfolio.publications?.length || 0} added`, 6],
+            ['Awards', `${portfolio.awards?.length || 0} added`, 7],
+          ].map(([label, val, stepIdx]) => (
+            <div 
+              key={label} 
+              onClick={() => navigate('/craft', { state: { step: stepIdx } })}
+              className="flex justify-between py-2 border-b border-white/5 text-xs cursor-pointer group hover:bg-white/5 px-2 -mx-2 rounded-lg transition-all"
+            >
+              <span className="text-gray-500 group-hover:text-cyan-400 transition-colors flex items-center gap-1.5">
+                {label} <Edit3 size={10} className="hidden group-hover:inline opacity-50" />
+              </span>
               <span className="text-gray-300 font-medium truncate max-w-[120px] text-right">{val}</span>
             </div>
           ))}
@@ -958,10 +964,18 @@ export default function CraftPreview() {
         {/* Action buttons (Pinned to bottom) */}
         <div className="p-2 sm:p-4 border-t border-cyan-500/10 bg-[#0d1526]/90 backdrop-blur-md shrink-0">
           <p className="hidden lg:flex text-gray-400 text-[10px] font-semibold uppercase tracking-wider mb-2 items-center gap-1.5 px-1">
-            Actions
+            Editor Controls
           </p>
 
           <div className="flex flex-row lg:flex-col gap-2">
+            <button onClick={() => navigate('/craft', { state: { step: 0 } })}
+              className="flex-1 lg:w-full flex items-center justify-center gap-1.5 py-2 lg:py-3 rounded-lg lg:rounded-xl font-bold transition-all hover:scale-[1.02] shadow-[0_0_20px_rgba(34,211,238,0.15)] text-[10px] sm:text-xs lg:text-sm"
+              style={{ background: 'linear-gradient(135deg, rgba(34, 211, 238, 0.2), rgba(34, 211, 238, 0.1))', border: '1px solid rgba(34, 211, 238, 0.3)', color: '#22d3ee' }}>
+              <Edit3 size={14} /> 
+              <span className="lg:hidden ml-1">Builder</span>
+              <span className="hidden lg:inline">Resume Builder Form</span>
+            </button>
+
             <button onClick={() => setPublishModal(true)}
               className="flex-1 lg:w-full flex items-center justify-center gap-1.5 py-2 lg:py-3 rounded-lg lg:rounded-xl font-bold transition-all hover:scale-[1.02] shadow-lg text-[10px] sm:text-xs lg:text-sm"
               style={{ background: 'linear-gradient(135deg, #22d3ee, #0ea5e9)', color: 'white' }}>
@@ -1083,9 +1097,18 @@ export default function CraftPreview() {
             🔒 {portfolio.details?.name?.toLowerCase().replace(/\s+/g,'-') || 'your-portfolio'}.portfoliomaker.com
           </div>
 
-          <button onClick={() => window.location.reload()} className="text-gray-500 hover:text-white transition-colors p-1">
-            <RefreshCw size={14}/>
-          </button>
+          <div className="flex items-center gap-1.5 min-w-[60px] justify-end">
+            <button onClick={() => navigate('/craft')} 
+              className="text-gray-500 hover:text-cyan-400 transition-colors p-1"
+              title="Edit Content">
+              <Edit3 size={14}/>
+            </button>
+            <button onClick={() => window.location.reload()} 
+              className="text-gray-500 hover:text-white transition-colors p-1"
+              title="Refresh Preview">
+              <RefreshCw size={14}/>
+            </button>
+          </div>
         </div>
 
         {/* Demo notice */}

@@ -1,5 +1,5 @@
 import React, { useState, useRef } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useLocation } from 'react-router-dom'
 import {
   User, Briefcase, GraduationCap, Code2, FolderGit2,
   Palette, Plus, X, ChevronRight, ChevronLeft,
@@ -825,8 +825,9 @@ function StepTemplate({ selected, onChange }) {
 ════════════════════════════════════════ */
 export default function CraftWizard() {
   const navigate = useNavigate()
+  const location = useLocation()
   const [mobileOpen, setMobileOpen] = useState(false)
-  const [step, setStep] = useState(0)
+  const [step, setStep] = useState(location.state?.step ?? 0)
   const [portfolio, setPortfolio] = useState(initPortfolio)
   const update = (key) => (val) => {
     const next = { ...portfolio, [key]: val }

@@ -9,3 +9,6 @@ dist/
 
 .vercel
 .env*.local
+frontend/.env.production
+frontend/.env.vercel
+backend/.env.backend.vercel

@@ -7,6 +7,10 @@ router.post('/generate-text', async (req, res) => {
   const { prompt } = req.body;
   if (!prompt) return res.status(400).json({ error: 'Prompt is required' });
   try {
+    const apiKey = process.env.OPENAI_API_KEY?.trim().replace(/[\n\r\t ]/g, '');
+    if (!apiKey) {
+      return res.status(500).json({ error: 'OPENAI_API_KEY is not configured' });
+    }
     const response = await axios.post(
       'https://api.openai.com/v1/chat/completions',
       {
@@ -18,7 +22,7 @@ router.post('/generate-text', async (req, res) => {
       {
         headers: {
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${process.env.OPENAI_API_KEY}`,
+          Authorization: `Bearer ${apiKey}`,
         },
       }
     );

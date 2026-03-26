@@ -906,7 +906,6 @@ export default function HomePage() {
                 <li><button onClick={() => navigate('/content/help')} className="text-gray-400 hover:text-white transition-colors">Help Center</button></li>
                 <li><button onClick={() => navigate('/content/docs')} className="text-gray-400 hover:text-white transition-colors">Documentation</button></li>
                 <li><button onClick={() => navigate('/content/community')} className="text-gray-400 hover:text-white transition-colors">Community</button></li>
-                <li><button onClick={() => navigate('/refer-earn')} className="text-cyan-400 hover:underline font-medium">Refer & Earn</button></li>
               </ul>
             </div>
           </div>

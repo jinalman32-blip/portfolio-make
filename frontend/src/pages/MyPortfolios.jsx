@@ -5,7 +5,7 @@ import Sidebar from '../components/Sidebar'
 import ParticleBackground from '../components/ParticleBackground'
 import FloatingIconsBackground from '../components/FloatingIconsBackground'
 import api from '../api/api'
-import { Globe, Lock, ExternalLink, Loader2 } from 'lucide-react'
+import { Globe, Lock, ExternalLink, Loader2, Menu, Sparkles } from 'lucide-react'
 
 const TEMPLATE_COLORS = {
   browncream:         { accent: '#7B5B3A', label: 'Brown & Cream' },
@@ -116,6 +116,22 @@ export default function MyPortfolios() {
       <Sidebar mobileOpen={mobileOpen} setMobileOpen={setMobileOpen} />
       <ParticleBackground />
       <FloatingIconsBackground />
+
+      {/* Mobile menu toggle */}
+      <div className="lg:hidden sticky top-0 z-[100] flex items-center justify-between p-4 bg-[#060d1a]/80 backdrop-blur-lg border-b border-white/5 w-full">
+        <div className="flex items-center gap-2">
+          <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-cyan-400 to-indigo-500 flex items-center justify-center shadow-lg shadow-cyan-500/20">
+            <Sparkles size={16} className="text-white" />
+          </div>
+          <span className="text-white font-bold text-sm tracking-tight text-lg">PortfolioMaker</span>
+        </div>
+        <button
+          onClick={() => setMobileOpen(true)}
+          className="p-2.5 rounded-xl bg-white/5 border border-white/10 text-gray-400 hover:text-white transition-all"
+        >
+          <Menu size={20} />
+        </button>
+      </div>
 
       <div className="flex-1 flex flex-col lg:ml-64 relative" style={{ zIndex: 1 }}>
 

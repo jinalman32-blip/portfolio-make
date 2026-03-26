@@ -592,6 +592,22 @@ export default function HomePage() {
 
       <div className="flex-1 lg:ml-64 overflow-y-auto relative custom-scrollbar" style={{ zIndex: 1 }}>
 
+        {/* Mobile menu toggle */}
+        <div className="lg:hidden sticky top-0 z-[100] flex items-center justify-between p-4 bg-[#060d1a]/80 backdrop-blur-lg border-b border-white/5">
+          <div className="flex items-center gap-2">
+            <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-cyan-400 to-indigo-500 flex items-center justify-center shadow-lg shadow-cyan-500/20">
+              <Sparkles size={16} className="text-white" />
+            </div>
+            <span className="text-white font-bold text-sm tracking-tight text-lg">PortfolioMaker</span>
+          </div>
+          <button
+            onClick={() => setMobileOpen(true)}
+            className="p-2.5 rounded-xl bg-white/5 border border-white/10 text-gray-400 hover:text-white transition-all"
+          >
+            <Menu size={20} />
+          </button>
+        </div>
+
         {/* ══════════════ HERO SECTION ══════════════ */}
         <section className="relative min-h-[75vh] flex flex-col lg:flex-row items-center justify-center lg:justify-start px-4 sm:px-12 lg:px-20 py-10 sm:py-16 lg:py-14 overflow-hidden gap-10 lg:gap-20">
           <div style={{ position:'absolute', inset:0, pointerEvents:'none', overflow:'hidden' }}>

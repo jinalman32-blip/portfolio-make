@@ -129,57 +129,78 @@ export default function Sidebar({ mobileOpen, setMobileOpen }) {
         })}
       </nav>
 
-      {/* User Profile */}
-      <div className="px-3 py-4 border-t border-cyan-500/10">
+      {/* User Profile / Auth Actions */}
+      <div className="mt-auto">
         {(() => {
-          const user = JSON.parse(localStorage.getItem('user') || '{}');
-          const initial = (user.name || 'U')[0].toUpperCase();
-          if (!collapsed) {
+          const token = localStorage.getItem('token');
+          const userStr = localStorage.getItem('user');
+          let user = {};
+          try { user = JSON.parse(userStr || '{}'); } catch (e) {}
+          
+          if (token && userStr) {
+            const initial = (user.name || 'U')[0].toUpperCase();
             return (
-              <div className="flex items-center gap-3 px-2">
-                <div
-                  className="w-9 h-9 rounded-full flex items-center justify-center text-sm font-bold text-white flex-shrink-0"
-                  style={{ background: 'linear-gradient(135deg, #22d3ee, #6366f1)', boxShadow: '0 0 10px rgba(34,211,238,0.2)' }}
-                >
-                  {initial}
+              <>
+                <div className="px-3 py-4 border-t border-cyan-500/10">
+                  <div className="flex items-center gap-3 px-2">
+                    <div
+                      className="w-9 h-9 rounded-full flex items-center justify-center text-sm font-bold text-white flex-shrink-0"
+                      style={{ background: 'linear-gradient(135deg, #22d3ee, #6366f1)', boxShadow: '0 0 10px rgba(34,211,238,0.2)' }}
+                    >
+                      {initial}
+                    </div>
+                    {!collapsed && (
+                      <div className="min-w-0">
+                        <p className="text-white text-sm font-medium truncate">{user.name || 'User'}</p>
+                        <p className="text-gray-500 text-xs truncate">{user.email}</p>
+                      </div>
+                    )}
+                  </div>
                 </div>
-                <div className="min-w-0">
-                  <p className="text-white text-sm font-medium truncate">{user.name || 'User'}</p>
-                  <p className="text-gray-500 text-xs truncate">{user.email || 'user@portfoliomaker.com'}</p>
+                {/* Logout Button */}
+                <div className="px-3 py-4 border-t border-cyan-500/10">
+                  <button
+                    onClick={() => {
+                      if (window.confirm("Are you sure you want to log out?")) {
+                        localStorage.removeItem('token');
+                        localStorage.removeItem('user');
+                        navigate('/login');
+                      }
+                    }}
+                    className={`flex items-center gap-3 w-full p-2 rounded-lg text-red-400 hover:text-red-300 hover:bg-red-500/10 transition-colors ${collapsed ? 'justify-center' : ''}`}
+                    title={collapsed ? 'Logout' : ''}
+                  >
+                    <LogOut size={18} className="flex-shrink-0" />
+                    {!collapsed && <span className="text-sm font-medium">Log Out</span>}
+                  </button>
                 </div>
-              </div>
+              </>
             );
           }
+
+          // Not Logged In
           return (
-            <div className="flex items-center justify-center">
-              <div
-                className="w-9 h-9 rounded-full flex items-center justify-center text-sm font-bold text-white shadow-lg"
-                style={{ background: 'linear-gradient(135deg, #22d3ee, #6366f1)', border: '1px solid rgba(255,255,255,0.1)' }}
-                title={user.name}
+            <div className="px-3 py-4 border-t border-cyan-500/10 flex flex-col gap-2">
+              <button
+                onClick={() => navigate('/login')}
+                className={`flex items-center gap-3 w-full p-2 rounded-lg text-white hover:bg-white/5 transition-colors ${collapsed ? 'justify-center' : ''}`}
+                title={collapsed ? 'Log In' : ''}
               >
-                {initial}
-              </div>
+                <LogOut size={18} className="flex-shrink-0" style={{ transform: 'rotate(180deg)' }} />
+                {!collapsed && <span className="text-sm font-medium">Log In</span>}
+              </button>
+              {!collapsed && (
+                <button
+                  onClick={() => navigate('/register')}
+                  className="w-full p-2 rounded-lg text-sm font-bold text-white transition-all hover:opacity-90 mt-1"
+                  style={{ background: 'linear-gradient(135deg, #0ea5e9, #22d3ee)' }}
+                >
+                  Create Account
+                </button>
+              )}
             </div>
           );
         })()}
-      </div>
-
-      {/* Logout Button */}
-      <div className="px-3 py-4 border-t border-cyan-500/10">
-        <button
-          onClick={() => {
-            if (window.confirm("Are you sure you want to log out?")) {
-              localStorage.removeItem('token');
-              localStorage.removeItem('user');
-              navigate('/');
-            }
-          }}
-          className={`sidebar-item w-full text-red-400 hover:text-red-300 hover:bg-red-500/10 ${collapsed ? 'justify-center px-3' : ''}`}
-          title={collapsed ? 'Logout' : ''}
-        >
-          <LogOut size={18} className="flex-shrink-0" />
-          {!collapsed && <span className="text-sm font-medium">Log Out</span>}
-        </button>
       </div>
     </aside>
   )

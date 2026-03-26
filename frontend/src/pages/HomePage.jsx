@@ -877,7 +877,6 @@ export default function HomePage() {
               <ul className="space-y-4">
                 {[
                   { label: 'Templates', path: '/templates' },
-                  { label: 'AI Tools', path: '/ai-tools' },
                   { label: 'Live Preview', path: '/craft/preview' }
                 ].map(link => (
                   <li key={link.label}>

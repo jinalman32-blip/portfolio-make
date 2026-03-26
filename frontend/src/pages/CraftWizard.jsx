@@ -9,6 +9,7 @@ import {
 } from 'lucide-react'
 import Sidebar from '../components/Sidebar'
 import ParticleBackground from '../components/ParticleBackground'
+import api from '../api/api'
 
 const STEPS = [
   { id: 0, icon: User,          label: 'Details'    },
@@ -210,19 +211,15 @@ Instructions:
 - Do NOT include any placeholder text or brackets
 - Return ONLY the bio text, nothing else`
 
-      const res = await fetch('/api/ai/generate-text', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ prompt })
-      })
-      const text = await res.text()
-      if (!text) throw new Error('Backend se koi response nahi aaya. Server chal raha hai?')
-      let json
-      try { json = JSON.parse(text) } catch { throw new Error('Server error: ' + text.slice(0, 100)) }
-      if (!res.ok || json.error) throw new Error(json.error || `Server error ${res.status}`)
-      onChange({ ...data, bio: json.text.trim() })
+      const res = await api.post('/api/ai/generate-text', { prompt })
+      
+      if (res.data && res.data.text) {
+        onChange({ ...data, bio: res.data.text.trim() })
+      } else {
+        throw new Error('No bio text received from AI.')
+      }
     } catch (err) {
-      setBioError(err.message)
+      setBioError(err.response?.data?.error || err.message)
     } finally {
       setBioLoading(false)
     }

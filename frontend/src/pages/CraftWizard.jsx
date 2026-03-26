@@ -153,13 +153,27 @@ const Textarea = ({ label, value, onChange, placeholder, rows=3 }) => (
 
 /* ─── Card wrapper ─── */
 const ItemCard = ({ children, onDelete }) => (
-  <div className="relative p-5 rounded-2xl mb-4"
-    style={{ background:'rgba(13,21,38,0.7)', border:'1px solid rgba(34,211,238,0.12)' }}>
-    <button onClick={onDelete}
-      className="absolute top-3 right-3 p-1.5 rounded-lg text-gray-500 hover:text-red-400 hover:bg-red-500/10 transition-all">
-      <Trash2 size={14}/>
-    </button>
-    {children}
+  <div className="relative p-5 rounded-2xl mb-4 overflow-hidden group"
+    style={{ 
+      background:'rgba(13,21,38,0.7)', 
+      border:'1px solid rgba(34,211,238,0.15)',
+      backdropFilter: 'blur(20px)'
+    }}>
+    <div 
+      className="absolute inset-0 z-0 opacity-10 pointer-events-none group-hover:scale-110 transition-transform duration-700"
+      style={{
+        backgroundImage: 'url("/images/bg_card.png")',
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+      }}
+    />
+    <div className="relative z-10">
+      <button onClick={onDelete}
+        className="absolute top-0 right-[-8px] p-1.5 rounded-lg text-gray-500 hover:text-red-400 hover:bg-red-500/10 transition-all">
+        <Trash2 size={14}/>
+      </button>
+      {children}
+    </div>
   </div>
 )
 
@@ -218,11 +232,26 @@ Instructions:
     <div className="space-y-5">
 
       {/* Profile Photo */}
-      <div className="flex items-center gap-5 p-4 rounded-2xl" style={{ background:'rgba(13,21,38,0.6)', border:'1px solid rgba(34,211,238,0.1)' }}>
-        <ImageUpload value={data.profileImage || ''} onChange={setVal('profileImage')} label="Profile Photo" size={88} circle />
-        <div>
-          <p className="text-white font-semibold text-sm">Profile Photo</p>
-          <p className="text-gray-400 text-xs mt-1">Gallery se apni photo upload karo<br/>ya AI se auto-generate karo (Preview page pe)</p>
+      <div className="flex items-center gap-5 p-4 rounded-2xl relative overflow-hidden group" 
+        style={{ 
+          background:'rgba(13,21,38,0.6)', 
+          border:'1px solid rgba(34,211,238,0.15)',
+          backdropFilter: 'blur(10px)'
+        }}>
+        <div 
+          className="absolute inset-0 z-0 opacity-20 pointer-events-none group-hover:scale-110 transition-transform duration-700"
+          style={{
+            backgroundImage: 'url("/images/bg_card.png")',
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+          }}
+        />
+        <div className="relative z-10 flex items-center gap-5">
+          <ImageUpload value={data.profileImage || ''} onChange={setVal('profileImage')} label="Profile Photo" size={88} circle />
+          <div>
+            <p className="text-white font-semibold text-sm">Profile Photo</p>
+            <p className="text-gray-400 text-xs mt-1">Gallery se apni photo upload karo<br/>ya AI se auto-generate karo (Preview page pe)</p>
+          </div>
         </div>
       </div>
 

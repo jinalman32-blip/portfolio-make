@@ -106,7 +106,13 @@ export default function MyPortfolios() {
   }
 
   return (
-    <div className="flex h-screen bg-[#060d1a] overflow-hidden">
+    <div className="flex h-screen bg-[#060d1a] overflow-hidden" style={{ 
+      backgroundImage: 'url("/images/bg_main.png")',
+      backgroundSize: 'cover',
+      backgroundAttachment: 'fixed',
+      backgroundPosition: 'center'
+    }}>
+      <div className="fixed inset-0 bg-[#060d1a]/85 backdrop-blur-[2px] pointer-events-none" />
       <Sidebar mobileOpen={mobileOpen} setMobileOpen={setMobileOpen} />
       <ParticleBackground />
       <FloatingIconsBackground />
@@ -133,26 +139,34 @@ export default function MyPortfolios() {
           {/* Empty state */}
           {portfolios.length === 0 ? (
             <div
-              className="flex flex-col items-center justify-center min-h-[50vh] sm:min-h-[60vh] rounded-[1.5rem] sm:rounded-[2rem] px-6 py-10"
+              className="flex flex-col items-center justify-center min-h-[50vh] sm:min-h-[60vh] rounded-[1.5rem] sm:rounded-[2rem] px-6 py-10 relative overflow-hidden group"
               style={{
-                background: 'rgba(0,0,0,0.5)',
-                border: '1px solid rgba(255,255,255,0.04)',
-                backdropFilter: 'blur(12px)'
+                background: 'rgba(13,21,38,0.7)',
+                border: '1px solid rgba(34,211,238,0.2)',
+                backdropFilter: 'blur(20px)'
               }}
             >
-              <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-full flex items-center justify-center mb-6 sm:mb-8"
+              <div 
+                className="absolute inset-0 z-0 opacity-20 pointer-events-none group-hover:scale-110 transition-transform duration-1000"
+                style={{
+                  backgroundImage: 'url("/images/bg_card.png")',
+                  backgroundSize: 'cover',
+                  backgroundPosition: 'center',
+                }}
+              />
+              <div className="relative z-10 w-20 h-20 sm:w-24 sm:h-24 rounded-full flex items-center justify-center mb-6 sm:mb-8"
                 style={{ background: 'rgba(34,211,238,0.05)', border: '1px solid rgba(34,211,238,0.1)' }}>
                 <FolderOpen size={30} className="sm:size-[40px] text-cyan-800" />
               </div>
-              <h3 className="text-2xl sm:text-4xl font-black mb-4 italic tracking-tighter uppercase text-center text-white">
+              <h3 className="relative z-10 text-2xl sm:text-4xl font-black mb-4 italic tracking-tighter uppercase text-center text-white">
                 Create your<br/><span className="text-cyan-400">First Portfolio</span>
               </h3>
-              <p className="text-gray-500 text-sm sm:text-base max-w-sm text-center leading-relaxed mb-8 sm:mb-10">
+              <p className="relative z-10 text-gray-500 text-sm sm:text-base max-w-sm text-center leading-relaxed mb-8 sm:mb-10">
                 You haven't saved any portfolios yet. Build one and get it <strong className="text-gray-400">Live</strong> instantly.
               </p>
               <button
                 onClick={() => navigate('/craft')}
-                className="w-full sm:w-auto px-8 sm:px-10 py-3.5 sm:py-4 rounded-full font-black text-cyan-400 border-2 border-cyan-400/20 hover:border-cyan-400 hover:bg-cyan-400/5 transition-all uppercase tracking-widest text-xs sm:text-sm"
+                className="relative z-10 w-full sm:w-auto px-8 sm:px-10 py-3.5 sm:py-4 rounded-full font-black text-cyan-400 border-2 border-cyan-400/20 hover:border-cyan-400 hover:bg-cyan-400/5 transition-all uppercase tracking-widest text-xs sm:text-sm"
               >
                 Start Crafting Now
               </button>
@@ -165,14 +179,22 @@ export default function MyPortfolios() {
                 return (
                   <div
                     key={p._id || p.id}
-                    className="group rounded-3xl p-6 transition-all duration-500 hover:translate-y-[-6px] relative"
+                    className="group rounded-3xl p-6 transition-all duration-500 hover:translate-y-[-6px] relative overflow-hidden"
                     style={{
-                      background: 'rgba(13,21,38,0.6)',
-                      border: `1px solid rgba(255,255,255,0.06)`,
+                      background: 'rgba(13,21,38,0.7)',
+                      border: `1px solid rgba(34,211,238,0.15)`,
                       backdropFilter: 'blur(20px)',
                       boxShadow: '0 4px 30px rgba(0,0,0,0.4)'
                     }}
                   >
+                    <div 
+                      className="absolute inset-0 z-0 opacity-10 pointer-events-none group-hover:scale-110 transition-transform duration-700"
+                      style={{
+                        backgroundImage: 'url("/images/bg_card.png")',
+                        backgroundSize: 'cover',
+                        backgroundPosition: 'center',
+                      }}
+                    />
                     {/* Template Color Banner */}
                     <div
                       className="h-36 rounded-2xl mb-5 flex items-end justify-between overflow-hidden relative p-4"

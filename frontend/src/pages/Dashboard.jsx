@@ -18,7 +18,13 @@ export default function Dashboard() {
   const user = JSON.parse(localStorage.getItem('user') || '{}')
 
   return (
-    <div className="flex min-h-screen bg-[#060d1a] overflow-x-hidden">
+    <div className="flex min-h-screen bg-[#060d1a] overflow-x-hidden" style={{ 
+      backgroundImage: 'url("/images/bg_main.png")',
+      backgroundSize: 'cover',
+      backgroundAttachment: 'fixed',
+      backgroundPosition: 'center'
+    }}>
+      <div className="fixed inset-0 bg-[#060d1a]/85 backdrop-blur-[2px] pointer-events-none" />
       <Sidebar mobileOpen={mobileOpen} setMobileOpen={setMobileOpen} />
       <ParticleBackground />
       <FloatingIconsBackground />
@@ -34,7 +40,8 @@ export default function Dashboard() {
               className="flex items-center gap-2 px-4 py-2 rounded-full mb-8 animate-fade-in"
               style={{
                 background: 'rgba(34, 211, 238, 0.08)',
-                border: '1px solid rgba(34, 211, 238, 0.2)'
+                border: '1px solid rgba(34, 211, 238, 0.2)',
+                backdropFilter: 'blur(10px)'
               }}
             >
               <Sparkles size={14} className="text-cyan-400" />
@@ -43,7 +50,7 @@ export default function Dashboard() {
 
             {/* Hero heading */}
             <div className="text-center max-w-3xl mb-6 animate-slide-up px-4">
-              <h1 className="text-3xl md:text-5xl font-extrabold leading-tight mb-4 tracking-tight">
+              <h1 className="text-3xl md:text-5xl font-extrabold leading-tight mb-4 tracking-tight text-white">
                 Transform Your{' '}
                 <span
                   className="relative inline-block"
@@ -84,8 +91,9 @@ export default function Dashboard() {
                   key={i}
                   className="flex items-center gap-2 px-4 py-2 rounded-full text-sm text-gray-300"
                   style={{
-                    background: 'rgba(255,255,255,0.04)',
-                    border: '1px solid rgba(255,255,255,0.08)'
+                    background: 'rgba(13, 21, 38, 0.7)',
+                    border: '1px solid rgba(255,255,255,0.08)',
+                    backdropFilter: 'blur(8px)'
                   }}
                 >
                   <f.icon size={14} className="text-cyan-400" />
@@ -109,20 +117,29 @@ export default function Dashboard() {
 
             {/* Stats */}
             <div
-              className="flex flex-col md:flex-row items-center gap-6 md:gap-8 mt-14 px-8 py-5 rounded-2xl w-full max-w-lg md:max-w-none mb-10"
+              className="flex flex-col md:flex-row items-center gap-6 md:gap-8 mt-14 px-8 py-5 rounded-2xl w-full max-w-lg md:max-w-none mb-10 relative overflow-hidden group"
               style={{
-                background: 'rgba(13, 21, 38, 0.5)',
-                border: '1px solid rgba(34, 211, 238, 0.08)'
+                background: 'rgba(13, 21, 38, 0.7)',
+                border: '1px solid rgba(34, 211, 238, 0.15)',
+                backdropFilter: 'blur(20px)'
               }}
             >
+              <div 
+                className="absolute inset-0 z-0 opacity-20 pointer-events-none"
+                style={{
+                  backgroundImage: 'url("/images/bg_card.png")',
+                  backgroundSize: 'cover',
+                  backgroundPosition: 'center',
+                }}
+              />
               {[
                 { value: '50K+', label: 'Portfolios Created' },
                 { value: '98%', label: 'Satisfaction Rate' },
                 { value: '2 min', label: 'Average Setup Time' },
               ].map((stat, i) => (
                 <React.Fragment key={i}>
-                  {i > 0 && <div className="hidden md:block w-px h-10 bg-gray-700/50" />}
-                  <div className="text-center flex-1">
+                  {i > 0 && <div className="hidden md:block w-px h-10 bg-gray-700/50 relative z-10" />}
+                  <div className="text-center flex-1 relative z-10">
                     <p
                       className="text-2xl font-bold"
                       style={{

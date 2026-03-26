@@ -579,9 +579,9 @@ export default function CraftPreview() {
     try { return JSON.parse(sessionStorage.getItem('craft_portfolio') || 'null') } catch { return null }
   })()
 
-  // If no portfolio saved, use demo data so preview never crashes
-  const hasRealData = rawPortfolio && rawPortfolio.details?.name
-  const portfolio = hasRealData ? rawPortfolio : { ...DEMO_PORTFOLIO, template: activeTemplate || 'purple' }
+  // Priority: rawPortfolio (from session) > DEMO_PORTFOLIO
+  // Ensure we don't fall back to demo data just because name is missing
+  const portfolio = rawPortfolio || { ...DEMO_PORTFOLIO, template: activeTemplate || 'purple' }
 
   const templateId = activeTemplate || portfolio.template || 'purple'
   const tmpl = TEMPLATE_MAP[templateId] || TEMPLATE_MAP.browncream || TEMPLATE_MAP.purple

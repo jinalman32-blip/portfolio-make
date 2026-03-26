@@ -43,27 +43,27 @@ function TiltCard({ children, className = '', style = {}, onClick }) {
 
 /* ── Feature Card ── */
 function FeatureCard({ icon: Icon, title, desc, gradient, glow, bgImage }) {
+  const finalBg = bgImage || '/images/bg_card.png';
   return (
     <TiltCard
       className="rounded-2xl p-6 cursor-default relative overflow-hidden group transition-all duration-300"
       style={{
-        background: 'rgba(255,255,255,0.03)',
-        border: '1px solid rgba(34,211,238,0.12)',
-        backdropFilter: 'blur(16px)'
+        background: 'rgba(13,21,38,0.7)',
+        border: '1px solid rgba(34,211,238,0.15)',
+        backdropFilter: 'blur(20px)'
       }}
     >
       {/* Background Image Layer */}
-      {bgImage && (
-        <div 
-          className="absolute inset-0 z-0 opacity-100 transition-all duration-700 ease-out group-hover:scale-110 group-hover:rotate-1"
-          style={{
-            backgroundImage: `url(${bgImage})`,
-            backgroundSize: 'cover',
-            backgroundPosition: 'center',
-            filter: 'brightness(0.8) contrast(1.1)'
-          }}
-        />
-      )}
+      <div 
+        className="absolute inset-0 z-0 opacity-40 group-hover:opacity-100 transition-all duration-1000 ease-out group-hover:scale-110"
+        style={{
+          backgroundImage: `url(${finalBg})`,
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          filter: 'brightness(0.6) contrast(1.2) blur(0px)'
+        }}
+      />
+      <div className="absolute inset-0 z-[1] bg-gradient-to-t from-[#0d1526] via-[#0d1526]/40 to-transparent" />
       
       <div className="relative z-10 w-12 h-12 rounded-xl flex items-center justify-center mb-4 transition-all duration-500 ease-out group-hover:scale-110 group-hover:-translate-y-1"
         style={{ background: gradient, boxShadow: `0 0 20px ${glow}` }}>
@@ -547,7 +547,13 @@ export default function HomePage() {
   }, [])
 
   return (
-    <div className="flex min-h-screen bg-[#060d1a]">
+    <div className="flex min-h-screen bg-[#060d1a]" style={{ 
+      backgroundImage: 'url("/images/bg_main.png")',
+      backgroundSize: 'cover',
+      backgroundAttachment: 'fixed',
+      backgroundPosition: 'center'
+    }}>
+      <div className="fixed inset-0 bg-[#060d1a]/85 backdrop-blur-[2px] pointer-events-none" />
       <ParticleBackground />
       <FloatingIconsBackground />
       <style>{`
@@ -781,40 +787,58 @@ export default function HomePage() {
         <section className="px-3 py-10 sm:py-12 overflow-hidden relative">
           <div className="max-w-4xl mx-auto">
             <TiltCard
-              className="relative overflow-hidden rounded-[1.5rem] sm:rounded-[3rem] px-3 sm:px-12 py-10 sm:py-20 text-center w-full"
+              className="relative overflow-hidden rounded-[1.5rem] sm:rounded-[3rem] px-6 sm:px-12 py-10 sm:py-20 text-left md:text-left w-full group"
               style={{
-                background: 'rgba(13,21,38,0.4)',
-                border: '1px solid rgba(255,255,255,0.05)',
-                backdropFilter: 'blur(30px)'
+                background: 'rgba(13,21,38,0.85)',
+                border: '1px solid rgba(255,255,255,0.15)',
+                backdropFilter: 'blur(40px)'
               }}
             >
-              <div className="absolute -top-10 -left-10 w-40 h-40 rounded-full opacity-20"
-                style={{ background: 'radial-gradient(circle,#22d3ee,transparent)', filter: 'blur(30px)' }} />
-              <div className="absolute -bottom-10 -right-10 w-40 h-40 rounded-full opacity-20"
-                style={{ background: 'radial-gradient(circle,#6366f1,transparent)', filter: 'blur(30px)' }} />
-              
-              <div className="relative z-10">
-                <div className="w-12 h-12 xs:w-16 xs:h-16 sm:w-20 sm:h-20 rounded-[1.1rem] sm:rounded-[1.5rem] mx-auto mb-6 sm:mb-8 flex items-center justify-center"
-                  style={{ background: 'linear-gradient(135deg,#22d3ee,#0ea5e9)', boxShadow: '0 0 30px rgba(34,211,238,0.3)' }}>
-                  <Sparkles size={isXS ? 24 : 28} className="text-white" />
+              <div 
+                className="absolute inset-0 z-0 opacity-50 transition-transform duration-[2s] ease-out group-hover:scale-110"
+                style={{
+                  backgroundImage: 'url("/images/cta_bg.png")',
+                  backgroundSize: 'cover',
+                  backgroundPosition: 'center',
+                }}
+              />
+              <div className="absolute inset-0 z-[1] bg-gradient-to-r from-[#060d1a] via-[#060d1a]/80 to-transparent" />
+
+              <div className="relative z-10 flex flex-col md:flex-row items-center gap-10 md:gap-16">
+                <div className="flex-1 text-center md:text-left">
+                  <div className="w-12 h-12 xs:w-16 xs:h-16 sm:w-20 sm:h-20 rounded-[1.1rem] sm:rounded-[1.5rem] mb-6 sm:mb-8 flex items-center justify-center mx-auto md:mx-0"
+                    style={{ background: 'linear-gradient(135deg,#22d3ee,#0ea5e9)', boxShadow: '0 0 30px rgba(34,211,238,0.3)' }}>
+                    <Sparkles size={isXS ? 24 : 28} className="text-white" />
+                  </div>
+                  <h2 className="text-white text-3xl sm:text-4xl lg:text-7xl font-black mb-4 sm:mb-6 italic tracking-tight uppercase leading-tight break-words">Ready to Shine?</h2>
+                  <p className="text-gray-200 text-[13px] xs:text-sm sm:text-lg mb-8 sm:mb-10 w-full max-w-xl leading-relaxed">
+                    Join 50,000+ top professionals who already built their dream portfolio with <span className="text-cyan-400 font-bold">PortfolioMaker</span>
+                  </p>
+                  <button
+                    onClick={() => navigate('/dashboard')}
+                    className="group flex items-center gap-3 px-8 sm:px-10 py-4 sm:py-5 rounded-2xl font-black text-white transition-all duration-300 hover:scale-105 active:scale-95"
+                    style={{ 
+                      background: 'linear-gradient(135deg,#22d3ee,#6366f1)',
+                      boxShadow: '0 10px 30px rgba(34,211,238,0.3)'
+                    }}
+                  >
+                    <Sparkles size={18} />
+                    Start Your Journey
+                    <ArrowRight size={18} className="transition-transform group-hover:translate-x-1" />
+                  </button>
                 </div>
-                <h2 className="text-white text-xl xs:text-2xl sm:text-4xl lg:text-6xl font-black mb-4 sm:mb-6 italic tracking-tight uppercase leading-tight break-words">Ready to Shine?</h2>
-                <p className="text-gray-200 text-[13px] xs:text-sm sm:text-base mb-8 sm:mb-10 w-full max-w-[240px] xs:max-w-sm mx-auto leading-relaxed px-2">
-                  Join 50,000+ top professionals who already built their dream portfolio with <span className="text-cyan-400 font-bold">PortfolioMaker</span>
-                </p>
-                <button
-                  onClick={() => navigate('/dashboard')}
-                  className="group flex items-center gap-3 px-8 sm:px-10 py-4 sm:py-5 rounded-2xl font-black text-white transition-all duration-300 hover:scale-105 active:scale-95"
-                  style={{ 
-                    margin: '0 auto',
-                    background: 'linear-gradient(135deg,#22d3ee,#6366f1)',
-                    boxShadow: '0 10px 30px rgba(34,211,238,0.3)'
-                  }}
-                >
-                  <Sparkles size={18} />
-                  Start Your Journey
-                  <ArrowRight size={18} className="transition-transform group-hover:translate-x-1" />
-                </button>
+                
+                <div className="hidden md:block flex-1 relative">
+                  <div className="relative z-20 animate-float">
+                    <img 
+                      src="/images/cta_illustration.png" 
+                      alt="Success" 
+                      className="w-full h-auto rounded-3xl shadow-2xl shadow-cyan-500/20"
+                      style={{ border: '1px solid rgba(255,255,255,0.1)' }}
+                    />
+                  </div>
+                  <div className="absolute -inset-10 bg-cyan-500/10 blur-[60px] rounded-full z-10" />
+                </div>
               </div>
             </TiltCard>
           </div>

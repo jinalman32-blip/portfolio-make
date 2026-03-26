@@ -102,45 +102,40 @@ function StepCard({ num, title, desc, active }) {
 }
 
 /* ── Template Card ── */
-function TemplateCard({ name, tag, colors, accent = '#22d3ee', onClick }) {
+function TemplateCard({ name, tag, image, accent = '#22d3ee', onClick }) {
   return (
-    <TiltCard onClick={onClick} className="rounded-2xl overflow-hidden cursor-pointer group" style={{ border: `1px solid ${accent}28`, transition: 'box-shadow 0.3s' }}>
-      <div className="h-44 relative overflow-hidden" style={{ background: colors[0] }}>
-        <div className="absolute inset-0" style={{ background: colors[1] }} />
-        {/* Mini portfolio preview */}
-        <div className="absolute top-4 left-4 right-4">
-          <div className="flex items-center gap-2 mb-3">
-            <div style={{ width: 28, height: 28, borderRadius: '50%', background: accent, opacity: 0.9, flexShrink: 0 }} />
-            <div>
-              <div style={{ height: 6, width: 70, borderRadius: 3, background: accent, opacity: 0.8, marginBottom: 3 }} />
-              <div style={{ height: 4, width: 45, borderRadius: 3, background: accent, opacity: 0.4 }} />
-            </div>
-          </div>
-          {[80, 60, 90].map((w, i) => (
-            <div key={i} style={{ height: 4, background: 'rgba(255,255,255,0.1)', borderRadius: 2, marginBottom: 4 }}>
-              <div style={{ height: '100%', width: `${w}%`, borderRadius: 2, background: `linear-gradient(90deg,${accent},${accent}66)` }} />
-            </div>
-          ))}
-        </div>
+    <TiltCard onClick={onClick} className="rounded-2xl overflow-hidden cursor-pointer group relative shadow-2xl transition-all duration-300 hover:scale-[1.02]" style={{ border: `1px solid ${accent}20` }}>
+      <div className="h-56 relative overflow-hidden bg-[#0a0f1d]">
+        {/* Mockup Figure */}
+        <div 
+          className="absolute inset-0 z-0 bg-cover bg-center transition-all duration-[1s] group-hover:scale-110 group-hover:rotate-1"
+          style={{ backgroundImage: `url(${image})` }}
+        />
+        <div className="absolute inset-0 z-[1] bg-gradient-to-t from-[#0a0f1d] via-transparent to-transparent opacity-60" />
+        
         {/* Accent bar at bottom */}
-        <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, height: 3, background: `linear-gradient(90deg,${accent},${accent}44)` }} />
+        <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, height: 4, background: `linear-gradient(90deg,${accent},${accent}44)`, zIndex: 10 }} />
+        
         {/* Hover overlay */}
-        <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-all duration-300 flex items-center justify-center" style={{ background: 'rgba(0,0,0,0.55)' }}>
-          <span className="text-white font-semibold text-sm px-4 py-2 rounded-xl" style={{ background: `${accent}40`, border: `1px solid ${accent}80` }}>
-            Use Template →
+        <div className="absolute inset-0 z-20 opacity-0 group-hover:opacity-100 transition-all duration-400 flex items-center justify-center bg-black/40 backdrop-blur-[2px]">
+          <span className="text-white font-black text-[10px] uppercase tracking-[0.2em] px-5 py-2.5 rounded-xl border border-white/20" 
+            style={{ background: `${accent}CC`, boxShadow: `0 8px 24px ${accent}40` }}>
+            Live Preview
           </span>
         </div>
       </div>
-      <div className="p-4" style={{ background: 'rgba(13,21,38,0.95)' }}>
-        <div className="flex items-center justify-between">
-          <span className="text-white font-medium text-sm">{name}</span>
-          <span className="text-xs px-2 py-0.5 rounded-full" style={{ background: `${accent}18`, color: accent, border: `1px solid ${accent}30` }}>{tag}</span>
+      <div className="p-4 relative z-30" style={{ background: 'rgba(13,21,38,0.98)', borderTop:'1px solid rgba(255,255,255,0.05)' }}>
+        <div className="flex items-center justify-between mb-1">
+          <span className="text-white font-bold text-sm tracking-tight">{name}</span>
+          <span className="text-[10px] px-2 py-0.5 rounded-full font-black uppercase tracking-tighter" 
+            style={{ background: `${accent}15`, color: accent, border: `1px solid ${accent}30` }}>
+            {tag}
+          </span>
         </div>
         {/* Color swatches */}
         <div className="flex gap-1.5 mt-2">
-          <div style={{ width: 14, height: 14, borderRadius: '50%', background: accent }} />
-          <div style={{ width: 14, height: 14, borderRadius: '50%', background: `${accent}66` }} />
-          <div style={{ width: 14, height: 14, borderRadius: '50%', background: `${accent}33` }} />
+          <div style={{ width: 10, height: 10, borderRadius: '2px', background: accent, transform: 'rotate(45deg)' }} />
+          <div style={{ width: 10, height: 10, borderRadius: '2px', background: 'rgba(255,255,255,0.2)', transform: 'rotate(45deg)' }} />
         </div>
       </div>
     </TiltCard>
@@ -514,10 +509,10 @@ const features = [
 ]
 
 const templates = [
-  { name: 'Brown & Cream',    tag: 'Classic',  accent: '#7B5B3A', colors: ['linear-gradient(135deg,#FAF7F2,#E8D5C0)', 'radial-gradient(circle at 70% 30%,rgba(123,91,58,0.18),transparent 60%)'] },
-  { name: 'Neural Circuit',   tag: 'Exclusive',accent: '#00d4ff', colors: ['linear-gradient(135deg,#03040d,#07021a)', 'radial-gradient(circle at 30% 70%,rgba(0,212,255,0.22),transparent 60%)'] },
-  { name: 'Purple Beige',     tag: 'Creative', accent: '#c4a0d0', colors: ['linear-gradient(135deg,#f4ece8,#ede0f0)', 'radial-gradient(circle at 50% 50%,rgba(196,160,208,0.25),transparent 60%)'] },
-  { name: 'Bold Black',       tag: 'Premium',  accent: '#F0EEE8', colors: ['linear-gradient(135deg,#0a0a0a,#1a1a1a)', 'radial-gradient(circle at 80% 20%,rgba(240,238,232,0.1),transparent 60%)'] },
+  { name: 'Brown & Cream',     tag: 'Classic',  accent: '#7B5B3A', image: 'https://images.unsplash.com/photo-1494438639946-1ebd1d20bf85?auto=format&fit=crop&q=80&w=800' },
+  { name: 'Neural Circuit',    tag: 'Exclusive',accent: '#00d4ff', image: 'https://images.unsplash.com/photo-1614850553906-8d14a51f4968?auto=format&fit=crop&q=80&w=800' },
+  { name: 'Creative Gradient', tag: 'Popular',  accent: '#c4a0d0', image: 'https://images.unsplash.com/photo-1557683316-973673baf926?auto=format&fit=crop&q=80&w=800' },
+  { name: 'Dark Minimal',      tag: 'Impact',   accent: '#F0EEE8', image: 'https://images.unsplash.com/photo-1550745165-9bc0b252726f?auto=format&fit=crop&q=80&w=800' },
 ]
 
 const TEMPLATE_DURATIONS = ['4.2s', '5.1s', '3.8s', '4.7s']

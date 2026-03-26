@@ -15,9 +15,16 @@ api.interceptors.request.use((config) => {
     localStorage.setItem('token', token);
     localStorage.setItem('user', JSON.stringify({ name: 'Guest User', email: 'guest@portfoliomaker.com' }));
   }
-  // Sanitize token to avoid "Invalid character in header content" errors
-  const cleanToken = token.trim().replace(/[\n\r]/g, '');
-  config.headers.Authorization = `Bearer ${cleanToken}`;
+
+  // Aggressively sanitize token: allow only alphanumeric, underscores, and dashes
+  const sanitized = token ? String(token).replace(/[^a-zA-Z0-9_-]/g, '') : '';
+  
+  if (config.headers.set) {
+    config.headers.set('Authorization', `Bearer ${sanitized}`);
+  } else {
+    config.headers['Authorization'] = `Bearer ${sanitized}`;
+  }
+  
   return config;
 });
 

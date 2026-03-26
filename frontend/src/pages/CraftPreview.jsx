@@ -579,8 +579,17 @@ export default function CraftPreview() {
     try { return JSON.parse(sessionStorage.getItem('craft_portfolio') || 'null') } catch { return null }
   })()
 
-  // Ensure portfolio always has the minimum required structure to prevent template crashes
-  const safeRaw = rawPortfolio || DEMO_PORTFOLIO
+  // Check if the user has actually entered any real data
+  const hasRealData = rawPortfolio && (
+    (rawPortfolio.details?.name && rawPortfolio.details.name.trim() !== '') ||
+    (rawPortfolio.skills && rawPortfolio.skills.length > 0) ||
+    (rawPortfolio.experience && rawPortfolio.experience.length > 0) ||
+    (rawPortfolio.projects && rawPortfolio.projects.length > 0) ||
+    (rawPortfolio.education && rawPortfolio.education.length > 0)
+  )
+
+  // If no real data, show DEMO_PORTFOLIO. Otherwise, safely map rawPortfolio.
+  const safeRaw = hasRealData ? rawPortfolio : DEMO_PORTFOLIO
   
   const portfolio = {
     ...safeRaw,

@@ -325,7 +325,7 @@ function StepSkills({ data, onChange }) {
 
   return (
     <div className="space-y-5">
-      <div className="flex gap-3">
+      <div className="flex flex-col lg:flex-row gap-3">
         <input
           value={input} onChange={e => setInput(e.target.value)}
           onKeyDown={e => e.key === 'Enter' && add()}
@@ -335,24 +335,26 @@ function StepSkills({ data, onChange }) {
           onFocus={e => e.target.style.borderColor='rgba(34,211,238,0.5)'}
           onBlur={e => e.target.style.borderColor='rgba(75,85,99,0.4)'}
         />
-        <div className="flex rounded-xl overflow-hidden" style={{ border:'1px solid rgba(75,85,99,0.4)' }}>
-          {SKILL_LEVELS.map(l => (
-            <button key={l} onClick={() => setLevel(l)}
-              className="px-3 py-2 text-xs font-medium transition-all"
-              style={{
-                background: level === l ? `${levelColor[l]}20` : 'rgba(13,21,38,0.8)',
-                color: level === l ? levelColor[l] : '#9ca3af',
-                borderRight: l !== 'Expert' ? '1px solid rgba(75,85,99,0.4)' : 'none'
-              }}>
-              {l}
-            </button>
-          ))}
+        <div className="flex gap-2">
+          <div className="flex flex-1 rounded-xl overflow-hidden" style={{ border:'1px solid rgba(75,85,99,0.4)' }}>
+            {SKILL_LEVELS.map(l => (
+              <button key={l} onClick={() => setLevel(l)}
+                className="flex-1 px-2 sm:px-3 py-2 text-[10px] sm:text-xs font-medium transition-all"
+                style={{
+                  background: level === l ? `${levelColor[l]}20` : 'rgba(13,21,38,0.8)',
+                  color: level === l ? levelColor[l] : '#9ca3af',
+                  borderRight: l !== 'Expert' ? '1px solid rgba(75,85,99,0.4)' : 'none'
+                }}>
+                {l}
+              </button>
+            ))}
+          </div>
+          <button onClick={add}
+            className="px-4 py-3 rounded-xl font-semibold text-white transition-all hover:scale-105 shrink-0 flex items-center justify-center"
+            style={{ background:'linear-gradient(135deg,#22d3ee,#0ea5e9)', boxShadow:'0 4px 15px rgba(34,211,238,0.3)' }}>
+            <Plus size={18}/>
+          </button>
         </div>
-        <button onClick={add}
-          className="px-4 py-3 rounded-xl font-semibold text-white transition-all hover:scale-105"
-          style={{ background:'linear-gradient(135deg,#22d3ee,#0ea5e9)', boxShadow:'0 4px 15px rgba(34,211,238,0.3)' }}>
-          <Plus size={18}/>
-        </button>
       </div>
 
       {data.length === 0 ? (

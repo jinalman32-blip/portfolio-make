@@ -994,18 +994,11 @@ export default function CraftPreview() {
             </button>
 
             <button onClick={handleDownload}
-              className="flex-1 lg:w-full flex items-center justify-center gap-1.5 py-2 lg:py-3 rounded-lg lg:rounded-xl font-semibold transition-all lg:mb-3 hover:scale-[1.02] text-[10px] sm:text-xs lg:text-sm"
+              className="flex-1 lg:w-full flex items-center justify-center gap-1.5 py-2 lg:py-3 rounded-lg lg:rounded-xl font-semibold transition-all hover:scale-[1.02] text-[10px] sm:text-xs lg:text-sm"
               style={{ background: downloaded ? 'rgba(34,211,238,0.15)' : 'rgba(255,255,255,0.08)', border: `1px solid ${downloaded ? '#22d3ee' : 'rgba(255,255,255,0.15)'}`, color: downloaded ? '#22d3ee' : 'white' }}>
               {downloaded ? <Check size={14}/> : <Download size={14}/>} 
               <span className="lg:hidden ml-1">PDF</span>
               <span className="hidden lg:inline">{downloaded ? 'Generated' : 'Download PDF'}</span>
-            </button>
-
-            <button onClick={handleSaveToPortfolios}
-              className="flex-1 lg:w-full flex items-center justify-center gap-1.5 py-2 lg:py-3 rounded-lg lg:rounded-xl transition-all text-[10px] sm:text-xs lg:text-sm"
-              style={{ background: saved ? 'rgba(34,211,238,0.1)' : 'rgba(255,255,255,0.03)', border: `1px solid ${saved ? '#22d3ee' : 'rgba(255,255,255,0.08)'}`, color: saved ? '#22d3ee' : '#94a3b8' }}>
-              {saved ? <Check size={14}/> : <Save size={14}/>} 
-              <span className="hidden sm:inline">Save</span>
             </button>
           </div>
         </div>

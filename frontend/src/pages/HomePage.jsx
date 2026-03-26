@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import {
   Sparkles, Upload, PenLine, Zap, Star, Shield,
   ArrowRight, Code2, Palette, Globe, ChevronRight, Play,
-  Twitter, Linkedin, Github, ExternalLink
+  Twitter, Linkedin, Github, ExternalLink, Menu
 } from 'lucide-react'
 import Sidebar from '../components/Sidebar'
 import ParticleBackground from '../components/ParticleBackground'
